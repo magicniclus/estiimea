@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Estiimea",
+  title: "Accueil || Estiimea",
   description:
     "Estiimea, l'outil ultime pour proposer des estimations immobilieres à vos prospects",
 };
