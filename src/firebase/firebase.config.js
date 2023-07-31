@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCIuTsgfAXjfzQMcfTeQw3G0-pij9qo-KY",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "estiimea.firebaseapp.com",
   databaseURL:
     "https://estiimea-default-rtdb.europe-west1.firebasedatabase.app",
