@@ -1,81 +1,202 @@
 "use client";
-import React, { useState } from "react";
-import { registerUser } from "@/firebase/auth";
-import Input from "@/components/ui/input";
+import React, { useState, useEffect } from "react";
+import Input from "@/components/ui/Input";
+import HeaderJustWithLogo from "@/components/ui/HeaderJustWithLogo";
+import { CheckBadgeIcon } from "@heroicons/react/20/solid";
+import { cn } from "@/lib/utils";
+import Loader from "@/components/loader/Loader";
+import "../../../../components/loader/loader.css";
+
+const offreStarter = [
+  "Création d'un lien personnalisé vers votre page d'estimation",
+  "Jusqu'à 3 estimations par mois",
+  "S.A.V 7/7j",
+];
 
 const Page = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState(null);
 
+  const isNameValid = (name) => {
+    return /^[a-zA-Z\s]{2,}$/.test(name);
+  };
+
+  const isEmailValid = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  useEffect(() => {
+    const isFormValid =
+      isNameValid(firstName) && isNameValid(lastName) && isEmailValid(email);
+
+    setDisabled(!isFormValid);
+  }, [firstName, lastName, email]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas");
-    } else {
-      const user = await registerUser(email, password, confirmPassword);
-      if (!user) {
-        setError("Erreur lors de la création du compte");
-      }
-    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  };
+
+  const LoaderWrapper = ({ loading }) => {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-white z-50 bg-opacity-40">
+        <Loader />
+      </div>
+    );
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center flex-col w-full">
-      <h1 className="lg:text-6xl font-sans">Inscription</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col lg:w-4/12 mt-14">
-        <div className="flex">
-          <Input
-            label="Nom"
-            type="lastName"
-            name="lastName"
-            placeholder="Doe"
-            width="w-1/2"
-            logo="name"
-          />
-          <Input
-            label="Prenom"
-            type="firstName"
-            name="firstName"
-            placeholder="John"
-            width="w-1/2"
-            logo="name"
-          />
-        </div>
-        <Input
-          label="Email"
-          type="email"
-          name="email"
-          placeholder="johndoe@exemple.com"
-          logo="email"
-        />
-        <Input
-          label="Mot de passe"
-          type="password"
-          name="password"
-          placeholder="********"
-          logo="password"
-        />
-        <Input
-          label="Confirmation du mot de passe"
-          type="password"
-          name="password"
-          placeholder="********"
-          logo="password"
-        />
-        {error && <p className="mb-3 text-red-500">{error}</p>}
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-1/2 my-5 mx-auto"
-        >
-          S'inscrire
-        </button>
-      </form>
-    </div>
+    <>
+      <HeaderJustWithLogo />
+      <main className="w-full border-t-2 border-slate-100 mx-auto flex max-w-7xl font-mont px-6 lg:px-8 ">
+        <section className="w-full flex justify-between mt-16 lg:flex-row flex-col relative">
+          <div className="py-5 hidden lg:flex flex-col w-5/12 h-full justify-between z-10">
+            <h2 className="text-sm text-blue-500 font-sans">
+              ESSAYEZ ESTIIMEA GRATUITEMENT
+            </h2>
+            <h1 className="text-6xl text-slate-700 font-semibold font-sans leading-tight">
+              Créez votre compte{" "}
+              <span className="text-blue-500 font-bold">gratuitement</span>
+            </h1>
+            <h3 className="text-lg text-slate-400 font-bold font-sans">
+              Proposez des estimations en ligne à vos prospects en quelques
+              cliques
+            </h3>
+            <div className="w-12/12 bg-slate-200 h-0.5"></div>
+            <h2 className="text-xl text-slate-700 font-bold font-sans">
+              L'offre Starter comprend :
+            </h2>
+            <ul>
+              {offreStarter.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-center text-slate-400 font-sans mb-3"
+                >
+                  <CheckBadgeIcon className="h-7 w-7 text-blue-500 mr-2" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex flex-col h-max lg:w-6/12 items-center text-center border border-slate-100 rounded-lg p-10 shadow-lg z-10 relative">
+            {loading ? <LoaderWrapper loading={loading} /> : null}
+            <h2 className="text-2xl sm:text-4xl text-slate-700 font-semibold font-sans">
+              Inscrivez-vous dès maintenant !
+            </h2>
+            <h3 className="text-slate-400">
+              Aucune carte de crédit n'est requise.
+            </h3>
+            <form onSubmit={handleSubmit} className="mt-5 w-full sm:w-fit">
+              <div className="flex sm:flex-row flex-col">
+                <Input
+                  label="Nom"
+                  type="lastName"
+                  name="lastName"
+                  placeholder="Doe"
+                  width="sm:w-1/2"
+                  logo="name"
+                  value={lastName}
+                  setValue={setLastName}
+                />
+                <Input
+                  label="Prenom"
+                  type="firstName"
+                  name="firstName"
+                  placeholder="John"
+                  width="sm:w-1/2"
+                  logo="name"
+                  value={firstName}
+                  setValue={setFirstName}
+                />
+              </div>
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                placeholder="johndoe@exemple.com"
+                logo="email"
+                value={email}
+                setValue={setEmail}
+              />
+              {error && <p className="mb-3 text-red-500">{error}</p>}
+              <button
+                type="submit"
+                disabled={disabled}
+                className={cn(
+                  "rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 w-1/2 my-5 mx-auto",
+                  !disabled ? " bg-blue-500  hover:bg-blue-500" : "bg-blue-200"
+                )}
+              >
+                S'inscrire
+              </button>
+            </form>
+            <div class="relative w-full">
+              <div class="absolute w-full h-0.5 bg-slate-200 left-0 top-1/2 transform -translate-y-1/2 z-0"></div>
+              <p class="text-center text-slate-400 bg-white relative z-10 w-min mx-auto px-2">
+                ou
+              </p>
+            </div>
+            <div className="w-full flex flex-col">
+              <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 my-5 mx-auto border border-slate-400">
+                <img
+                  src="/images/logos/google.png"
+                  alt="google"
+                  className="h-8 w-auto mr-3"
+                />
+                Inscrivez-vous avec Google
+              </a>
+              <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 mx-auto border border-slate-400">
+                <img
+                  src="/images/logos/facebook.png"
+                  alt="google"
+                  className="h-8 w-auto mr-3"
+                />
+                Inscrivez-vous avec Facebook
+              </a>
+              <a className="cursor-pointer text-sm font-semibold text-blue-500  sm:w-4/6 mx-auto mt-8">
+                Connexion
+              </a>
+            </div>
+          </div>
+          <div className="py-5 flex flex-col w-full justify-between lg:hidden z-10">
+            <h2 className="text-sm text-blue-500 font-sans my-5">
+              ESSAYEZ ESTIIMEA GRATUITEMENT
+            </h2>
+            <h1 className="text-6xl text-slate-700 font-semibold font-sans leading-tight">
+              Créez votre compte{" "}
+              <span className="text-blue-500 font-bold">gratuitement</span>
+            </h1>
+            <h3 className="text-lg text-slate-400 font-bold font-sans my-5">
+              Proposez des estimations en ligne à vos prospects en quelques
+              cliques
+            </h3>
+            <div className="w-12/12 bg-slate-200 h-0.5  my-5"></div>
+            <h2 className="text-xl text-slate-700 font-bold font-sans my-5">
+              L'offre Starter comprend :
+            </h2>
+            <ul>
+              {offreStarter.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-center text-slate-400 font-sans mb-3"
+                >
+                  <CheckBadgeIcon className="min-w-[30px] w-7 text-blue-500 mr-2" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </main>
+    </>
   );
 };
 
