@@ -14,6 +14,8 @@ const Input = (props) => {
   const placeholder = props.placeholder || "Doe";
   const width = props.width || "w-full";
   const logo = props.logo || "";
+  const value = props.value;
+  const setValue = props.setValue;
 
   const selectLogo = (logo) => {
     switch (logo) {
@@ -40,14 +42,14 @@ const Input = (props) => {
   };
 
   return (
-    <div className={cn("px-5 py-3  text-slate-600 ", width)}>
+    <div className={cn("sm:px-5 pb-3  text-slate-600 text-start", width)}>
       <label
         htmlFor={name}
         className="block text-sm font-medium leading-6  text-slate-600 "
       >
         {label}
       </label>
-      <div className="relative mt-2 rounded-md shadow-sm">
+      <div className="relative mt-1 rounded-md shadow-sm">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           {selectLogo(logo)}
         </div>
@@ -57,6 +59,8 @@ const Input = (props) => {
           id={name}
           className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
       </div>
     </div>
