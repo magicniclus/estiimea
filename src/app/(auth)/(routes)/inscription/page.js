@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Input from "@/components/ui/Input";
 import HeaderJustWithLogo from "@/components/ui/HeaderJustWithLogo";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
@@ -19,6 +20,8 @@ const Page = () => {
   const [lastName, setLastName] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const [error, setError] = useState(null);
 
@@ -40,9 +43,10 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+    dispatch({
+      type: "SET_USER_NAME_AND_EMAIL",
+      payload: { firstName, lastName, email },
+    });
   };
 
   const LoaderWrapper = ({ loading }) => {
