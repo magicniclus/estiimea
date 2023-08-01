@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,7 +12,9 @@ export const metadata = {
 export default function AccueilLayout({ children }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>{children}</body>
+      <body className={cn(" text-slate-600  font-sans", inter.className)}>
+        {children}
+      </body>
     </html>
   );
 }
