@@ -1,13 +1,17 @@
 import {
   getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,
   sendSignInLinkToEmail,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, get } from "firebase/database";
 import { app } from "./firebase.config";
 
+//login
 export const loginUser = async (email, password) => {
   const auth = getAuth(app); // Initialize auth after the app
   try {
@@ -23,6 +27,7 @@ export const loginUser = async (email, password) => {
   }
 };
 
+//User Information
 export const registerUser = async (
   email,
   password,
@@ -42,8 +47,6 @@ export const registerUser = async (
       email,
       password
     );
-
-    // Create a new record in Realtime Database after registration
     const db = getDatabase();
     const userRef = ref(db, `users/${userCredential.user.uid}`); // creates a new reference with the ID of the user's UID
 
@@ -76,6 +79,7 @@ export const registerUser = async (
   }
 };
 
+//Email Verification
 export const sendVerificationEmail = async () => {
   const auth = getAuth(app);
   console.log(auth.currentUser);
@@ -103,4 +107,51 @@ export const sendSignInLink = async (email) => {
     .catch((error) => {
       console.error(error);
     });
+};
+
+//Get user
+export const observeAuthState = (userChangeHandler) => {
+  const auth = getAuth(app);
+  return onAuthStateChanged(auth, userChangeHandler);
+};
+
+//Google Login
+export const signInWithGoogle = async () => {
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const db = getDatabase(app);
+    const userRef = ref(db, `users/${user.uid}`);
+
+    const snapshot = await get(userRef);
+    if (!snapshot.exists()) {
+      set(userRef, {
+        userInformation: {
+          email: user.email,
+          createdAt: new Date().toISOString(),
+          firstName: user.displayName || null,
+        },
+        settings: {
+          fontColor: "#000000",
+          backgroundColor: "#ffffff",
+        },
+        plan: {
+          name: "Free",
+          price: 0,
+          features: {},
+          subscribeAt: new Date().toISOString(),
+          expireAt: new Date().toISOString() + 30,
+        },
+        estimations: {},
+      }).catch((error) => console.log("Failed to write to database: ", error));
+    }
+
+    return user;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
