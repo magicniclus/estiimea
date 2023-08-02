@@ -8,6 +8,7 @@ import Loader from "@/components/loader/Loader";
 import "../../../../components/loader/loader.css";
 import { useRouter } from "next/navigation";
 import InscriptionLayout from "@/components/layout/InscriptionLayout";
+import { signInWithGoogle } from "@/firebase/auth";
 
 const offreStarter = [
   "Création d'un lien personnalisé vers votre page d'estimation",
@@ -68,6 +69,16 @@ const Page = () => {
         <Loader />
       </div>
     );
+  };
+
+  const handleGoogleConnection = () => {
+    signInWithGoogle()
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -161,14 +172,17 @@ const Page = () => {
               </p>
             </div>
             <div className="w-full flex flex-col">
-              <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 my-5 mx-auto border border-slate-400">
+              <button
+                onClick={handleGoogleConnection}
+                className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 my-5 mx-auto border border-slate-400"
+              >
                 <img
                   src="/images/logos/google.png"
                   alt="google"
                   className="h-8 w-auto mr-3"
                 />
                 Inscrivez-vous avec Google
-              </a>
+              </button>
               <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 mx-auto border border-slate-400">
                 <img
                   src="/images/logos/facebook.png"
