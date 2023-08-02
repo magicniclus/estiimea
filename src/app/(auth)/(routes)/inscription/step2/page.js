@@ -70,7 +70,13 @@ const Page = () => {
     loginUser(stateEmail, password)
       .then((res) => {
         console.log(res);
-        registerUser(stateFirstName, stateLastName, stateEmail, password)
+        registerUser(
+          stateEmail,
+          password,
+          password,
+          stateFirstName,
+          stateLastName
+        )
           .then((res) => {
             console.log(res);
             setLoading(false);
@@ -103,9 +109,9 @@ const Page = () => {
       <section className="w-full h-full min-h-[calc(100vh-80px)] flex justify-center items-center">
         <div className="flex flex-col h-max items-center text-center border border-slate-100 rounded-lg p-10 shadow-lg z-10 relative">
           {loading ? <LoaderWrapper loading={loading} /> : null}
-          <h2 className="text-2xl sm:text-4xl text-slate-700 font-semibold font-sans">
+          <h1 className="text-2xl sm:text-4xl text-slate-700 font-semibold font-sans">
             Bienvenue {stateFirstName}
-          </h2>
+          </h1>
           <h3 className="text-slate-400 w-5/6">
             Saisissez votre mot de passe pour accéder à votre compte
           </h3>
