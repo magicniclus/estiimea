@@ -7,6 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        yan: ["Yanone Kaffeesatz", "sans-serif"],
+        manrope: ["Manrope", "sans-serif"],
         mont: ["Montserrat", "sans-serif"],
         sans: [
           "Roboto",
