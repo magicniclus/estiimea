@@ -17,7 +17,8 @@ const Page = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      sendSignInLink(auth.currentUser.email);
+      //   sendSignInLink(auth.currentUser.email);
+      sendVerificationEmail();
     }
   }, []);
 
