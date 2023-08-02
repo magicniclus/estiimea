@@ -2,6 +2,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { app } from "./firebase.config";
@@ -25,12 +26,8 @@ export const registerUser = async (
   email,
   password,
   confirmPassword,
-  name,
-  phone,
-  imgProfil,
-  backgroundImg,
-  title,
-  description
+  firstName,
+  lastName
 ) => {
   if (password !== confirmPassword) {
     console.error("Passwords do not match");
@@ -53,16 +50,12 @@ export const registerUser = async (
       userInformation: {
         email: email,
         createdAt: new Date().toISOString(),
-        name: name || null,
-        phone: phone || null,
-        imgProfil: imgProfil || null,
+        firstName: firstName || null,
+        lastName: lastName || null,
       },
       settings: {
         fontColor: "#000000",
         backgroundColor: "#ffffff",
-        backgroundImg: backgroundImg || null,
-        title: title || null,
-        description: description || null,
       },
       plan: {
         name: "Free",
@@ -80,4 +73,16 @@ export const registerUser = async (
     console.error(error);
     return null;
   }
+};
+
+export const sendVerificationEmail = async () => {
+  const auth = getAuth(app);
+  console.log(auth.currentUser);
+  sendEmailVerification(auth.currentUser)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
