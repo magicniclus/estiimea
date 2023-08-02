@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Input from "@/components/ui/Input";
-import HeaderJustWithLogo from "@/components/ui/HeaderJustWithLogo";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { cn } from "@/lib/utils";
 import Loader from "@/components/loader/Loader";
 import "../../../../components/loader/loader.css";
+import { useRouter } from "next/navigation";
+import InscriptionLayout from "@/components/layout/InscriptionLayout";
 
 const offreStarter = [
   "Création d'un lien personnalisé vers votre page d'estimation",
@@ -23,6 +24,10 @@ const Page = () => {
 
   const dispatch = useDispatch();
 
+  const stateEmail = useSelector((state) => state.user?.email);
+
+  const router = useRouter();
+
   const [error, setError] = useState(null);
 
   const isNameValid = (name) => {
@@ -36,20 +41,28 @@ const Page = () => {
   useEffect(() => {
     const isFormValid =
       isNameValid(firstName) && isNameValid(lastName) && isEmailValid(email);
-
     setDisabled(!isFormValid);
   }, [firstName, lastName, email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    dispatch({
-      type: "SET_USER_NAME_AND_EMAIL",
-      payload: { firstName, lastName, email },
-    });
+    setTimeout(() => {
+      dispatch({
+        type: "SET_USER_NAME_AND_EMAIL",
+        payload: { firstName, lastName, email },
+      });
+      setLoading(false);
+    }, 1000);
   };
 
-  const LoaderWrapper = ({ loading }) => {
+  useEffect(() => {
+    if (stateEmail) {
+      router.push("/inscription/step2");
+    }
+  }, [stateEmail]);
+
+  const LoaderWrapper = () => {
     return (
       <div className="absolute inset-0 flex items-center justify-center bg-white z-50 bg-opacity-40">
         <Loader />
@@ -59,12 +72,11 @@ const Page = () => {
 
   return (
     <>
-      <HeaderJustWithLogo />
-      <main className="w-full border-t-2 border-slate-100 mx-auto flex max-w-7xl font-mont px-6 lg:px-8 ">
+      <InscriptionLayout>
         <section className="w-full flex justify-between mt-16 lg:flex-row flex-col relative">
           <div className="py-5 hidden lg:flex flex-col w-5/12 h-full justify-between z-10">
             <h2 className="text-sm text-blue-500 font-sans">
-              ESSAYEZ ESTIIMEA GRATUITEMENT
+              ESSAYEZ ESTIMMEA GRATUITEMENT
             </h2>
             <h1 className="text-6xl text-slate-700 font-semibold font-sans leading-tight">
               Créez votre compte{" "}
@@ -199,7 +211,7 @@ const Page = () => {
             </ul>
           </div>
         </section>
-      </main>
+      </InscriptionLayout>
     </>
   );
 };
