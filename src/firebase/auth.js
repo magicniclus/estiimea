@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  sendSignInLinkToEmail,
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { app } from "./firebase.config";
@@ -79,6 +80,22 @@ export const sendVerificationEmail = async () => {
   const auth = getAuth(app);
   console.log(auth.currentUser);
   sendEmailVerification(auth.currentUser)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+export const sendSignInLink = async (email) => {
+  const auth = getAuth(app);
+  const actionCodeSettings = {
+    url: "http://localhost:3000/connexion",
+    handleCodeInApp: true,
+  };
+
+  sendSignInLinkToEmail(auth, email, actionCodeSettings)
     .then(() => {
       console.log("Email sent");
     })
