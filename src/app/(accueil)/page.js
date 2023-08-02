@@ -5,7 +5,7 @@ const accueil = () => {
     <div className="min-h-screen flex justify-center items-center flex-col text-slate-600">
       <h1 className="text-6xl font-sans">
         Bienvenue chez{" "}
-        <span className="text-blue-300 font-semibold font-mont">Estiimea</span>
+        <span className="text-blue-300 font-semibold font-mont">estimmea</span>
       </h1>
       <p className="text-center mt-5 text-xl font-light lg:w-5/12 w-full">
         Découvrez une nouvelle façon d'
