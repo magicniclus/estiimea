@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { loginUser } from "@/firebase/auth";
+import { loginUser, signInWithGoogle } from "@/firebase/auth";
 import InscriptionLayout from "@/components/layout/InscriptionLayout";
 import Loader from "@/components/loader/Loader";
 import Input from "@/components/ui/Input";
@@ -62,6 +62,16 @@ const Page = () => {
     );
   };
 
+  const handleGoogleConnection = () => {
+    signInWithGoogle()
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <InscriptionLayout
       title="Connexion | Estimmea"
@@ -73,8 +83,8 @@ const Page = () => {
             Connectez-vous à votre espace personnel et accédé à vos estimations
           </h2>
           <h1 className="text-6xl text-slate-700 font-semibold font-sans leading-tight">
-            Nous sommes ravis de vous{" "}
-            <span className="text-blue-500 font-bold"> revoir</span>
+            Nous sommes ravis de{" "}
+            <span className="text-blue-500 font-bold">vous revoir</span>
           </h1>
           <h3 className="text-lg text-slate-400 font-bold font-sans">
             Proposez des estimations en ligne à vos prospects en quelques
@@ -139,14 +149,18 @@ const Page = () => {
             </p>
           </div>
           <div className="w-full flex flex-col">
-            <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 my-5 mx-auto border border-slate-400">
+            <button
+              type="button"
+              onClick={handleGoogleConnection}
+              className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 my-5 mx-auto border border-slate-400"
+            >
               <img
                 src="/images/logos/google.png"
                 alt="google"
                 className="h-8 w-auto mr-3"
               />
               Inscrivez-vous avec Google
-            </a>
+            </button>
             <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 mx-auto border border-slate-400">
               <img
                 src="/images/logos/facebook.png"
