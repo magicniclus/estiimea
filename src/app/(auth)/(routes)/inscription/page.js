@@ -177,7 +177,10 @@ const Page = () => {
                 />
                 Inscrivez-vous avec Facebook
               </a>
-              <a className="cursor-pointer text-sm font-semibold text-blue-500  sm:w-4/6 mx-auto mt-8">
+              <a
+                href="/connexion"
+                className="cursor-pointer text-sm font-semibold text-blue-500  sm:w-4/6 mx-auto mt-8"
+              >
                 Connexion
               </a>
             </div>
