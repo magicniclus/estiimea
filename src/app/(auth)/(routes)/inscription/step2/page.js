@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader/Loader";
-import { loginUser, registerUser } from "@/firebase/auth";
+import { loginUser, observeAuthState, registerUser } from "@/firebase/auth";
 
 const Page = () => {
   const [password, setPassword] = useState("");
@@ -24,6 +24,17 @@ const Page = () => {
 
   const validatePassword = () => {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    useEffect(() => {
+      observeAuthState((user) => {
+        if (user) {
+          console.log(user);
+          router.push("/dashboard");
+        } else {
+          null;
+        }
+      });
+    }, []);
 
     if (!password.match(regex)) {
       setPasswordError(
