@@ -8,6 +8,7 @@ import {
   sendEmailVerification,
   sendSignInLinkToEmail,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
 import { app } from "./firebase.config";
@@ -195,5 +196,16 @@ export const signInWithFacebook = async () => {
   } catch (error) {
     console.error(error);
     return null;
+  }
+};
+
+//Logout
+export const logoutUser = async () => {
+  const auth = getAuth(app);
+  try {
+    await signOut(auth);
+    console.log("User logged out");
+  } catch (error) {
+    console.error("Failed to logout: ", error);
   }
 };
