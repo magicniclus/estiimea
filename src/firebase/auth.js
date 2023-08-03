@@ -1,6 +1,7 @@
 import {
   getAuth,
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -119,6 +120,47 @@ export const observeAuthState = (userChangeHandler) => {
 export const signInWithGoogle = async () => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const db = getDatabase(app);
+    const userRef = ref(db, `users/${user.uid}`);
+
+    const snapshot = await get(userRef);
+    if (!snapshot.exists()) {
+      set(userRef, {
+        userInformation: {
+          email: user.email,
+          createdAt: new Date().toISOString(),
+          firstName: user.displayName || null,
+        },
+        settings: {
+          fontColor: "#000000",
+          backgroundColor: "#ffffff",
+        },
+        plan: {
+          name: "Free",
+          price: 0,
+          features: {},
+          subscribeAt: new Date().toISOString(),
+          expireAt: new Date().toISOString() + 30,
+        },
+        estimations: {},
+      }).catch((error) => console.log("Failed to write to database: ", error));
+    }
+
+    return user;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+//Facebook Login
+export const signInWithFacebook = async () => {
+  const auth = getAuth(app);
+  const provider = new FacebookAuthProvider();
 
   try {
     const result = await signInWithPopup(auth, provider);
