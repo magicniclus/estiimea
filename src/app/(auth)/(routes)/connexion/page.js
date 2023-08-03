@@ -1,6 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { loginUser, signInWithGoogle } from "@/firebase/auth";
+import {
+  loginUser,
+  observeAuthState,
+  signInWithFacebook,
+  signInWithGoogle,
+} from "@/firebase/auth";
 import InscriptionLayout from "@/components/layout/InscriptionLayout";
 import Loader from "@/components/loader/Loader";
 import Input from "@/components/ui/Input";
@@ -30,6 +35,17 @@ const Page = () => {
   const isPasswordValid = (password) => {
     return /.{8,}/.test(password);
   };
+
+  useEffect(() => {
+    observeAuthState((user) => {
+      if (user) {
+        console.log(user);
+        router.push("/dashboard");
+      } else {
+        null;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (isEmailValid(email) && isPasswordValid(password)) {
@@ -64,6 +80,16 @@ const Page = () => {
 
   const handleGoogleConnection = () => {
     signInWithGoogle()
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleFacebookConnection = () => {
+    signInWithFacebook()
       .then(() => {
         router.push("/dashboard");
       })
@@ -161,14 +187,17 @@ const Page = () => {
               />
               Inscrivez-vous avec Google
             </button>
-            <a className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 mx-auto border border-slate-400">
+            <button
+              onClick={handleFacebookConnection}
+              className="cursor-pointer flex items-center justify-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-slate-600 sm:w-4/6 mx-auto border border-slate-400"
+            >
               <img
                 src="/images/logos/facebook.png"
                 alt="google"
                 className="h-8 w-auto mr-3"
               />
               Inscrivez-vous avec Facebook
-            </a>
+            </button>
             <a
               href="/inscription"
               className="cursor-pointer text-sm font-semibold text-blue-500  sm:w-4/6 mx-auto mt-8"
