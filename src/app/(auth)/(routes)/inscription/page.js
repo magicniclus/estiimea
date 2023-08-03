@@ -5,7 +5,6 @@ import Input from "@/components/ui/Input";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { cn } from "@/lib/utils";
 import Loader from "@/components/loader/Loader";
-import "../../../../components/loader/loader.css";
 import { useRouter } from "next/navigation";
 import InscriptionLayout from "@/components/layout/InscriptionLayout";
 import {
@@ -190,9 +189,9 @@ const Page = () => {
                 S'inscrire
               </button>
             </form>
-            <div class="relative w-full">
-              <div class="absolute w-full h-0.5 bg-slate-200 left-0 top-1/2 transform -translate-y-1/2 z-0"></div>
-              <p class="text-center text-slate-400 bg-white relative z-10 w-min mx-auto px-2">
+            <div className="relative w-full">
+              <div className="absolute w-full h-0.5 bg-slate-200 left-0 top-1/2 transform -translate-y-1/2 z-0"></div>
+              <p className="text-center text-slate-400 bg-white relative z-10 w-min mx-auto px-2">
                 ou
               </p>
             </div>
