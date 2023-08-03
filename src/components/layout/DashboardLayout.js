@@ -1,0 +1,356 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import {
+  observeAuthState,
+  logoutUser,
+  getLoggedInUserData,
+} from "@/firebase/auth";
+import Loader from "@/components/loader/Loader";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/20/solid";
+import { set } from "firebase/database";
+
+const user = {
+  name: "Tom Cook",
+  email: "tom@example.com",
+  imageUrl:
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+};
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+const DashboardLayout = (props) => {
+  const route = useRouter();
+  const pathname = usePathname();
+  const [userInformation, setUserInformation] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [userIsHere, setUserIsHere] = useState(false);
+
+  const navigation = [
+    {
+      name: "Accueil",
+      href: "/dashboard",
+      nameOfLink: "/dashboard",
+      title: "Ayez une vue d'ensemble de votre activité",
+    },
+    {
+      name: "Personnalisation",
+      href: "/dashboard/personnalisation",
+      nameOfLink: "/dashboard/personnalisation",
+      title: "Personnalisez votre page d'estimation",
+    },
+    {
+      name: "Mes Estimations",
+      href: "/dashboard/mes-estimations",
+      nameOfLink: "/dashboard/mes-estimations",
+      title: "Consultez vos estimations",
+    },
+    {
+      name: "Aide",
+      href: "/dashboard/aide",
+      nameOfLink: "/dashboard/aide",
+      title: "Besoin d'aide ?",
+    },
+  ];
+
+  const userNavigation = [
+    { name: "Your Profile", href: "/dashboard/profile", title: "Profile" },
+    { name: "Settings", href: "/dashboard/settings", title: "Parametres" },
+    { name: "Sign out", href: "#" },
+  ];
+
+  console.log(pathname);
+
+  useEffect(() => {
+    if (userInformation?.userInformation) {
+      console.log(userInformation?.userInformation);
+    }
+  }, [userInformation]);
+
+  useEffect(() => {
+    getLoggedInUserData()
+      .then((user) => {
+        setUserInformation(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [userIsHere]);
+
+  useEffect(() => {
+    observeAuthState((user) => {
+      if (user) {
+        setUserIsHere(true);
+      } else {
+        setUserIsHere(false);
+        route.push("/connexion");
+      }
+    });
+  }, []);
+
+  const logout = () => {
+    setLoading(true);
+    logoutUser()
+      .then(() => {
+        setUserIsHere(false);
+        route.push("/connexion");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleTitle = () => {
+    switch (route.pathname) {
+      case "/dashboard":
+        return "Accueil";
+      case "/dashboard/personnalisation":
+        return "Personnalisation";
+      case "/dashboard/mes-estimations":
+        return "Mes Estimations";
+      case "/dashboard/aide":
+        return "Aide";
+      default:
+        return "Accueil";
+    }
+  };
+
+  const LoaderWrapper = () => {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-red-300 z-50 bg-opacity-40 bottom-0">
+        <Loader />
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div className="min-h-full">
+        <Disclosure as="nav" className="border-b border-gray-200 bg-white">
+          {({ open }) => (
+            <>
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="flex h-16 justify-between">
+                  <div className="flex">
+                    <a
+                      href="/dashboard"
+                      className="flex flex-shrink-0 items-center"
+                    >
+                      <img
+                        className="block h-8 w-auto lg:hidden"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
+                        alt="Your Company"
+                      />
+                      <img
+                        className="hidden h-8 w-auto lg:block"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
+                        alt="Your Company"
+                      />
+                    </a>
+                    <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                      {navigation.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={classNames(
+                            item.nameOfLink === pathname
+                              ? "border-blue-500 text-gray-900"
+                              : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                            "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium"
+                          )}
+                          aria-current={item.current ? "page" : undefined}
+                        >
+                          {item.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                    <button
+                      type="button"
+                      className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">View notifications</span>
+                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+
+                    {/* Profile dropdown */}
+                    <Menu as="div" className="relative ml-3">
+                      <div>
+                        <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 bg-gray-100">
+                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">Open user menu</span>
+                          {userInformation &&
+                          userInformation.userInformation.photoProfil ? (
+                            <img
+                              className="h-8 w-8 rounded-full"
+                              src={userInformation.userInformation.photoProfil}
+                              alt=""
+                            />
+                          ) : (
+                            <UserIcon
+                              className="h-8 w-8 rounded-full text-gray-700"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          {userNavigation.map((item) => (
+                            <Menu.Item key={item.name}>
+                              {({ active }) =>
+                                item.name === "Sign out" ? (
+                                  <button
+                                    onClick={logout}
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}
+                                  >
+                                    {item.name}
+                                  </button>
+                                ) : (
+                                  <a
+                                    href={item.href}
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}
+                                  >
+                                    {item.name}
+                                  </a>
+                                )
+                              }
+                            </Menu.Item>
+                          ))}
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
+                  <div className="-mr-2 flex items-center sm:hidden">
+                    {/* Mobile menu button */}
+                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                      <span className="absolute -inset-0.5" />
+                      <span className="sr-only">Open main menu</span>
+                      {open ? (
+                        <XMarkIcon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Bars3Icon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </Disclosure.Button>
+                  </div>
+                </div>
+              </div>
+
+              <Disclosure.Panel className="sm:hidden">
+                <div className="space-y-1 pb-3 pt-2">
+                  {navigation.map((item) => (
+                    <Disclosure.Button
+                      key={item.name}
+                      as="a"
+                      href={item.href}
+                      className={classNames(
+                        item.href === pathname
+                          ? "border-indigo-500 bg-indigo-50 text-indigo-700"
+                          : "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800",
+                        "block border-l-4 py-2 pl-3 pr-4 text-base font-medium"
+                      )}
+                      aria-current={item.current ? "page" : undefined}
+                    >
+                      {item.name}
+                    </Disclosure.Button>
+                  ))}
+                </div>
+                <div className="border-t border-gray-200 pb-3 pt-4">
+                  <div className="flex items-center px-4">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="h-10 w-10 rounded-full"
+                        src={user.imageUrl}
+                        alt=""
+                      />
+                    </div>
+                    <div className="ml-3">
+                      <div className="text-base font-medium text-gray-800">
+                        {userInformation?.name}
+                      </div>
+                      <div className="text-sm font-medium text-gray-500">
+                        {user.email}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">View notifications</span>
+                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <div className="mt-3 space-y-1">
+                    {userNavigation.map((item) => (
+                      <Disclosure.Button
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    ))}
+                  </div>
+                </div>
+              </Disclosure.Panel>
+            </>
+          )}
+        </Disclosure>
+
+        <div className="py-10">
+          <header>
+            <div className="mx-auto max-w-7xl pb-10 px-4 sm:px-6 lg:px-8 border-b-2 border-slate-50">
+              <h1 className="text-2xl leading-tight tracking-tight text-gray-700">
+                {pathname === "/dashboard/profile"
+                  ? "Profile"
+                  : pathname === "/dashboard/settings"
+                  ? "Parametre"
+                  : navigation.find((item) => item.href === pathname)?.title}
+              </h1>
+            </div>
+          </header>
+          <main>
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 relative">
+              {loading ? <LoaderWrapper loading={loading} /> : null}
+              {props.children}
+            </div>
+          </main>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default DashboardLayout;
