@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { sendSignInLink, sendVerificationEmail } from "@/firebase/auth";
+import { observeAuthState, sendVerificationEmail } from "@/firebase/auth";
 import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import InscriptionLayout from "@/components/layout/InscriptionLayout";
@@ -17,7 +17,6 @@ const Page = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      //   sendSignInLink(auth.currentUser.email);
       sendVerificationEmail();
     }
   }, []);
@@ -25,6 +24,17 @@ const Page = () => {
   useEffect(() => {
     console.log(auth.currentUser?.emailVerified);
   }, [auth.currentUser?.emailVerified, router]);
+
+  useEffect(() => {
+    observeAuthState((user) => {
+      if (user) {
+        console.log(user);
+        router.push("/dashboard");
+      } else {
+        null;
+      }
+    });
+  }, []);
 
   return (
     <InscriptionLayout>
