@@ -69,13 +69,8 @@ const Page = () => {
       });
       setLoading(false);
     }, 1000);
+    router.push("/inscription/step2");
   };
-
-  useEffect(() => {
-    if (stateEmail) {
-      router.push("/inscription/step2");
-    }
-  }, [stateEmail]);
 
   const LoaderWrapper = () => {
     return (
