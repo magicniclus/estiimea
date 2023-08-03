@@ -145,6 +145,7 @@ const Page = () => {
                 logo="password"
                 value={confirmPassword}
                 setValue={setConfirmPassword}
+                autocomplete="current-password"
               />
             </div>
             <button
