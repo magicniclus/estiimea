@@ -1,11 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  observeAuthState,
-  logoutUser,
-  getLoggedInUserData,
-} from "@/firebase/auth";
+import { observeAuthState, logoutUser } from "@/firebase/auth";
+import { getLoggedInUserData } from "@/firebase/dataManager";
 import Loader from "@/components/loader/Loader";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
