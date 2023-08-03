@@ -58,6 +58,8 @@ export const registerUser = async (
         createdAt: new Date().toISOString(),
         firstName: firstName || null,
         lastName: lastName || null,
+        photoProfil:
+          "https://firebasestorage.googleapis.com/v0/b/estiimea.appspot.com/o/pexels-italo-melo-2379004.jpg?alt=media&token=733523fd-13fc-447d-bdf3-70260f0147e4",
       },
       settings: {
         fontColor: "#000000",
@@ -135,6 +137,8 @@ export const signInWithGoogle = async () => {
           email: user.email,
           createdAt: new Date().toISOString(),
           firstName: user.displayName || null,
+          photoProfil:
+            "https://firebasestorage.googleapis.com/v0/b/estiimea.appspot.com/o/pexels-italo-melo-2379004.jpg?alt=media&token=733523fd-13fc-447d-bdf3-70260f0147e4",
         },
         settings: {
           fontColor: "#000000",
@@ -176,6 +180,8 @@ export const signInWithFacebook = async () => {
           email: user.email,
           createdAt: new Date().toISOString(),
           firstName: user.displayName || null,
+          photoProfil:
+            "https://firebasestorage.googleapis.com/v0/b/estiimea.appspot.com/o/pexels-italo-melo-2379004.jpg?alt=media&token=733523fd-13fc-447d-bdf3-70260f0147e4",
         },
         settings: {
           fontColor: "#000000",
@@ -207,5 +213,33 @@ export const logoutUser = async () => {
     console.log("User logged out");
   } catch (error) {
     console.error("Failed to logout: ", error);
+  }
+};
+
+// Get logged-in user data
+export const getLoggedInUserData = async () => {
+  const auth = getAuth(app);
+  const uid = auth.currentUser ? auth.currentUser.uid : null;
+
+  if (uid) {
+    const db = getDatabase(app);
+    const userRef = ref(db, `users/${uid}`);
+
+    try {
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        // console.log("Logged-in user data:", snapshot.val());
+        return snapshot.val();
+      } else {
+        console.log("No data available for logged-in user id: ", uid);
+        return null;
+      }
+    } catch (error) {
+      console.error("Failed to retrieve logged-in user data: ", error);
+      return null;
+    }
+  } else {
+    console.log("No user is logged in.");
+    return null;
   }
 };
