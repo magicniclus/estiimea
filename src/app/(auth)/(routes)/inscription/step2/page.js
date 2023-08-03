@@ -20,21 +20,21 @@ const Page = () => {
   const stateFirstName = useSelector((state) => state.user?.firstName);
   const stateLastName = useSelector((state) => state.user?.lastName);
 
+  useEffect(() => {
+    observeAuthState((user) => {
+      if (user) {
+        console.log(user);
+        router.push("/dashboard");
+      } else {
+        null;
+      }
+    });
+  }, []);
+
   const router = useRouter();
 
   const validatePassword = () => {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
-    useEffect(() => {
-      observeAuthState((user) => {
-        if (user) {
-          console.log(user);
-          router.push("/dashboard");
-        } else {
-          null;
-        }
-      });
-    }, []);
 
     if (!password.match(regex)) {
       setPasswordError(
