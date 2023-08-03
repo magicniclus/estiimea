@@ -61,6 +61,7 @@ const Input = (props) => {
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          autoComplete={name === "password" ? "current-password" : "off"}
         />
       </div>
     </div>
