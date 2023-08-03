@@ -11,10 +11,8 @@ export const metadata = {
 
 export default function AccueilLayout({ children }) {
   return (
-    <html lang="fr">
-      <body className={cn(" text-slate-600  font-sans", inter.className)}>
-        {children}
-      </body>
-    </html>
+    <body className={cn(" text-slate-600  font-sans", inter.className)}>
+      {children}
+    </body>
   );
 }
