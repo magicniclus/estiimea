@@ -32,13 +32,19 @@ const Page = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  useEffect(() => {
+    observeAuthState((user) => {
+      console.log(user);
+    });
+  }, []);
+
   const isPasswordValid = (password) => {
     return /.{8,}/.test(password);
   };
 
   useEffect(() => {
     observeAuthState((user) => {
-      if (user) {
+      if (user !== null) {
         console.log(user);
         router.push("/dashboard");
       } else {
@@ -155,6 +161,7 @@ const Page = () => {
               logo="password"
               value={password}
               setValue={setPassword}
+              autocomplete="current-password"
             />
             {error && <p className="mb-3 text-red-500">{error}</p>}
             <button
@@ -168,9 +175,9 @@ const Page = () => {
               Se Connecter
             </button>
           </form>
-          <div class="relative w-full">
-            <div class="absolute w-full h-0.5 bg-slate-200 left-0 top-1/2 transform -translate-y-1/2 z-0"></div>
-            <p class="text-center text-slate-400 bg-white relative z-10 w-min mx-auto px-2">
+          <div className="relative w-full">
+            <div className="absolute w-full h-0.5 bg-slate-200 left-0 top-1/2 transform -translate-y-1/2 z-0"></div>
+            <p className="text-center text-slate-400 bg-white relative z-10 w-min mx-auto px-2">
               ou
             </p>
           </div>
@@ -185,7 +192,7 @@ const Page = () => {
                 alt="google"
                 className="h-8 w-auto mr-3"
               />
-              Inscrivez-vous avec Google
+              Connectez-vous avec Google
             </button>
             <button
               onClick={handleFacebookConnection}
@@ -196,7 +203,7 @@ const Page = () => {
                 alt="google"
                 className="h-8 w-auto mr-3"
               />
-              Inscrivez-vous avec Facebook
+              Connectez-vous avec Facebook
             </button>
             <a
               href="/inscription"
