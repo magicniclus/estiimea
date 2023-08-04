@@ -8,6 +8,7 @@ import { updateUserData } from "@/firebase/dataManager";
 
 const DisplayUserInformaitons = () => {
   const uid = useSelector((state) => state.user?.uid);
+  const userInformation = useSelector((state) => state.user?.userInformation);
   const firstName = useSelector(
     (state) => state.user?.userInformation?.firstName
   );
@@ -36,10 +37,12 @@ const DisplayUserInformaitons = () => {
     const file = event.target.files[0];
     uploadImage(uid, file)
       .then((img) => {
-        updateUserData(uid, { userInformation: { photoProfil: img } });
+        updateUserData(uid, {
+          userInformation: { ...userInformation, photoProfil: img },
+        });
         dispatch({
           type: "UPDATE_USER_INFORMATION",
-          payload: { photoProfil: img },
+          payload: { ...userInformation, photoProfil: img },
         });
       })
       .catch((error) => {
@@ -161,6 +164,7 @@ const DisplayUserInformaitons = () => {
                 <input
                   type="file"
                   ref={inputFileRef}
+                  accept=".jpg,.jpeg,.png"
                   style={{ display: "none" }} // cacher l'élément d'entrée
                   onChange={onFileChange} // appeler onFileChange lorsque l'utilisateur a sélectionné un fichier
                 />
