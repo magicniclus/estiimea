@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader/Loader";
 import { loginUser, observeAuthState, registerUser } from "@/firebase/auth";
+import { createNewUser } from "@/firebase/dataManager";
 
 const Page = () => {
   const [password, setPassword] = useState("");
@@ -89,12 +90,14 @@ const Page = () => {
           stateLastName
         )
           .then((res) => {
-            console.log(res);
-            setLoading(false);
+            createNewUser(res.uid, stateEmail, stateFirstName, stateLastName);
             router.push("/inscription/step3");
           })
           .catch((err) => {
             console.log(err);
+          })
+          .finally(() => {
+            setLoading(false);
           });
       })
       .catch((err) => {
