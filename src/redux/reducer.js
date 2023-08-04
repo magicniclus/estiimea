@@ -1,5 +1,6 @@
 const initState = {
   isLoading: true,
+  isFirstView: true,
 };
 
 const reducer = (state = initState, action) => {
