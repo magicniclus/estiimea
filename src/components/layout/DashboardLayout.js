@@ -1,14 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { observeAuthState, logoutUser } from "@/firebase/auth";
-import { getLoggedInUserData } from "@/firebase/dataManager";
 import Loader from "@/components/loader/Loader";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/20/solid";
-import { set } from "firebase/database";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser, observeAuthState } from "@/firebase/auth";
 
 const user = {
   name: "Tom Cook",
@@ -25,8 +24,10 @@ const DashboardLayout = (props) => {
   const route = useRouter();
   const pathname = usePathname();
   const [userInformation, setUserInformation] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [userIsHere, setUserIsHere] = useState(false);
+
+  const loadingState = useSelector((state) => state.isLoading);
+  const dispatch = useDispatch();
 
   const navigation = [
     {
@@ -61,61 +62,31 @@ const DashboardLayout = (props) => {
     { name: "Sign out", href: "#" },
   ];
 
-  useEffect(() => {
-    if (userInformation?.userInformation) {
-      console.log(userInformation?.userInformation);
-    }
-  }, [userInformation]);
-
-  useEffect(() => {
-    getLoggedInUserData()
-      .then((user) => {
-        setUserInformation(user);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [userIsHere]);
-
+  //Si aucun utilisateur n'est connecté, on le redirige vers la page de connexion
   useEffect(() => {
     observeAuthState((user) => {
       if (user) {
-        setUserIsHere(true);
+        null;
       } else {
-        setUserIsHere(false);
+        dispatch({ type: "SET_USER_LOADING", payload: true });
+        dispatch({ type: "USER_LOGOUT" });
         route.push("/connexion");
       }
     });
   }, []);
 
+  //Si on clique sur le bouton de déconnexion, on déconnecte l'utilisateur, on supprime ses informations de redux et on le redirige vers la page de connexion
   const logout = () => {
-    setLoading(true);
+    dispatch({ type: "SET_USER_LOADING", payload: true });
     logoutUser()
       .then(() => {
+        dispatch({ type: "USER_LOGOUT" });
         setUserIsHere(false);
         route.push("/connexion");
       })
       .catch((error) => {
         console.error(error);
       });
-  };
-
-  const handleTitle = () => {
-    switch (route.pathname) {
-      case "/dashboard":
-        return "Accueil";
-      case "/dashboard/personnalisation":
-        return "Personnalisation";
-      case "/dashboard/mes-estimations":
-        return "Mes Estimations";
-      case "/dashboard/aide":
-        return "Aide";
-      default:
-        return "Accueil";
-    }
   };
 
   const LoaderWrapper = () => {
@@ -338,7 +309,7 @@ const DashboardLayout = (props) => {
           </header>
           <main>
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 relative min-h-[calc(100vh-180px)]">
-              {loading ? <LoaderWrapper loading={loading} /> : null}
+              {loadingState ? <LoaderWrapper loading={loadingState} /> : null}
               {props.children}
             </div>
           </main>
