@@ -15,7 +15,7 @@ import {
 
 const offreStarter = [
   "Création d'un lien personnalisé vers votre page d'estimation",
-  "Jusqu'à 3 estimations par mois",
+  "2 estimations offertes par mois",
   "S.A.V 7/7j",
 ];
 
