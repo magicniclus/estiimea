@@ -6,8 +6,9 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/20/solid";
-import { useSelector, useDispatch } from "react-redux";
 import { logoutUser, observeAuthState } from "@/firebase/auth";
+import { getLoggedInUserData } from "@/firebase/dataManager";
+import { useSelector, useDispatch } from "react-redux";
 
 const user = {
   name: "Tom Cook",
@@ -20,13 +21,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+//Layout pour le dashboard et management des donnés utilisateurs
 const DashboardLayout = (props) => {
   const route = useRouter();
   const pathname = usePathname();
   const [userInformation, setUserInformation] = useState(null);
-  const [userIsHere, setUserIsHere] = useState(false);
 
   const loadingState = useSelector((state) => state.isLoading);
+  const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const navigation = [
@@ -62,6 +64,27 @@ const DashboardLayout = (props) => {
     { name: "Sign out", href: "#" },
   ];
 
+  //récuperation des information utilisateur si elles ne sont pas déja dans rédux
+  useEffect(() => {
+    dispatch({ type: "SET_USER_LOADING", payload: true });
+    if (!userState) {
+      observeAuthState((user) => {
+        if (user) {
+          getLoggedInUserData(user.uid)
+            .then((userInfo) => {
+              dispatch({ type: "SET_USER_INFORMATION", payload: userInfo });
+            })
+            .catch((error) => {
+              console.error(error);
+            })
+            .finally(() => {
+              dispatch({ type: "SET_USER_LOADING", payload: false });
+            });
+        }
+      });
+    } else dispatch({ type: "SET_USER_LOADING", payload: false });
+  }, [userState]);
+
   //Si aucun utilisateur n'est connecté, on le redirige vers la page de connexion
   useEffect(() => {
     observeAuthState((user) => {
@@ -81,7 +104,6 @@ const DashboardLayout = (props) => {
     logoutUser()
       .then(() => {
         dispatch({ type: "USER_LOGOUT" });
-        setUserIsHere(false);
         route.push("/connexion");
       })
       .catch((error) => {
