@@ -1,17 +1,55 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import { useSelector, useDispatch } from "react-redux";
+import { uploadImage } from "@/firebase/storageManager";
+import { update } from "firebase/database";
+import { updateUserData } from "@/firebase/dataManager";
 
 const DisplayUserInformaitons = () => {
+  const uid = useSelector((state) => state.user?.uid);
   const firstName = useSelector(
-    (state) => state.user?.userInformation.firstName
+    (state) => state.user?.userInformation?.firstName
   );
-  const lastName = useSelector((state) => state.user?.userInformation.lastName);
-  const email = useSelector((state) => state.user?.userInformation.email);
+  const lastName = useSelector(
+    (state) => state.user?.userInformation?.lastName
+  );
+  const email = useSelector((state) => state.user?.userInformation?.email);
   const phoneNumber = useSelector(
     (state) => state.user?.userInformation?.phoneNumber
   );
+
+  const dispatch = useDispatch();
+
+  // Un ref pour le fichier d'entrée, nous en avons besoin pour ouvrir la boîte de dialogue du fichier.
+  const inputFileRef = useRef();
+
+  // Cette fonction est appelée lorsque l'utilisateur clique sur le bouton.
+  const addImg = () => {
+    // Ouverture de la boîte de dialogue du fichier.
+    inputFileRef.current.click();
+  };
+
+  // Cette fonction est appelée lorsque l'utilisateur a sélectionné un fichier.
+  const onFileChange = (event) => {
+    dispatch({ type: "SET_USER_LOADING", payload: true });
+    const file = event.target.files[0];
+    uploadImage(uid, file)
+      .then((img) => {
+        updateUserData(uid, { userInformation: { photoProfil: img } });
+        dispatch({
+          type: "UPDATE_USER_INFORMATION",
+          payload: { photoProfil: img },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        dispatch({ type: "SET_USER_LOADING", payload: false });
+      });
+  };
+
   return (
     <>
       <div className="px-4 sm:px-0">
@@ -119,73 +157,21 @@ const DisplayUserInformaitons = () => {
               Attachments
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <ul
-                role="list"
-                className="divide-y divide-gray-100 rounded-md border border-gray-200"
-              >
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        resume_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">2.4mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex flex-shrink-0 space-x-4">
-                    <button
-                      type="button"
-                      className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Update
-                    </button>
-                    <span className="text-gray-200" aria-hidden="true">
-                      |
-                    </span>
-                    <button
-                      type="button"
-                      className="rounded-md bg-white font-medium text-gray-900 hover:text-gray-800"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        coverletter_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex flex-shrink-0 space-x-4">
-                    <button
-                      type="button"
-                      className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Update
-                    </button>
-                    <span className="text-gray-200" aria-hidden="true">
-                      |
-                    </span>
-                    <button
-                      type="button"
-                      className="rounded-md bg-white font-medium text-gray-900 hover:text-gray-800"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              </ul>
+              <div>
+                <input
+                  type="file"
+                  ref={inputFileRef}
+                  style={{ display: "none" }} // cacher l'élément d'entrée
+                  onChange={onFileChange} // appeler onFileChange lorsque l'utilisateur a sélectionné un fichier
+                />
+                <button
+                  type="button"
+                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
+                  onClick={addImg}
+                >
+                  Update
+                </button>
+              </div>
             </dd>
           </div>
         </dl>
