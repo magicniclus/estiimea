@@ -12,8 +12,10 @@ import {
 } from "firebase/auth";
 import { app } from "./firebase.config";
 
+// Obtention d'une instance de l'authentification Firebase
 const auth = getAuth(app);
 
+// Fonction qui permet de se connecter à l'application avec un email et un mot de passe
 export const loginUser = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -28,6 +30,7 @@ export const loginUser = async (email, password) => {
   }
 };
 
+// Fonction qui permet de créer un nouvel utilisateur avec un email et un mot de passe
 export const registerUser = async (
   email,
   password,
@@ -52,6 +55,7 @@ export const registerUser = async (
   }
 };
 
+// Fonction qui permet d'envoyer un email de vérification à l'utilisateur actuellement connecté
 export const sendVerificationEmail = async () => {
   sendEmailVerification(auth.currentUser)
     .then(() => {
@@ -62,6 +66,7 @@ export const sendVerificationEmail = async () => {
     });
 };
 
+// Fonction qui permet d'envoyer un lien de connexion à un email donné
 export const sendSignInLink = async (email) => {
   const actionCodeSettings = {
     url: "http://localhost:3000/connexion",
@@ -77,20 +82,24 @@ export const sendSignInLink = async (email) => {
     });
 };
 
+// Fonction qui permet d'observer les changements d'état de l'authentification
 export const observeAuthState = (userChangeHandler) => {
   return onAuthStateChanged(auth, userChangeHandler);
 };
 
+// Fonction qui permet de se connecter à l'application avec Google
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   return signInWithProvider(provider);
 };
 
+// Fonction qui permet de se connecter à l'application avec Facebook
 export const signInWithFacebook = async () => {
   const provider = new FacebookAuthProvider();
   return signInWithProvider(provider);
 };
 
+// Fonction qui permet de se déconnecter de l'application
 export const logoutUser = async () => {
   try {
     await signOut(auth);
@@ -100,12 +109,25 @@ export const logoutUser = async () => {
   }
 };
 
+// Fonction qui permet de se connecter à l'application avec un fournisseur d'authentification donné
 const signInWithProvider = async (provider) => {
   try {
     const result = await signInWithPopup(auth, provider);
     return result.user;
   } catch (error) {
     console.error(error);
+    return null;
+  }
+};
+
+// Fonction qui permet d'obtenir l'uid de l'utilisateur actuellement connecté
+export const getCurrentUserUid = () => {
+  const user = auth.currentUser;
+
+  if (user) {
+    return user.uid;
+  } else {
+    console.error("No user is currently logged in.");
     return null;
   }
 };
