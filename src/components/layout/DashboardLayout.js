@@ -29,6 +29,9 @@ const DashboardLayout = (props) => {
 
   const loadingState = useSelector((state) => state.isLoading);
   const userState = useSelector((state) => state.user);
+  const photoProfil = useSelector(
+    (state) => state.user?.userInformation?.photoProfil
+  );
   const dispatch = useDispatch();
 
   const navigation = [
@@ -72,7 +75,10 @@ const DashboardLayout = (props) => {
         if (user) {
           getLoggedInUserData(user.uid)
             .then((userInfo) => {
-              dispatch({ type: "SET_USER_INFORMATION", payload: userInfo });
+              dispatch({
+                type: "SET_USER_INFORMATION",
+                payload: { ...userInfo, uid: user.uid },
+              });
             })
             .catch((error) => {
               console.error(error);
@@ -177,11 +183,10 @@ const DashboardLayout = (props) => {
                         <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 bg-gray-100">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
-                          {userInformation &&
-                          userInformation.userInformation.photoProfil ? (
+                          {photoProfil ? (
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={userInformation.userInformation.photoProfil}
+                              src={photoProfil}
                               alt=""
                             />
                           ) : (
