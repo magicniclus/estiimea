@@ -15,12 +15,32 @@ const reducer = (state = initState, action) => {
         },
       };
 
+    case "RESET_USER":
+      return {
+        ...state,
+        user: null,
+      };
+
     case "SET_USER_INFORMATION":
       return {
         ...state,
         user: {
           ...state.user,
           ...action.payload,
+        },
+      };
+
+    case "UPDATE_USER_INFORMATION":
+      const updatedUserInformation = Object.assign(
+        {},
+        state.user.userInformation,
+        action.payload
+      );
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          userInformation: updatedUserInformation,
         },
       };
 
