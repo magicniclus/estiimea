@@ -1,6 +1,7 @@
+"use client";
+import React, { useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import DisplayUserInformaitons from "@/components/ui/DisplayUserInformaitons";
-import React from "react";
 
 const Page = () => {
   return (
