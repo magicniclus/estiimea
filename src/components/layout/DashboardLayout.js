@@ -61,8 +61,6 @@ const DashboardLayout = (props) => {
     { name: "Sign out", href: "#" },
   ];
 
-  console.log(pathname);
-
   useEffect(() => {
     if (userInformation?.userInformation) {
       console.log(userInformation?.userInformation);
@@ -122,7 +120,7 @@ const DashboardLayout = (props) => {
 
   const LoaderWrapper = () => {
     return (
-      <div className="absolute inset-0 flex items-center justify-center bg-red-300 z-50 bg-opacity-40 bottom-0">
+      <div className="absolute inset-0 flex items-center justify-center z-50 bg-opacity-40 bottom-0">
         <Loader />
       </div>
     );
@@ -173,7 +171,7 @@ const DashboardLayout = (props) => {
                   <div className="hidden sm:ml-6 sm:flex sm:items-center">
                     <button
                       type="button"
-                      className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
@@ -183,7 +181,7 @@ const DashboardLayout = (props) => {
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
                       <div>
-                        <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 bg-gray-100">
+                        <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 bg-gray-100">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
                           {userInformation &&
@@ -339,7 +337,7 @@ const DashboardLayout = (props) => {
             </div>
           </header>
           <main>
-            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 relative">
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 relative min-h-[calc(100vh-180px)]">
               {loading ? <LoaderWrapper loading={loading} /> : null}
               {props.children}
             </div>
