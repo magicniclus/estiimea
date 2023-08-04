@@ -49,6 +49,7 @@ const Page = () => {
   }, [firstName, lastName, email]);
 
   useEffect(() => {
+    dispatch({ type: "RESET_USER" });
     observeAuthState((user) => {
       if (user) {
         console.log(user);
@@ -69,8 +70,13 @@ const Page = () => {
       });
       setLoading(false);
     }, 1000);
-    router.push("/inscription/step2");
   };
+
+  useEffect(() => {
+    if (stateEmail) {
+      router.push("/inscription/step2");
+    } else null;
+  }, [stateEmail]);
 
   const LoaderWrapper = () => {
     return (
