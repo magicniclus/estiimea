@@ -1,9 +1,7 @@
 "use client";
-import React, { useRef } from "react";
-import { PaperClipIcon } from "@heroicons/react/20/solid";
+import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { uploadImage } from "@/firebase/storageManager";
-import { update } from "firebase/database";
 import { updateUserData } from "@/firebase/dataManager";
 
 const DisplayUserInformaitons = () => {
@@ -19,6 +17,16 @@ const DisplayUserInformaitons = () => {
   const phoneNumber = useSelector(
     (state) => state.user?.userInformation?.phoneNumber
   );
+
+  const photoProfile = useSelector(
+    (state) => state.user?.userInformation?.photoProfil
+  );
+
+  const [editing, setEditing] = useState(false);
+  const [editLastName, setEditLastName] = useState(lastName || "");
+  const [editFirstName, setEditFirstName] = useState(firstName || "");
+  const [editPhoneNumber, setEditPhoneNumber] = useState(phoneNumber || "");
+  const [editEmail, setEditEmail] = useState(email || "");
 
   const dispatch = useDispatch();
 
@@ -53,14 +61,72 @@ const DisplayUserInformaitons = () => {
       });
   };
 
+  const handleClick = async () => {
+    dispatch({ type: "SET_USER_LOADING", payload: true });
+    setEditing((editing) => !editing);
+
+    try {
+      await updateUserData(uid, {
+        userInformation: {
+          ...userInformation,
+          firstName: editFirstName,
+          lastName: editLastName,
+        },
+      });
+      dispatch({
+        type: "UPDATE_USER_INFORMATION",
+        payload: {
+          ...userInformation,
+          firstName: editFirstName,
+          lastName: editLastName,
+        },
+      });
+    } catch (error) {
+      console.error("Failed to update user data:", error);
+    } finally {
+      dispatch({ type: "SET_USER_LOADING", payload: false });
+    }
+  };
+
+  const handlePhoneNumberClick = async () => {
+    dispatch({ type: "SET_USER_LOADING", payload: true });
+    setEditing((editing) => !editing);
+
+    try {
+      await updateUserData(uid, {
+        userInformation: {
+          ...userInformation,
+          phoneNumber: editPhoneNumber,
+        },
+      });
+      dispatch({
+        type: "UPDATE_USER_INFORMATION",
+        payload: {
+          ...userInformation,
+          phoneNumber: editPhoneNumber,
+        },
+      });
+    } catch (error) {
+      console.error("Failed to update user phone number:", error);
+    } finally {
+      dispatch({ type: "SET_USER_LOADING", payload: false });
+    }
+  };
+
+  useEffect(() => {
+    setEditFirstName(firstName || "Loading...");
+    setEditLastName(lastName || "");
+    setEditPhoneNumber(phoneNumber || "Aucun numero d'enregistré");
+  }, [firstName, lastName, phoneNumber]);
+
   return (
     <>
       <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
-          Applicant Information
+          Informations utilisateur
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          Personal details and application.
+          Détail des informations de l'utilisateur
         </p>
       </div>
       <div className="mt-6 border-t border-gray-100">
@@ -70,15 +136,33 @@ const DisplayUserInformaitons = () => {
               Nom, prénom
             </dt>
             <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <span className="flex-grow">
-                {(firstName || "Loading...") + " " + (lastName || "")}
-              </span>
+              {editing ? (
+                <div className="flex-grow flex">
+                  <input
+                    value={editFirstName}
+                    onChange={(e) => setEditFirstName(e.target.value)}
+                    className="mr-2 p-1 border rounded"
+                    placeholder="Nom"
+                  />
+                  <input
+                    value={editLastName}
+                    onChange={(e) => setEditLastName(e.target.value)}
+                    className="p-1 border rounded"
+                    placeholder="Prénom"
+                  />
+                </div>
+              ) : (
+                <span className="flex-grow">
+                  {editFirstName + " " + editLastName}
+                </span>
+              )}
               <span className="ml-4 flex-shrink-0">
                 <button
                   type="button"
+                  onClick={handleClick}
                   className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Update
+                  {editing ? "Ok" : "Modifier"}
                 </button>
               </span>
             </dd>
@@ -88,79 +172,49 @@ const DisplayUserInformaitons = () => {
               Téléphone
             </dt>
             <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <span className="flex-grow">
-                {phoneNumber || typeof phoneNumber === "" ? "Loading..." : ""}
-              </span>
+              {editing ? (
+                <input
+                  value={editPhoneNumber}
+                  onChange={(e) => setEditPhoneNumber(e.target.value)}
+                  className="flex-grow p-1 border rounded"
+                  placeholder="Téléphone"
+                />
+              ) : (
+                <span className="flex-grow">
+                  {editPhoneNumber || "Loading..."}
+                </span>
+              )}
               <span className="ml-4 flex-shrink-0">
                 <button
                   type="button"
+                  onClick={handlePhoneNumberClick}
                   className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Update
+                  {editing ? "Ok" : "Modifier"}
                 </button>
               </span>
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Email address
+              Adresse email
             </dt>
             <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               <span className="flex-grow">{email || "Loading..."}</span>
-              <span className="ml-4 flex-shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Update
-                </button>
-              </span>
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Salary expectation
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <span className="flex-grow">$120,000</span>
-              <span className="ml-4 flex-shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Update
-                </button>
-              </span>
-            </dd>
-          </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              About
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <span className="flex-grow">
-                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-                incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-                consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                proident. Irure nostrud pariatur mollit ad adipisicing
-                reprehenderit deserunt qui eu.
-              </span>
-              <span className="ml-4 flex-shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Update
-                </button>
-              </span>
-            </dd>
-          </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Attachments
+              Photo de profil
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <div>
+              <div className="flex items-end">
+                {
+                  //Si l'utilisateur télécharge une image, affichez son nom
+                  photoProfile && (
+                    <p className="truncate w-full">{photoProfile}</p>
+                  )
+                }
                 <input
                   type="file"
                   ref={inputFileRef}
@@ -173,7 +227,7 @@ const DisplayUserInformaitons = () => {
                   className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
                   onClick={addImg}
                 >
-                  Update
+                  Modifier
                 </button>
               </div>
             </dd>
