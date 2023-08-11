@@ -62,7 +62,7 @@ const DashboardLayout = (props) => {
   ];
 
   const userNavigation = [
-    { name: "Your Profile", href: "/dashboard/profile", title: "Profile" },
+    { name: "Your Profile", href: "/dashboard/profil", title: "Profil" },
     { name: "Settings", href: "/dashboard/settings", title: "Parametres" },
     { name: "Sign out", href: "#" },
   ];
@@ -185,7 +185,7 @@ const DashboardLayout = (props) => {
                           <span className="sr-only">Open user menu</span>
                           {photoProfil ? (
                             <img
-                              className="h-8 w-8 rounded-full"
+                              className="h-8 w-8 rounded-full object-cover"
                               src={photoProfil}
                               alt=""
                             />
