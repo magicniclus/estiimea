@@ -61,6 +61,7 @@ const DisplayUserInformaitons = () => {
       });
   };
 
+  // Gestion de la modification du nom et du prénom
   const handleClick = async () => {
     dispatch({ type: "SET_USER_LOADING", payload: true });
     setEditing((editing) => !editing);
@@ -88,6 +89,7 @@ const DisplayUserInformaitons = () => {
     }
   };
 
+  // Gestion de la modification du numéro de téléphone
   const handlePhoneNumberClick = async () => {
     dispatch({ type: "SET_USER_LOADING", payload: true });
     setEditing((editing) => !editing);
@@ -113,9 +115,10 @@ const DisplayUserInformaitons = () => {
     }
   };
 
+  //Gestion de l'affichage des informations de l'utilisateur après chargement de la page
   useEffect(() => {
-    setEditFirstName(firstName || "Loading...");
-    setEditLastName(lastName || "");
+    setEditFirstName(firstName);
+    setEditLastName(lastName);
     setEditPhoneNumber(phoneNumber || "Aucun numero d'enregistré");
   }, [firstName, lastName, phoneNumber]);
 
@@ -153,7 +156,9 @@ const DisplayUserInformaitons = () => {
                 </div>
               ) : (
                 <span className="flex-grow">
-                  {editFirstName + " " + editLastName}
+                  {editFirstName || editLastName
+                    ? editFirstName + " " + editLastName
+                    : "Loading..."}
                 </span>
               )}
               <span className="ml-4 flex-shrink-0">
@@ -208,11 +213,11 @@ const DisplayUserInformaitons = () => {
               Photo de profil
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              <div className="flex items-end">
+              <div className="flex items-end justify-between">
                 {
                   //Si l'utilisateur télécharge une image, affichez son nom
                   photoProfile && (
-                    <p className="truncate w-full">{photoProfile}</p>
+                    <p className="truncate w-full lg:w-9/12">{photoProfile}</p>
                   )
                 }
                 <input
