@@ -28,6 +28,8 @@ const DashboardLayout = (props) => {
   const pathname = usePathname();
   const [userInformation, setUserInformation] = useState(null);
 
+  console.log(pathname);
+
   const loadingState = useSelector((state) => state.isLoading);
   const userState = useSelector((state) => state.user);
   const photoProfil = useSelector(
@@ -38,33 +40,33 @@ const DashboardLayout = (props) => {
   const navigation = [
     {
       name: "Accueil",
-      href: "/dashboard",
+      href: "/",
       nameOfLink: "/dashboard",
       title: "Ayez une vue d'ensemble de votre activité",
     },
     {
       name: "Personnalisation",
-      href: "/dashboard/personnalisation",
-      nameOfLink: "/dashboard/personnalisation",
+      href: "/personnalisation",
+      nameOfLink: "/personnalisation",
       title: "Personnalisez votre page d'estimation",
     },
     {
       name: "Mes Estimations",
-      href: "/dashboard/mes-estimations",
+      href: "/mes-estimations",
       nameOfLink: "/dashboard/mes-estimations",
       title: "Consultez vos estimations",
     },
     {
       name: "Aide",
-      href: "/dashboard/aide",
+      href: "/aide",
       nameOfLink: "/dashboard/aide",
       title: "Besoin d'aide ?",
     },
   ];
 
   const userNavigation = [
-    { name: "Your Profile", href: "/dashboard/profil", title: "Profil" },
-    { name: "Settings", href: "/dashboard/settings", title: "Parametres" },
+    { name: "Your Profile", href: "/profil", title: "Profil" },
+    { name: "Settings", href: "/settings", title: "Parametres" },
     { name: "Sign out", href: "#" },
   ];
 
@@ -155,7 +157,7 @@ const DashboardLayout = (props) => {
                       {navigation.map((item) => (
                         <a
                           key={item.name}
-                          href={item.href}
+                          href={`${pathname}${item.href}`}
                           className={classNames(
                             item.nameOfLink === pathname
                               ? "border-blue-500 text-gray-900"
@@ -224,7 +226,7 @@ const DashboardLayout = (props) => {
                                   </button>
                                 ) : (
                                   <a
-                                    href={item.href}
+                                    href={`${pathname}${item.href}`}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
