@@ -37,7 +37,7 @@ const DashboardLayout = (props) => {
   const navigation = [
     {
       name: "Accueil",
-      href: `/${userStateSlug}/dashboard/`,
+      href: `/${userStateSlug}/dashboard`,
       nameOfLink: "/dashboard",
       title: "Ayez une vue d'ensemble de votre activité",
     },
@@ -158,7 +158,7 @@ const DashboardLayout = (props) => {
                 <div className="flex h-16 justify-between">
                   <div className="flex">
                     <a
-                      href="/dashboard"
+                      href={`/${userStateSlug}/dashboard`}
                       className="flex flex-shrink-0 items-center"
                     >
                       <img
@@ -308,7 +308,7 @@ const DashboardLayout = (props) => {
                         <img
                           className="h-8 w-8 rounded-full object-cover"
                           src={photoProfil}
-                          alt=""
+                          alt="profil"
                         />
                       ) : (
                         <UserIcon
@@ -368,12 +368,15 @@ const DashboardLayout = (props) => {
           <header>
             <div className="mx-auto max-w-7xl pb-10 px-4 sm:px-6 lg:px-8 border-b-2 border-slate-50">
               <h1 className="text-2xl leading-tight tracking-tight text-gray-700">
-                {pathname === `/${userStateSlug}/profil`
+                {pathname === `/${userStateSlug}/dashboard/profil`
                   ? "Profile"
-                  : pathname === `/${userStateSlug}/settings`
+                  : pathname === `/${userStateSlug}/dashboard/settings`
                   ? "Parametre"
+                  : pathname === `/${userStateSlug}/dashboard/` ||
+                    pathname === `/${userStateSlug}/dashboard`
+                  ? "Dashboard"
                   : navigation.find((item) => item.href === pathname)?.title ||
-                    "Dashboard"}
+                    ""}
               </h1>
             </div>
           </header>
