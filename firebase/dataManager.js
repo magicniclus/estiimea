@@ -1,4 +1,5 @@
 // user.js
+import { slugify } from "../lib/utils";
 import { app } from "./firebase.config";
 import { getDatabase, ref, set, get, update } from "firebase/database";
 
@@ -21,7 +22,7 @@ export const createNewUser = async (uid, email, firstName, lastName) => {
     settings: {
       fontColor: "#000000",
       backgroundColor: "#ffffff",
-      slug: firstName + "-" + lastName,
+      slug: slugify(firstName + " " + lastName),
     },
     plan: {
       name: "Free",
