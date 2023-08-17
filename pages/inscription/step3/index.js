@@ -7,10 +7,12 @@ import {
 import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import InscriptionLayout from "../../../components/layout/InscriptionLayout";
+import { useSelector } from "react-redux";
 
 const Page = () => {
   const router = useRouter();
   const auth = getAuth();
+  const userStateSlug = useSelector((state) => state.user.slug);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -31,8 +33,7 @@ const Page = () => {
   useEffect(() => {
     observeAuthState((user) => {
       if (user) {
-        console.log(user);
-        router.push("/dashboard");
+        router.push(`/${userStateSlug}`);
       } else {
         null;
       }
