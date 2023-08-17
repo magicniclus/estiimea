@@ -13,6 +13,7 @@ const reducer = (state = initState, action) => {
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
           email: action.payload.email,
+          slug: action.payload.slug,
         },
       };
 
