@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Loader from "../loader/Loader";
@@ -28,7 +27,9 @@ const DashboardLayout = (props) => {
   const userStateEmail = useSelector(
     (state) => state.user?.userInformation?.email
   );
-  const userStateSlug = useSelector((state) => state.user?.settings?.slug);
+  const userStateSlug = useSelector(
+    (state) => state.user?.settings?.slug || state?.user?.slug
+  );
   const photoProfil = useSelector(
     (state) => state.user?.userInformation?.photoProfil
   );
@@ -83,6 +84,7 @@ const DashboardLayout = (props) => {
         if (user) {
           getLoggedInUserData(user.uid)
             .then((userInfo) => {
+              console.log(userInfo);
               dispatch({
                 type: "SET_USER_INFORMATION",
                 payload: { ...userInfo, uid: user.uid },
@@ -133,6 +135,8 @@ const DashboardLayout = (props) => {
       </div>
     );
   };
+
+  if (!userStateSlug) return <LoaderWrapper loading={true} />;
 
   return (
     <>
@@ -219,7 +223,7 @@ const DashboardLayout = (props) => {
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) =>
-                                item.name === "Sign out" ? (
+                                item.name === "Deconnexion" ? (
                                   <button
                                     onClick={logout}
                                     className={classNames(
@@ -322,7 +326,7 @@ const DashboardLayout = (props) => {
                   </div>
                   <div className="mt-3 space-y-1">
                     {userNavigation.map((item) =>
-                      item.name === "Sign out" ? (
+                      item.name === "Deconnexion" ? (
                         <Disclosure.Button
                           key={item.name}
                           as="a"
