@@ -12,7 +12,7 @@ import {
 } from "../../../firebase/auth";
 import { createNewUser } from "../../../firebase/dataManager";
 
-const Page = () => {
+const StepTwo = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -21,19 +21,22 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
 
   const stateEmail = useSelector((state) => state.user?.email);
-  const stateFirstName = useSelector((state) => state.user?.firstName);
-  const stateLastName = useSelector((state) => state.user?.lastName);
+  const stateFirstName = useSelector((state) => state.user.firstName);
+  const stateLastName = useSelector((state) => state.user.lastName);
   const stateSlug = useSelector((state) => state.user?.settings?.slug);
 
   useEffect(() => {
     observeAuthState((user) => {
       if (user) {
-        router.push(`${stateSlug}/dashboard`);
-      } else {
-        null;
+        if (stateSlug) {
+          router.push(`${stateSlug}/dashboard`);
+        } else {
+          console.error("Slug is undefined");
+          // vous pouvez rediriger l'utilisateur vers une autre page ou gérer cette erreur d'une autre manière
+        }
       }
     });
-  }, []);
+  }, [stateSlug]);
 
   const router = useRouter();
 
@@ -170,4 +173,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default StepTwo;
