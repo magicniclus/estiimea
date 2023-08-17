@@ -11,6 +11,7 @@ const db = getDatabase(app);
 // Elle crée ensuite une nouvelle référence utilisateur dans la base de données avec ces informations,
 // plus quelques autres champs par défaut.
 export const createNewUser = async (uid, email, firstName, lastName) => {
+  console.log(slugify(firstName + " " + lastName));
   const userRef = ref(db, `users/${uid}`);
   await set(userRef, {
     userInformation: {
