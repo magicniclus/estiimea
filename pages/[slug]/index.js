@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import {
   findUserIdBySlug,
   getLoggedInUserData,
-} from "../../../firebase/dataManager";
-import DashboardLayout from "../../../components/layout/DashboardLayout";
+} from "../../firebase/dataManager";
+import DashboardLayout from "../../components/layout/DashboardLayout";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,7 +15,11 @@ const UserPage = ({ userData }) => {
   if (router.isFallback) {
     return <div>Chargement...</div>;
   }
-  return <DashboardLayout></DashboardLayout>;
+  return (
+    <main>
+      <h1>Hello ESTIMMEA</h1>
+    </main>
+  );
 };
 
 export async function getServerSideProps(context) {
