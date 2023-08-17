@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 const Page = () => {
   const router = useRouter();
   const auth = getAuth();
-  const userStateSlug = useSelector((state) => state.user.slug);
+  const userStateSlug = useSelector((state) => state.user?.settings?.slug);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -31,6 +31,7 @@ const Page = () => {
   }, [auth.currentUser?.emailVerified, router]);
 
   useEffect(() => {
+    console.log(userStateSlug, "bonjour");
     observeAuthState((user) => {
       if (user) {
         router.push(`/${userStateSlug}`);
