@@ -37,35 +37,39 @@ const DashboardLayout = (props) => {
   const navigation = [
     {
       name: "Accueil",
-      href: `/${userStateSlug}/`,
+      href: `/${userStateSlug}/dashboard/`,
       nameOfLink: "/dashboard",
       title: "Ayez une vue d'ensemble de votre activité",
     },
     {
       name: "Personnalisation",
-      href: `/${userStateSlug}/personnalisation`,
+      href: `/${userStateSlug}/dashboard/personnalisation`,
       nameOfLink: "/personnalisation",
       title: "Personnalisez votre page d'estimation",
     },
     {
       name: "Mes Estimations",
-      href: `/${userStateSlug}/mes-estimations`,
+      href: `/${userStateSlug}/dashboard/mes-estimations`,
       nameOfLink: "/dashboard/mes-estimations",
       title: "Consultez vos estimations",
     },
     {
       name: "Aide",
-      href: `/${userStateSlug}/aide`,
+      href: `/${userStateSlug}/dashboard/aide`,
       nameOfLink: "/dashboard/aide",
       title: "Besoin d'aide ?",
     },
   ];
 
   const userNavigation = [
-    { name: "Profil", href: `/${userStateSlug}/profil`, title: "Profil" },
+    {
+      name: "Profil",
+      href: `/${userStateSlug}/dashboard/profil`,
+      title: "Profil",
+    },
     {
       name: "Parametre",
-      href: `/${userStateSlug}/settings`,
+      href: `/${userStateSlug}/dashboard/settings`,
       title: "Parametres",
     },
     { name: "Deconnexion", href: "#" },
