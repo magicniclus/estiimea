@@ -75,20 +75,6 @@ const DashboardLayout = (props) => {
     { name: "Deconnexion", href: "#" },
   ];
 
-  const getFinalURL = (base, target) => {
-    const baseSegments = base.split("/");
-    const targetSegments = target.split("/");
-
-    // Si la base se termine par le début de la cible, supprimez la redondance
-    if (baseSegments[baseSegments.length - 1] === targetSegments[0]) {
-      baseSegments.pop();
-    }
-
-    return [...baseSegments, ...targetSegments].join("/");
-  };
-
-  getFinalURL("/dashboard", "/dashboard/profile");
-
   //récuperation des information utilisateur si elles ne sont pas déja dans rédux
   useEffect(() => {
     dispatch({ type: "SET_USER_LOADING", payload: true });
