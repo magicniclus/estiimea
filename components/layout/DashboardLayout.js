@@ -10,13 +10,6 @@ import { logoutUser, observeAuthState } from "../../firebase/auth";
 import { getLoggedInUserData } from "../../firebase/dataManager";
 import { useSelector, useDispatch } from "react-redux";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  // imageUrl:
-  //   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
-
 //Gestion des classes
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -26,12 +19,16 @@ function classNames(...classes) {
 const DashboardLayout = (props) => {
   const route = useRouter();
   const pathname = usePathname();
-  const [userInformation, setUserInformation] = useState(null);
-
-  console.log(pathname);
 
   const loadingState = useSelector((state) => state.isLoading);
   const userState = useSelector((state) => state.user);
+  const userStateName = useSelector(
+    (state) => state.user?.userInformation?.firstName
+  );
+  const userStateEmail = useSelector(
+    (state) => state.user?.userInformation?.email
+  );
+  const userStateSlug = useSelector((state) => state.user?.settings?.slug);
   const photoProfil = useSelector(
     (state) => state.user?.userInformation?.photoProfil
   );
@@ -40,35 +37,53 @@ const DashboardLayout = (props) => {
   const navigation = [
     {
       name: "Accueil",
-      href: "/",
+      href: `/${userStateSlug}/`,
       nameOfLink: "/dashboard",
       title: "Ayez une vue d'ensemble de votre activité",
     },
     {
       name: "Personnalisation",
-      href: "/personnalisation",
+      href: `/${userStateSlug}/personnalisation`,
       nameOfLink: "/personnalisation",
       title: "Personnalisez votre page d'estimation",
     },
     {
       name: "Mes Estimations",
-      href: "/mes-estimations",
+      href: `/${userStateSlug}/mes-estimations`,
       nameOfLink: "/dashboard/mes-estimations",
       title: "Consultez vos estimations",
     },
     {
       name: "Aide",
-      href: "/aide",
+      href: `/${userStateSlug}/aide`,
       nameOfLink: "/dashboard/aide",
       title: "Besoin d'aide ?",
     },
   ];
 
   const userNavigation = [
-    { name: "Your Profile", href: "/profil", title: "Profil" },
-    { name: "Settings", href: "/settings", title: "Parametres" },
-    { name: "Sign out", href: "#" },
+    { name: "Profil", href: `/${userStateSlug}/profil`, title: "Profil" },
+    {
+      name: "Parametre",
+      href: `/${userStateSlug}/settings`,
+      title: "Parametres",
+    },
+    { name: "Deconnexion", href: "#" },
   ];
+
+  const getFinalURL = (base, target) => {
+    const baseSegments = base.split("/");
+    const targetSegments = target.split("/");
+
+    // Si la base se termine par le début de la cible, supprimez la redondance
+    if (baseSegments[baseSegments.length - 1] === targetSegments[0]) {
+      baseSegments.pop();
+    }
+
+    return [...baseSegments, ...targetSegments].join("/");
+  };
+
+  getFinalURL("/dashboard", "/dashboard/profile");
 
   //récuperation des information utilisateur si elles ne sont pas déja dans rédux
   useEffect(() => {
@@ -145,19 +160,19 @@ const DashboardLayout = (props) => {
                       <img
                         className="block h-8 w-auto lg:hidden"
                         src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
-                        alt="Your Company"
+                        alt="Estimmea"
                       />
                       <img
                         className="hidden h-8 w-auto lg:block"
                         src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
-                        alt="Your Company"
+                        alt="Estimmea"
                       />
                     </a>
                     <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                       {navigation.map((item) => (
                         <a
                           key={item.name}
-                          href={`${pathname}${item.href}`}
+                          href={`${item.href}`}
                           className={classNames(
                             item.nameOfLink === pathname
                               ? "border-blue-500 text-gray-900"
@@ -177,7 +192,7 @@ const DashboardLayout = (props) => {
                       className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
                       <span className="absolute -inset-1.5" />
-                      <span className="sr-only">View notifications</span>
+                      <span className="sr-only">Voir les notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
 
@@ -186,12 +201,12 @@ const DashboardLayout = (props) => {
                       <div>
                         <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 bg-gray-100">
                           <span className="absolute -inset-1.5" />
-                          <span className="sr-only">Open user menu</span>
+                          <span className="sr-only">Ouvrir le menu</span>
                           {photoProfil ? (
                             <img
                               className="h-8 w-8 rounded-full object-cover"
                               src={photoProfil}
-                              alt=""
+                              alt="profil utilisateur"
                             />
                           ) : (
                             <UserIcon
@@ -226,7 +241,7 @@ const DashboardLayout = (props) => {
                                   </button>
                                 ) : (
                                   <a
-                                    href={`${pathname}${item.href}`}
+                                    href={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
@@ -246,7 +261,7 @@ const DashboardLayout = (props) => {
                     {/* Mobile menu button */}
                     <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                       <span className="absolute -inset-0.5" />
-                      <span className="sr-only">Open main menu</span>
+                      <span className="sr-only">Ouvrir le menu</span>
                       {open ? (
                         <XMarkIcon
                           className="block h-6 w-6"
@@ -287,7 +302,7 @@ const DashboardLayout = (props) => {
                     <div className="flex-shrink-0">
                       {photoProfil ? (
                         <img
-                          className="h-8 w-8 rounded-full"
+                          className="h-8 w-8 rounded-full object-cover"
                           src={photoProfil}
                           alt=""
                         />
@@ -300,10 +315,10 @@ const DashboardLayout = (props) => {
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium text-gray-800">
-                        {userInformation?.name}
+                        {userStateName}
                       </div>
                       <div className="text-sm font-medium text-gray-500">
-                        {user.email}
+                        {userStateEmail}
                       </div>
                     </div>
                     <button
@@ -311,7 +326,7 @@ const DashboardLayout = (props) => {
                       className="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
                       <span className="absolute -inset-1.5" />
-                      <span className="sr-only">View notifications</span>
+                      <span className="sr-only">Voir les notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
@@ -349,11 +364,12 @@ const DashboardLayout = (props) => {
           <header>
             <div className="mx-auto max-w-7xl pb-10 px-4 sm:px-6 lg:px-8 border-b-2 border-slate-50">
               <h1 className="text-2xl leading-tight tracking-tight text-gray-700">
-                {pathname === "/dashboard/profile"
+                {pathname === `/${userStateSlug}/profil`
                   ? "Profile"
-                  : pathname === "/dashboard/settings"
+                  : pathname === `/${userStateSlug}/settings`
                   ? "Parametre"
-                  : navigation.find((item) => item.href === pathname)?.title}
+                  : navigation.find((item) => item.href === pathname)?.title ||
+                    "Dashboard"}
               </h1>
             </div>
           </header>
