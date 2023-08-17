@@ -12,6 +12,7 @@ import {
   signInWithFacebook,
   signInWithGoogle,
 } from "../../firebase/auth";
+import { slugify } from "../../lib/utils";
 
 const offreStarter = [
   "Création d'un lien personnalisé vers votre page d'estimation",
@@ -63,10 +64,11 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const slug = slugify(firstName + " " + lastName);
     setTimeout(() => {
       dispatch({
         type: "SET_USER_NAME_AND_EMAIL",
-        payload: { firstName, lastName, email },
+        payload: { firstName, lastName, email, slug },
       });
       setLoading(false);
     }, 1000);
