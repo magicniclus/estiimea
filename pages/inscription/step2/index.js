@@ -1,4 +1,3 @@
-"use client";
 import InscriptionLayout from "../../../components/layout/InscriptionLayout";
 import Input from "../../../components/ui/Input";
 import { cn } from "../../../lib/utils";
@@ -24,12 +23,12 @@ const Page = () => {
   const stateEmail = useSelector((state) => state.user?.email);
   const stateFirstName = useSelector((state) => state.user?.firstName);
   const stateLastName = useSelector((state) => state.user?.lastName);
+  const stateSlug = useSelector((state) => state.user?.settings?.slug);
 
   useEffect(() => {
     observeAuthState((user) => {
       if (user) {
-        console.log(user);
-        router.push("/dashboard");
+        router.push(`${stateSlug}/dashboard`);
       } else {
         null;
       }
@@ -85,7 +84,6 @@ const Page = () => {
     // Sinon, continuer avec la soumission
     loginUser(stateEmail, password)
       .then((res) => {
-        console.log(res);
         registerUser(
           stateEmail,
           password,
