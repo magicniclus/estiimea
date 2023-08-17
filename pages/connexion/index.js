@@ -27,7 +27,7 @@ const index = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const userStateSlug = useSelector((state) => state?.slug);
+  const userStateSlug = useSelector((state) => state?.user?.settings?.slug);
 
   const router = useRouter();
 
