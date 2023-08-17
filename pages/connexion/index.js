@@ -20,7 +20,7 @@ const fonctionnality = [
   "Ajout d'un logo personnalisé",
 ];
 
-const index = () => {
+const Connexion = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -48,7 +48,6 @@ const index = () => {
   useEffect(() => {
     observeAuthState((user) => {
       if (user !== null) {
-        console.log(user);
         router.push(`${userStateSlug}/dashboard`);
       } else {
         null;
@@ -70,7 +69,6 @@ const index = () => {
     try {
       const user = await loginUser(email, password);
       console.log("User logged in:", user);
-      // router.push("/dashboard");
       setLoading(false);
     } catch (error) {
       console.error("Error in handleLogin:", error);
@@ -221,4 +219,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Connexion;
