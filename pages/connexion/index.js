@@ -12,6 +12,7 @@ import Input from "../../components/ui/Input";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { cn } from "../../lib/utils";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const fonctionnality = [
   "Ajout d'une carte affichant l'emplacement du bien à estimer",
@@ -25,6 +26,8 @@ const index = () => {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const userStateSlug = useSelector((state) => state?.slug);
 
   const router = useRouter();
 
@@ -46,7 +49,7 @@ const index = () => {
     observeAuthState((user) => {
       if (user !== null) {
         console.log(user);
-        router.push("/dashboard");
+        router.push(`${userStateSlug}/dashboard`);
       } else {
         null;
       }
@@ -87,7 +90,7 @@ const index = () => {
   const handleGoogleConnection = () => {
     signInWithGoogle()
       .then(() => {
-        router.push("/dashboard");
+        router.push(`${userStateSlug}/dashboard`);
       })
       .catch((error) => {
         console.error(error);
@@ -97,7 +100,7 @@ const index = () => {
   const handleFacebookConnection = () => {
     signInWithFacebook()
       .then(() => {
-        router.push("/dashboard");
+        router.push(`${userStateSlug}/dashboard`);
       })
       .catch((error) => {
         console.error(error);
