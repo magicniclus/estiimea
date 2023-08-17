@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 import InscriptionLayout from "../../../components/layout/InscriptionLayout";
 import { useSelector } from "react-redux";
 
-const Page = () => {
+const StepThree = () => {
   const router = useRouter();
   const auth = getAuth();
-  const userStateSlug = useSelector((state) => state.user?.settings?.slug);
+  const userStateSlug = useSelector((state) => state.user?.slug);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -34,12 +34,12 @@ const Page = () => {
     console.log(userStateSlug, "bonjour");
     observeAuthState((user) => {
       if (user) {
-        router.push(`/${userStateSlug}`);
+        router.push(`/${userStateSlug}/dashboard`);
       } else {
         null;
       }
     });
-  }, []);
+  }, [userStateSlug]);
 
   return (
     <InscriptionLayout>
@@ -66,4 +66,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default StepThree;
