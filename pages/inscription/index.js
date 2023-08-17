@@ -1,11 +1,10 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../../components/ui/Input";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { cn } from "../../lib/utils";
 import Loader from "../../components/loader/Loader";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import InscriptionLayout from "../../components/layout/InscriptionLayout";
 import {
   observeAuthState,
@@ -55,8 +54,7 @@ const index = () => {
     dispatch({ type: "RESET_USER" });
     observeAuthState((user) => {
       if (user) {
-        console.log(user);
-        router.push("/dashboard");
+        router.push(`${userStateSlug}/dashboard`);
       } else {
         null;
       }
