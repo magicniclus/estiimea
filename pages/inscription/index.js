@@ -27,6 +27,8 @@ const index = () => {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const userStateSlug = useSelector((state) => state?.user?.settings?.slug);
+
   const dispatch = useDispatch();
 
   const stateEmail = useSelector((state) => state.user?.email);
@@ -91,7 +93,7 @@ const index = () => {
   const handleGoogleConnection = () => {
     signInWithGoogle()
       .then(() => {
-        router.push("/dashboard");
+        router.push(`${userStateSlug}/dashboard`);
       })
       .catch((error) => {
         console.error(error);
@@ -101,7 +103,7 @@ const index = () => {
   const handleFacebookConnection = () => {
     signInWithFacebook()
       .then(() => {
-        router.push("/dashboard");
+        router.push(`${userStateSlug}/dashboard`);
       })
       .catch((error) => {
         console.error(error);
