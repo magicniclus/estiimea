@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import {
   findUserIdBySlug,
   getLoggedInUserData,
-} from "../../firebase/dataManager";
-import DashboardLayout from "../../components/layout/DashboardLayout";
+} from "../../../firebase/dataManager";
+import DashboardLayout from "../../../components/layout/DashboardLayout";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
