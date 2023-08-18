@@ -84,7 +84,6 @@ const DashboardLayout = (props) => {
         if (user) {
           getLoggedInUserData(user.uid)
             .then((userInfo) => {
-              console.log(userInfo);
               dispatch({
                 type: "SET_USER_INFORMATION",
                 payload: { ...userInfo, uid: user.uid },
