@@ -13,6 +13,7 @@ import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { cn } from "../../lib/utils";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { getLoggedInUserData } from "../../firebase/dataManager";
 
 const fonctionnality = [
   "Ajout d'une carte affichant l'emplacement du bien à estimer",
@@ -26,8 +27,7 @@ const Connexion = () => {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const userStateSlug = useSelector((state) => state?.user?.settings?.slug);
+  const [slug, setSlug] = useState(null);
 
   const router = useRouter();
 
@@ -46,11 +46,16 @@ const Connexion = () => {
   };
 
   useEffect(() => {
-    observeAuthState((user) => {
-      if (user !== null) {
-        router.push(`${userStateSlug}/dashboard`);
-      } else {
-        null;
+    observeAuthState(async (user) => {
+      if (user && user.uid) {
+        const userData = await getLoggedInUserData(user.uid);
+        if (userData && userData.settings && userData.settings.slug) {
+          setSlug(userData.settings.slug); // Mettre à jour le slug dans l'état
+          router.push(`/${userData.settings.slug}/dashboard`);
+        } else {
+          console.log("Slug not found for user:", user.uid);
+          // Vous pourriez avoir besoin d'une logique de redirection par défaut ici
+        }
       }
     });
   }, []);
@@ -69,6 +74,15 @@ const Connexion = () => {
     try {
       const user = await loginUser(email, password);
       console.log("User logged in:", user);
+      if (user && user.uid) {
+        const userData = await getLoggedInUserData(user.uid);
+        if (userData && userData.settings && userData.settings.slug) {
+          setSlug(userData.settings.slug); // Mettre à jour le slug dans l'état
+          router.push(`/${userData.settings.slug}/dashboard`);
+        } else {
+          console.log("Slug not found for user: ", user.uid);
+        }
+      }
       setLoading(false);
     } catch (error) {
       console.error("Error in handleLogin:", error);
@@ -88,7 +102,7 @@ const Connexion = () => {
   const handleGoogleConnection = () => {
     signInWithGoogle()
       .then(() => {
-        router.push(`${userStateSlug}/dashboard`);
+        router.push(`${slug}/dashboard`);
       })
       .catch((error) => {
         console.error(error);
@@ -98,7 +112,7 @@ const Connexion = () => {
   const handleFacebookConnection = () => {
     signInWithFacebook()
       .then(() => {
-        router.push(`${userStateSlug}/dashboard`);
+        router.push(`${slug}/dashboard`);
       })
       .catch((error) => {
         console.error(error);
