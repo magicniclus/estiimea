@@ -6,6 +6,7 @@ import { cn } from "../../lib/utils";
 import Loader from "../../components/loader/Loader";
 import { useRouter } from "next/router";
 import InscriptionLayout from "../../components/layout/InscriptionLayout";
+import { getLoggedInUserData } from "../../firebase/dataManager";
 import {
   observeAuthState,
   signInWithFacebook,
@@ -25,6 +26,7 @@ const index = () => {
   const [lastName, setLastName] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [slug, setSlug] = useState(null);
 
   const userStateSlug = useSelector((state) => state?.user?.settings?.slug);
 
@@ -52,11 +54,16 @@ const index = () => {
 
   useEffect(() => {
     dispatch({ type: "RESET_USER" });
-    observeAuthState((user) => {
-      if (user) {
-        router.push(`${userStateSlug}/dashboard`);
-      } else {
-        null;
+    observeAuthState(async (user) => {
+      if (user && user.uid) {
+        const userData = await getLoggedInUserData(user.uid);
+        if (userData && userData.settings && userData.settings.slug) {
+          setSlug(userData.settings.slug); // Mettre à jour le slug dans l'état
+          router.push(`/${userData.settings.slug}/dashboard`);
+        } else {
+          console.log("Slug not found for user:", user.uid);
+          // Vous pourriez avoir besoin d'une logique de redirection par défaut ici
+        }
       }
     });
   }, []);
