@@ -19,11 +19,20 @@ export const createNewUser = async (uid, email, firstName, lastName) => {
       createdAt: new Date().toISOString(),
       firstName: firstName || null,
       lastName: lastName || null,
+      phone: "0631420045",
     },
     settings: {
-      fontColor: "#000000",
+      fontColor: "#374151",
+      fontColor2: "#3B82F6",
       backgroundColor: "#ffffff",
       slug: slugify(firstName + " " + lastName),
+      name: firstName + " " + lastName,
+      entreprise: "SAFTI",
+      title: "Estimez votre bien en ligne gratuitement.",
+      description:
+        "Nos estimations sont réalisées grâce aux caractéristiques de votre bien immobilier et du marché local en temps réel",
+      description2:
+        "Nos estimations sont réalisées grâce aux caractéristiques.",
     },
     plan: {
       name: "Free",
