@@ -21,3 +21,8 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+.mapboxgl-ctrl-attrib {
+  font-size: 10px !important;
+  /* ou n'importe quelle taille qui vous convient */
+}
