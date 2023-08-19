@@ -58,6 +58,12 @@ const reducer = (state = initState, action) => {
         isLoading: action.payload,
       };
 
+    case "STATE_CLIENT_ADDRESSE":
+      return {
+        ...state,
+        clientAdresse: action.payload,
+      };
+
     default:
       return state;
   }
