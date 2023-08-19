@@ -18,12 +18,23 @@ const SearchMapBar = ({ map }) => {
 
     if (e.target.value.length > 2) {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.target.value}.json?access_token=${mapboxgl.accessToken}&country=fr`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.target.value}.json?access_token=${mapboxgl.accessToken}&country=fr&proximity=2.349014,48.864716`
       );
       const data = await response.json();
-      setSuggestions(data.features);
+
+      // Filtrer les suggestions pour ne garder que les adresses complètes
+      const addressSuggestions = data.features.filter((feature) =>
+        feature.place_type.includes("address")
+      );
+
+      setSuggestions(addressSuggestions);
     } else {
       setSuggestions([]);
+      setCoordinates(null);
+      dispatch({
+        type: "STATE_CLIENT_ADDRESSE",
+        payload: null,
+      });
     }
   };
 
@@ -42,12 +53,16 @@ const SearchMapBar = ({ map }) => {
     }
   }, [coordinates]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
-      <h2 className="text-lg font-light text-gray-700 mb-3">
+      <h2 className="text-lg font-normal text-gray-700 mb-3">
         Adresse du bien à estimer
       </h2>
-      <div className="w-full">
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="flex mb-5 relative">
           <input
             type="text"
@@ -72,10 +87,13 @@ const SearchMapBar = ({ map }) => {
           </ul>
         </div>
 
-        <button className="bg-blue-700 text-white py-2 px-8 rounded-lg">
+        <button
+          type="submit"
+          className="bg-blue-700 text-white py-2 px-8 rounded-lg hover:bg-blue-600 hover:shadow-md transition ease-in-out duration-100 "
+        >
           Estimer
         </button>
-      </div>
+      </form>
     </div>
   );
 };
