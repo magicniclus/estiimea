@@ -36,7 +36,7 @@ const PresentationContainer = () => {
 
   return (
     <div
-      className=" h-full w-5/12 flex flex-col justify-between min-h-[600px]"
+      className=" h-full w-4/12 flex flex-col justify-between min-h-[600px]"
       style={{ color: stateFontColor }}
     >
       <div>
@@ -64,15 +64,15 @@ const PresentationContainer = () => {
           </div>
         </div>
       </div>
-      <h1 className="text-4xl w-5/6">
+      <h1 className="text-3xl w-11/12">
         Estimez votre bien en ligne{" "}
         <span className="font-bold" style={{ color: stateFontColor2 }}>
           gratuitement
         </span>
         .
       </h1>
-      <p className="text-normal w-5/6">{stateDescription}</p>
-      <p className="font-bold w-5/6 mb-5">{stateDescription2}</p>
+      <p className="text-normal w-11/12">{stateDescription}</p>
+      <p className="font-bold w-11/12 mb-5">{stateDescription2}</p>
       <div>
         <a className="flex mb-2" href={`tel:${statePhone}`}>
           <PhoneIcon className="mr-3 w-5" />
