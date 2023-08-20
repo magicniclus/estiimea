@@ -45,7 +45,9 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    if (mapInstance.current && stateCoordinate) {
+    if (!mapInstance.current) return; // Ajoutez cette ligne pour vérifier
+
+    if (stateCoordinate) {
       const [newLng, newLat] = stateCoordinate;
 
       if (markerRef.current) {
