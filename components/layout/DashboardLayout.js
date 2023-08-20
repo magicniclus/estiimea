@@ -151,13 +151,13 @@ const DashboardLayout = (props) => {
                       className="flex flex-shrink-0 items-center"
                     >
                       <img
-                        className="block h-8 w-auto lg:hidden"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
+                        className="block h-10 w-auto lg:hidden"
+                        src="/images/logos/estimmea-logo-primary.png"
                         alt="Estimmea"
                       />
                       <img
-                        className="hidden h-8 w-auto lg:block"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
+                        className="hidden h-10 w-auto lg:block"
+                        src="/images/logos/estimmea-logo-primary.png"
                         alt="Estimmea"
                       />
                     </a>
