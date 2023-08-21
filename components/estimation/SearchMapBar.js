@@ -3,6 +3,7 @@ import mapboxgl from "mapbox-gl";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
 
+import { useRouter, pat, usePathname } from "next/navigation";
 const SearchMapBar = ({ map }) => {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -13,6 +14,10 @@ const SearchMapBar = ({ map }) => {
   mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   const dispatch = useDispatch();
+
+  const route = useRouter();
+
+  const pathName = usePathname();
 
   // À chaque changement de l'input, cherchez des suggestions
   const handleInputChange = async (e) => {
@@ -53,6 +58,8 @@ const SearchMapBar = ({ map }) => {
         payload: [coordinates[0], coordinates[1]],
       });
       setDisabled(false);
+    } else {
+      setDisabled(true);
     }
   }, [input, coordinates]);
 
@@ -67,6 +74,7 @@ const SearchMapBar = ({ map }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    route.push(`${pathName}/estimation`);
   };
 
   return (
