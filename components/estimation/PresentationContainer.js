@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 const PresentationContainer = () => {
   const avantages = [
     {
-      title: "Visualisez votre estimation en moins de 3 minutes",
+      title: "Visualisez votre estimation en moins de 2 minutes",
       icon: (
         <CheckBadgeIcon
           className="h-4 w-4 text-yellow-500"
