@@ -85,9 +85,8 @@ const Map = () => {
 
   useEffect(() => {
     if (stateCoordinate) {
-      const timer = setTimeout(() => {
-        setShowIcon(true);
-      }, 4000);
+      setShowIcon(true);
+      const timer = setTimeout(() => {}, 4000);
 
       return () => clearTimeout(timer);
     } else setShowIcon(false);
