@@ -39,8 +39,8 @@ const SearchMapBar = ({ map }) => {
       setSuggestions([]);
       setCoordinates(null);
       dispatch({
-        type: "STATE_CLIENT_ADDRESSE",
-        payload: null,
+        type: "SET_CLIENT_INFORMATION",
+        payload: { coordinates: null },
       });
     }
   };
@@ -54,8 +54,8 @@ const SearchMapBar = ({ map }) => {
   useEffect(() => {
     if (input && coordinates) {
       dispatch({
-        type: "STATE_CLIENT_ADDRESSE",
-        payload: [coordinates[0], coordinates[1]],
+        type: "SET_CLIENT_INFORMATION",
+        payload: { coordinates: [coordinates[0], coordinates[1]] },
       });
       setDisabled(false);
     } else {
@@ -66,14 +66,18 @@ const SearchMapBar = ({ map }) => {
   useEffect(() => {
     if (coordinates) {
       dispatch({
-        type: "STATE_CLIENT_ADDRESSE",
-        payload: [coordinates[0], coordinates[1]],
+        type: "SET_CLIENT_INFORMATION",
+        payload: { coordinates: [coordinates[0], coordinates[1]] },
       });
     }
   }, [coordinates]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch({
+      type: "SET_CLIENT_INFORMATION",
+      payload: { adresse: input, coordinates: coordinates },
+    });
     route.push(`${pathName}/estimation`);
   };
 
