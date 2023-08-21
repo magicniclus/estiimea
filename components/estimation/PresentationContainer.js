@@ -1,10 +1,11 @@
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const PresentationContainer = () => {
   const stateTitle = useSelector((state) => state?.user?.settings?.title);
+  const stateUser = useSelector((state) => state?.user?.userInformation);
   const stateDescription = useSelector(
     (state) => state?.user?.settings?.description
   );
@@ -34,46 +35,52 @@ const PresentationContainer = () => {
     (state) => state?.user?.userInformation?.email
   );
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "USER_IS_LOADING", payload: true });
+    if (stateUser) {
+      dispatch({ type: "USER_IS_LOADING", payload: false });
+    }
+  }, [stateUser]);
+
   return (
     <div
-      className=" h-full w-4/12 flex flex-col justify-between min-h-[600px]"
+      className=" h-full w-full lg:w-4/12 flex flex-col justify-between lg:min-h-[600px] lg:mb-0 mb-7"
       style={{ color: stateFontColor }}
     >
-      <div>
-        <div className="flex">
-          {stateProfil ? (
-            <img
-              className="h-12 w-12 rounded-full object-cover"
-              src={stateProfil}
-              alt="profil utilisateur"
-            />
-          ) : (
-            <UserIcon
-              className="h-8 w-8 rounded-full text-gray-700"
-              aria-hidden="true"
-            />
-          )}
-          <div className="ml-3">
-            <h2
-              className="font-bold text-lg"
-              style={{ color: stateFontColor2 }}
-            >
-              {stateName}
-            </h2>
-            <h3 className="font-light text-xs">Conseiller {stateEntreprise}</h3>
-          </div>
+      <div className="flex">
+        {stateProfil ? (
+          <img
+            className="h-12 w-12 rounded-full object-cover"
+            src={stateProfil}
+            alt="profil utilisateur"
+          />
+        ) : (
+          <UserIcon
+            className="h-8 w-8 rounded-full text-gray-700"
+            aria-hidden="true"
+          />
+        )}
+        <div className="ml-3">
+          <h2 className="font-bold text-lg" style={{ color: stateFontColor2 }}>
+            {stateName}
+          </h2>
+          <h3 className="font-light text-xs">Conseiller {stateEntreprise}</h3>
         </div>
       </div>
-      <h1 className="text-3xl w-11/12">
+      <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-0">
         Estimez votre bien en ligne{" "}
         <span className="font-bold" style={{ color: stateFontColor2 }}>
           gratuitement
         </span>
         .
       </h1>
-      <p className="text-normal w-11/12">{stateDescription}</p>
-      <p className="font-bold w-11/12 mb-5">{stateDescription2}</p>
-      <div>
+      <p className="text-normal lg:w-11/12 mt-5 lg:mt-0">{stateDescription}</p>
+      <p className="font-bold lg:w-11/12 mb-5  mt-5 lg:mt-0">
+        {stateDescription2}
+      </p>
+      <div className="">
         <a className="flex mb-2" href={`tel:${statePhone}`}>
           <PhoneIcon className="mr-3 w-5" />
           <p className="font-normal text-sm">{statePhone}</p>
@@ -83,7 +90,7 @@ const PresentationContainer = () => {
           <p className="font-normal text-sm">{stateEmail}</p>
         </a>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
         <a
           className="font-light text-xs"
           style={{ color: stateFontColor2 }}
