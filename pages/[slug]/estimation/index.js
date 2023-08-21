@@ -3,7 +3,7 @@ import EstimationLayout from "../../../components/layout/EstimationLayout";
 import ContainerEstimation from "../../../components/layout/ContainerEstimation";
 import UserInformation from "../../../components/estimation/UserInformation";
 import EtapeEstimationContainer from "../../../components/estimation/EtapeEstimationContainer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import EstimationManager from "../../../components/estimation/EstimationManager";
 import Loader from "../../../components/loader/Loader";
 import { useRouter } from "next/router";
@@ -16,17 +16,32 @@ const index = () => {
   const stateFontColor2 = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
-
   const stateUserIsLoading = useSelector(
     (state) => state?.UserInformation?.photoProfil
   );
   const stateClientAdresse = useSelector(
     (state) => state?.clientInformation?.adresse
   );
+
+  const dispatch = useDispatch();
+
+  const stateClient = useSelector((state) => state?.clientInfomation);
+  const step = useSelector((state) => state.simulateurStep);
+  useEffect(() => {
+    //parcour l'objet stateClient et suivant le nombre d'élément dedant on change l'étape
+    let count = 0;
+    for (const key in stateClient) {
+      if (Object.hasOwnProperty.call(stateClient, key)) {
+        const element = stateClient[key];
+        if (element) {
+          dispatch({ type: "SET_SIMULATEUR_STEP", payload: count + 1 });
+        }
+      }
+    }
+  }, [stateClient]);
+
   const stateSlug = useSelector((state) => state?.user?.settings?.slug);
-
   const router = useRouter();
-
   const pathSegments = router.asPath.split("/");
   const currentSlug = pathSegments[1];
   useEffect(() => {
