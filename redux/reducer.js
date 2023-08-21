@@ -5,6 +5,7 @@ const initState = {
   userIsLoading: true,
   clientInfomation: {},
   simulateurStep: 12,
+  stepInProgress: 0,
 };
 
 const reducer = (state = initState, action) => {
@@ -81,6 +82,12 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         userIsLoading: action.payload,
+      };
+
+    case "SET_SIMULATEUR_STEP":
+      return {
+        ...state,
+        stepInProgress: action.payload,
       };
 
     default:
