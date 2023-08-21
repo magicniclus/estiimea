@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 
 const Map = () => {
   mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+  const dispatch = useDispatch();
 
   const defaultCoordinates = [2.3964, 47.0815];
   const stateCoordinate = useSelector((state) => state.clientAdresse);
@@ -19,6 +21,10 @@ const Map = () => {
   const mapInstance = useRef(null);
 
   useEffect(() => {
+    dispatch({
+      type: "MAP_IS_LOADING",
+      payload: true,
+    });
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
@@ -31,6 +37,11 @@ const Map = () => {
 
       const el = document.createElement("div");
       el.className = "marker";
+
+      dispatch({
+        type: "MAP_IS_LOADING",
+        payload: false, // Vous pourriez mettre false si la carte a fini de charger, ou true au début du chargement (selon ce que vous voulez accomplir)
+      });
 
       const initialMarker = new mapboxgl.Marker(el)
         .setLngLat([lng, lat])
