@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { MapPinIcon } from "@heroicons/react/20/solid";
@@ -8,6 +8,9 @@ const SearchMapBar = ({ map }) => {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
+
+  const [disabled, setDisabled] = useState(true);
+
   mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   const dispatch = useDispatch();
@@ -43,6 +46,16 @@ const SearchMapBar = ({ map }) => {
     setInput(suggestion.place_name);
     setSuggestions([]); // Clear suggestions
   };
+
+  useEffect(() => {
+    if (input && coordinates) {
+      dispatch({
+        type: "STATE_CLIENT_ADDRESSE",
+        payload: [coordinates[0], coordinates[1]],
+      });
+      setDisabled(false);
+    }
+  }, [input, coordinates]);
 
   useEffect(() => {
     if (coordinates) {
@@ -89,7 +102,12 @@ const SearchMapBar = ({ map }) => {
 
         <button
           type="submit"
-          className="bg-blue-700 text-white py-2 px-8 rounded-lg hover:bg-blue-600 hover:shadow-md transition ease-in-out duration-100 "
+          disabled={disabled}
+          className={`text-white py-2 px-8 rounded-lg transition ease-in-out duration-100 ${
+            disabled
+              ? "bg-blue-500"
+              : "bg-blue-700 hover:bg-blue-600 hover:shadow-md"
+          }`}
         >
           Estimer
         </button>
