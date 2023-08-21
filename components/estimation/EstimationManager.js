@@ -6,7 +6,7 @@ import Step from "./Step";
 const EstimationManager = () => {
   return (
     <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-between">
-      <div className="flex flex-col justify-between min-h-[450px]">
+      <div className="flex flex-col justify-around min-h-[450px]">
         <ProgressBar />
         <Step />
       </div>
