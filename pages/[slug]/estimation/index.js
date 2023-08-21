@@ -4,6 +4,8 @@ import ContainerEstimation from "../../../components/layout/ContainerEstimation"
 import UserInformation from "../../../components/estimation/UserInformation";
 import EtapeEstimationContainer from "../../../components/estimation/EtapeEstimationContainer";
 import { useSelector } from "react-redux";
+import EstimationManager from "../../../components/estimation/EstimationManager";
+import Loader from "../../../components/loader/Loader";
 
 const index = () => {
   const stateFontColor = useSelector(
@@ -12,10 +14,19 @@ const index = () => {
   const stateFontColor2 = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+
+  const stateUserIsLoading = useSelector(
+    (state) => state?.UserInformation?.photoProfil
+  );
   return (
     <EstimationLayout>
       <ContainerEstimation>
-        <div className="lg:min-h-[600px] flex flex-col justify-between">
+        {stateUserIsLoading && (
+          <div className="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-10">
+            <Loader />
+          </div>
+        )}
+        <div className="lg:min-h-[600px] flex flex-col justify-between  w-full lg:w-4/12">
           <UserInformation />
           <EtapeEstimationContainer />
           <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
@@ -36,9 +47,9 @@ const index = () => {
             </a>
           </div>
         </div>
-
         <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
         <div className="w-9/12 h-0.5 bg-gray-100 lg:hidden flex mb-7 mt-0" />
+        <EstimationManager />
       </ContainerEstimation>
     </EstimationLayout>
   );
