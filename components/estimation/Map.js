@@ -10,10 +10,10 @@ const Map = (props) => {
 
   const dispatch = useDispatch();
 
-  const defaultCoordinates = [2.3964, 47.0815];
   const stateCoordinate = useSelector(
     (state) => state.clientInfomation?.coordinates
   );
+  const defaultCoordinates = [2.3964, 47.0815];
 
   const [lng, lat] = stateCoordinate || defaultCoordinates;
 
@@ -82,7 +82,7 @@ const Map = (props) => {
       mapInstance.current.flyTo({
         center: [lng, lat],
         zoom: 3,
-        speed: 4,
+        speed: 7,
       });
     }
   }, [stateCoordinate]);
