@@ -1,6 +1,8 @@
 const initState = {
   isLoading: true,
   isFirstView: true,
+  mapIsLoading: true,
+  userIsLoading: true,
 };
 
 const reducer = (state = initState, action) => {
@@ -62,6 +64,18 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         clientAdresse: action.payload,
+      };
+
+    case "MAP_IS_LOADING":
+      return {
+        ...state,
+        mapIsLoading: action.payload,
+      };
+
+    case "USER_IS_LOADING":
+      return {
+        ...state,
+        userIsLoading: action.payload,
       };
 
     default:
