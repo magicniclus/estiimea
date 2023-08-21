@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const EtapeEstimationContainer = () => {
-  const clientInformation = useSelector((state) => state?.clientInformation);
+  const clientInformation = useSelector((state) => state?.clientInfomation);
   //Faire les étapes de l'estimation en fonction de l'avancement de l'utilisateur
   const [etape, setEtape] = useState();
   useEffect(() => {
