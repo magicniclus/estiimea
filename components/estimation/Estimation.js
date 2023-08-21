@@ -22,15 +22,6 @@ const Estimation = () => {
           <Loader />
         </div>
       )}
-      <div className="absolute -top-1 -right-1 z-20 w-32 h-32 overflow-hidden lg:block hidden">
-        <a
-          href="/"
-          className="relative top-5 right-10 z-20 block w-64 p-2 bg-gray-700 rotate-45 text-center hover:scale-105 transition ease-out"
-        >
-          <p className="text-white font-light text-xs">Propulsé par</p>
-          <p className="text-white font-bold text-xs">Estimmea</p>
-        </a>
-      </div>
       <PresentationContainer />
       <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
       <div className="w-9/12 h-0.5 bg-gray-100 lg:hidden flex mb-7 mt-0" />
@@ -38,14 +29,6 @@ const Estimation = () => {
         <SearchMapBar />
         <Map />
       </div>
-      <a
-        href="/"
-        className="z-20 p-2 text-center hover:scale-105 transition ease-out mt-5 flex lg:hidden"
-      >
-        <p className="text-gray-700 font-light text-xs">
-          Propulsé par <span className="font-bold">Estimmea</span>
-        </p>
-      </a>
       <div className="flex items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:hidden">
         <a
           className="font-light text-xs"
