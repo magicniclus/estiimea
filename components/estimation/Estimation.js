@@ -4,6 +4,7 @@ import Map from "./Map";
 import SearchMapBar from "./SearchMapBar";
 import { useSelector } from "react-redux";
 import Loader from "../loader/Loader";
+import ContainerEstimation from "../layout/ContainerEstimation";
 
 const Estimation = () => {
   const stateFontColor = useSelector(
@@ -15,7 +16,7 @@ const Estimation = () => {
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateUserIsLoading = useSelector((state) => state?.userIsLoading);
   return (
-    <div className="lg:w-10/12 sm:w-11/12 w-full max-w-[1250px] min-h-[665px] px-5 py-10 lg:px-20 lg:py-16 bg-white shadow-lg flex items-center justify-between flex-col lg:flex-row relative z-20">
+    <ContainerEstimation>
       {stateMapIsLoading && stateUserIsLoading && (
         <div className="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-10">
           <Loader />
@@ -62,7 +63,7 @@ const Estimation = () => {
           Signaler un abus
         </a>
       </div>
-    </div>
+    </ContainerEstimation>
   );
 };
 
