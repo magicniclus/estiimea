@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import EstimationLayout from "../../../components/layout/EstimationLayout";
 import ContainerEstimation from "../../../components/layout/ContainerEstimation";
 import UserInformation from "../../../components/estimation/UserInformation";
@@ -6,6 +6,8 @@ import EtapeEstimationContainer from "../../../components/estimation/EtapeEstima
 import { useSelector } from "react-redux";
 import EstimationManager from "../../../components/estimation/EstimationManager";
 import Loader from "../../../components/loader/Loader";
+import { useRouter } from "next/router";
+import Map from "../../../components/estimation/Map";
 
 const index = () => {
   const stateFontColor = useSelector(
@@ -18,6 +20,23 @@ const index = () => {
   const stateUserIsLoading = useSelector(
     (state) => state?.UserInformation?.photoProfil
   );
+  const stateClientAdresse = useSelector(
+    (state) => state?.clientInformation?.adresse
+  );
+  const stateSlug = useSelector((state) => state?.user?.settings?.slug);
+
+  const router = useRouter();
+
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
+  useEffect(() => {
+    setTimeout(() => {
+      if (!stateClientAdresse && !stateSlug && currentSlug !== "[slug]") {
+        router.push(`/${currentSlug}`);
+      }
+    }, 1000);
+  }, [stateClientAdresse, stateSlug, currentSlug]);
+
   return (
     <EstimationLayout>
       <ContainerEstimation>
@@ -48,7 +67,7 @@ const index = () => {
           </div>
         </div>
         <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
-        <div className="w-9/12 h-0.5 bg-gray-100 lg:hidden flex mb-7 mt-0" />
+        <div className="w-full h-0.5 bg-gray-100 lg:hidden flex mt-7 lg:mt-0" />
         <EstimationManager />
       </ContainerEstimation>
     </EstimationLayout>
