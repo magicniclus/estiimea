@@ -1,6 +1,5 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
 
@@ -87,7 +86,7 @@ const SearchMapBar = ({ map }) => {
           <div className="bg-blue-700 w-[20%] sm:w-[10%] flex items-center justify-center rounded-r-md">
             <MapPinIcon className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
-          <ul className="absolute top-full bg-white w-full rounded-md shadow-md">
+          <ul className="absolute top-full bg-white w-full rounded-md shadow-md overflow-y-auto max-h-[150px]">
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
