@@ -1,9 +1,46 @@
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
+import {
+  ChartBarIcon,
+  CheckBadgeIcon,
+  CheckIcon,
+  ClockIcon,
+  CloudIcon,
+  EnvelopeIcon,
+  PhoneIcon,
+} from "@heroicons/react/20/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const PresentationContainer = () => {
+  const avantages = [
+    {
+      title: "Visualisez votre estimation en moins de 3 minutes",
+      icon: (
+        <CheckBadgeIcon
+          className="h-4 w-4 text-yellow-500"
+          aria-hidden="true"
+        />
+      ),
+    },
+    {
+      title: "Des données précise ajustées en temps réel.",
+      icon: (
+        <CheckBadgeIcon
+          className="h-4 w-4 text-yellow-500"
+          aria-hidden="true"
+        />
+      ),
+    },
+    {
+      title: "Sans engagement et vos données sont sécurisées  ",
+      icon: (
+        <CheckBadgeIcon
+          className="h-4 w-4 text-yellow-500"
+          aria-hidden="true"
+        />
+      ),
+    },
+  ];
   const stateTitle = useSelector((state) => state?.user?.settings?.title);
   const stateUser = useSelector((state) => state?.user?.userInformation);
   const stateDescription = useSelector(
@@ -69,13 +106,23 @@ const PresentationContainer = () => {
           <h3 className="font-light text-xs">Conseiller {stateEntreprise}</h3>
         </div>
       </div>
-      <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-0">
-        Estimez votre bien en ligne{" "}
-        <span className="font-bold" style={{ color: stateFontColor2 }}>
-          gratuitement
-        </span>
-        .
-      </h1>
+      <div>
+        <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-0">
+          Estimez votre bien en ligne{" "}
+          <span className="font-bold" style={{ color: stateFontColor2 }}>
+            gratuitement
+          </span>
+          .
+        </h1>
+        <ul className="mt-3">
+          {avantages.map((avantage, index) => (
+            <li className="flex items-center mb-1.5" key={index}>
+              {avantage.icon}
+              <p className="ml-3 font-light text-[10px]">{avantage.title}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
       <p className="text-normal lg:w-11/12 mt-5 lg:mt-0">{stateDescription}</p>
       <p className="font-bold lg:w-11/12 mb-5  mt-5 lg:mt-0">
         {stateDescription2}
