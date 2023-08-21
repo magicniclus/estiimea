@@ -1,7 +1,7 @@
 import React from "react";
 
 const Step = () => {
-  return <div className="w-full min-h-[360px] bg-gray-200"></div>;
+  return <div className="w-full min-h-[360px]"></div>;
 };
 
 export default Step;
