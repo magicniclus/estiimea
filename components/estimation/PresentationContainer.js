@@ -90,7 +90,7 @@ const PresentationContainer = () => {
           <p className="font-normal text-sm">{stateEmail}</p>
         </a>
       </div>
-      <div className="flex items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
+      <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
         <a
           className="font-light text-xs"
           style={{ color: stateFontColor2 }}
