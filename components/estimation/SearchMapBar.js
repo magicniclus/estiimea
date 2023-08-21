@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { MapPinIcon } from "@heroicons/react/20/solid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useRouter, pat, usePathname } from "next/navigation";
+import { set } from "firebase/database";
 const SearchMapBar = ({ map }) => {
-  const [input, setInput] = useState("");
+  const initialAddress = useSelector(
+    (state) => state.clientInfomation?.adresse
+  );
+
+  const [input, setInput] = useState(initialAddress || "");
   const [suggestions, setSuggestions] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
 
@@ -57,6 +62,8 @@ const SearchMapBar = ({ map }) => {
         type: "SET_CLIENT_INFORMATION",
         payload: { coordinates: [coordinates[0], coordinates[1]] },
       });
+      setDisabled(false);
+    } else if (initialAddress) {
       setDisabled(false);
     } else {
       setDisabled(true);
