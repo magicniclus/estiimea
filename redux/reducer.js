@@ -3,6 +3,8 @@ const initState = {
   isFirstView: true,
   mapIsLoading: true,
   userIsLoading: true,
+  clientInfomation: {},
+  simulateurStep: 12,
 };
 
 const reducer = (state = initState, action) => {
@@ -60,10 +62,13 @@ const reducer = (state = initState, action) => {
         isLoading: action.payload,
       };
 
-    case "STATE_CLIENT_ADDRESSE":
+    case "SET_CLIENT_INFORMATION":
       return {
         ...state,
-        clientAdresse: action.payload,
+        clientInfomation: {
+          ...state.clientInfomation,
+          ...action.payload,
+        },
       };
 
     case "MAP_IS_LOADING":
