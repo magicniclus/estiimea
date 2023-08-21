@@ -3,13 +3,17 @@ import mapboxgl from "mapbox-gl";
 import { useDispatch, useSelector } from "react-redux";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 
-const Map = () => {
+const Map = (props) => {
   mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+  const height = props.height || "223px";
 
   const dispatch = useDispatch();
 
   const defaultCoordinates = [2.3964, 47.0815];
-  const stateCoordinate = useSelector((state) => state.clientAdresse);
+  const stateCoordinate = useSelector(
+    (state) => state.clientInfomation?.coordinates
+  );
 
   const [lng, lat] = stateCoordinate || defaultCoordinates;
 
@@ -98,7 +102,7 @@ const Map = () => {
       className="relative"
       style={{
         width: "100%",
-        height: "223px",
+        height: height,
         borderRadius: "5px",
         overflow: "hidden",
       }}
