@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import EstimationManager from "../../../components/estimation/EstimationManager";
 import Loader from "../../../components/loader/Loader";
 import { useRouter } from "next/router";
-import Map from "../../../components/estimation/Map";
 
 const index = () => {
   const stateFontColor = useSelector(
