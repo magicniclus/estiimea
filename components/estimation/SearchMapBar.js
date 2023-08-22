@@ -4,15 +4,18 @@ import { MapPinIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useRouter, pat, usePathname } from "next/navigation";
-import { set } from "firebase/database";
 const SearchMapBar = ({ map }) => {
   const initialAddress = useSelector(
     (state) => state.clientInfomation?.adresse
   );
 
+  const initialCoordinates = useSelector(
+    (state) => state.clientInfomation?.coordinates
+  );
+
   const [input, setInput] = useState(initialAddress || "");
   const [suggestions, setSuggestions] = useState([]);
-  const [coordinates, setCoordinates] = useState(null);
+  const [coordinates, setCoordinates] = useState(initialCoordinates || null);
 
   const [disabled, setDisabled] = useState(true);
 
@@ -53,7 +56,7 @@ const SearchMapBar = ({ map }) => {
   const handleSuggestionClick = (suggestion) => {
     setCoordinates(suggestion.geometry.coordinates);
     setInput(suggestion.place_name);
-    setSuggestions([]); // Clear suggestions
+    setSuggestions([]);
   };
 
   useEffect(() => {
