@@ -12,12 +12,12 @@ const Step = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full min-h-[280px] flex flex-col justify-between"
+      className="w-full min-h-[280px] h-full flex flex-col justify-between"
     >
       <Adresse />
       <button
         type="submit"
-        className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-min`}
+        className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-min lg:mb-0 my-10`}
         style={{ backgroundColor: primaryColor }}
       >
         Continuer
