@@ -29,6 +29,10 @@ const EtapeEstimationContainer = () => {
         done: clientInformation?.chambres ? true : false,
       },
       {
+        name: "Année",
+        done: clientInformation?.annee ? true : false,
+      },
+      {
         name: "Niveaux / Étages",
         done: clientInformation?.etages ? true : false,
       },
@@ -41,8 +45,12 @@ const EtapeEstimationContainer = () => {
         done: clientInformation?.standing ? true : false,
       },
       {
-        name: "Vue",
+        name: "Vue / oriantation",
         done: clientInformation?.vue ? true : false,
+      },
+      {
+        name: "Travaux",
+        done: clientInformation?.travaux ? true : false,
       },
       {
         name: "Atouts",
