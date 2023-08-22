@@ -28,7 +28,10 @@ const Adresse = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-light" style={{ color: primaryColor }}>
+      <h2
+        className="text-2xl font-light lg:my-0 my-5"
+        style={{ color: primaryColor }}
+      >
         Type de bien :
       </h2>
       <div className="flex">
