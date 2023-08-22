@@ -1,6 +1,8 @@
 import React from "react";
+import Head from "next/head";
+import Script from "next/script"; // Importez le composant Script
 
-const accueil = () => {
+const Accueil = () => {
   return (
     <div className="min-h-screen flex justify-center items-center flex-col text-slate-600">
       <h1 className="text-6xl font-sans">
@@ -18,8 +20,21 @@ const accueil = () => {
         <span className="font-normal">simplifiée</span> et{" "}
         <span className="font-normal">entièrement personnalisée</span>.
       </p>
+
+      {/* Ajoutez le code HTML du widget Calendly */}
+      <div
+        className="calendly-inline-widget mt-5"
+        data-url="https://calendly.com/adventure-contact/dejeuner"
+        style={{ width: "800px", height: "900px" }}
+      ></div>
+
+      {/* Utilisez le composant Script pour ajouter le script de Calendly */}
+      <Script
+        src="https://assets.calendly.com/assets/external/widget.js"
+        async
+      />
     </div>
   );
 };
 
-export default accueil;
+export default Accueil;
