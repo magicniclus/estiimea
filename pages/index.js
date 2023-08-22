@@ -38,3 +38,7 @@ const Accueil = () => {
 };
 
 export default Accueil;
+
+//Semrush
+//maprimerenov ??
+//Artizzana
