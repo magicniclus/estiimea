@@ -9,11 +9,6 @@ const CardWithLogo = (props) => {
   const primaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
-
-  const typeSelected = props.typeSelected;
-
-  const [selected, setSelected] = useState(false);
-
   const houseSvg = (
     <svg
       width="100%"
@@ -95,6 +90,10 @@ const CardWithLogo = (props) => {
       />
     </svg>
   );
+
+  const typeSelected = props.typeSelected;
+
+  const [selected, setSelected] = useState(false);
 
   const type = props.type || "maison";
   const margin = props.margin || "0px";
