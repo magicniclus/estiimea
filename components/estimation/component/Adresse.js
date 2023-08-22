@@ -9,21 +9,11 @@ const Adresse = () => {
   );
   const [selectedType, setSelectedType] = useState(null);
 
-  const handleTypeSelection = (type) => {
-    setSelectedType(type);
-  };
-
   useEffect(() => {
-    if (selectedType !== null) {
-      dispatch({
-        type: "SET_CLIENT_INFORMATION",
-        payload: { type: selectedType },
-      });
-    } else
-      dispatch({
-        type: "SET_CLIENT_INFORMATION",
-        payload: { type: null },
-      });
+    dispatch({
+      type: "SET_CLIENT_INFORMATION",
+      payload: { type: selectedType },
+    });
   }, [selectedType]);
 
   return (
@@ -35,16 +25,15 @@ const Adresse = () => {
         Type de bien :
       </h2>
       <div className="flex">
-        <CardWithLogo
-          margin="35px"
-          onSelect={handleTypeSelection} // Ajout du prop onSelect ici
-          typeSelected={selectedType}
-        />
-        <CardWithLogo
-          type="immeuble"
-          onSelect={handleTypeSelection} // Ajout du prop onSelect ici
-          typeSelected={selectedType}
-        />
+        {["maison", "immeuble"].map((type) => (
+          <CardWithLogo
+            key={type}
+            type={type}
+            onSelect={setSelectedType}
+            typeSelected={selectedType}
+            margin="35px"
+          />
+        ))}
       </div>
     </>
   );
