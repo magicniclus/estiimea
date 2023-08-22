@@ -16,8 +16,8 @@ const CardWithLogo = (props) => {
 
   const houseSvg = (
     <svg
-      width="57"
-      height="48"
+      width="100%"
+      height="auto"
       viewBox="0 0 57 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -37,8 +37,8 @@ const CardWithLogo = (props) => {
 
   const immeubleSvg = (
     <svg
-      width="37"
-      height="48"
+      width="100%"
+      height="auto"
       viewBox="0 0 37 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -120,12 +120,14 @@ const CardWithLogo = (props) => {
   return (
     <div
       onClick={handleClick} // Ajout de l'événement onClick ici
-      className={`relative w-[125px] py-6 border rounded-xl cursor-pointer transition-all duration-100 flex justify-center flex-col items-center hover:shadow-md ${
+      className={`relative px-4 py-2 w-24 lg:w-[115px] border rounded-xl cursor-pointer transition-all duration-100 flex justify-around flex-col items-center hover:shadow-lg ${
         selected ? "shadow-md" : null
       }`}
       style={{ borderColor: primaryColor, marginRight: props.margin }}
     >
-      {type === "maison" ? houseSvg : immeubleSvg}
+      <div className={`${type === "maison" ? "lg:w-16 w-16" : "lg:w-12 w-10"}`}>
+        {type === "maison" ? houseSvg : immeubleSvg}
+      </div>
       <p className="mt-3" style={{ color: primaryColor }}>
         {type === "maison" ? "Maison" : "Immeuble"}
       </p>
