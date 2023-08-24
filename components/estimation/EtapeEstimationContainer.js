@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const EtapeEstimationContainer = () => {
   const clientInformation = useSelector((state) => state?.clientInfomation);
+  const stepInProgress = useSelector((state) => state?.stepInProgress);
   //Faire les étapes de l'estimation en fonction de l'avancement de l'utilisateur
   const [etape, setEtape] = useState();
   useEffect(() => {
@@ -46,7 +47,7 @@ const EtapeEstimationContainer = () => {
           },
       {
         name: "Espaces exterieurs",
-        done: clientInformation?.exterieur ? true : false,
+        done: stepInProgress >= 6 ? true : false,
       },
       {
         name: "Standing",
