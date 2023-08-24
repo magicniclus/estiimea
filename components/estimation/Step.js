@@ -11,6 +11,8 @@ import EspacesExterieurs from "./component/EspacesExterieurs";
 import Standing from "./component/Standing";
 import VueOriantation from "./component/VueOriantation";
 import Travaux from "./component/Travaux";
+import Atouts from "./component/Atouts";
+import ClassementEnergetique from "./component/ ClassementEnergetique";
 
 const Step = () => {
   const primaryColor = useSelector(
@@ -19,7 +21,7 @@ const Step = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const component = "Travaux";
+  const component = "ClassementEnergetique";
   const handleComponent = () => {
     switch (component) {
       case "AppartementMaison":
@@ -51,6 +53,12 @@ const Step = () => {
 
       case "Travaux":
         return <Travaux />;
+
+      case "Atouts":
+        return <Atouts />;
+
+      case "ClassementEnergetique":
+        return <ClassementEnergetique />;
 
       default:
         return <AppartementMaison />;
