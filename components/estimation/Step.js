@@ -10,6 +10,7 @@ import NiveauxEtage from "./component/NiveauxEtage";
 import EspacesExterieurs from "./component/EspacesExterieurs";
 import Standing from "./component/Standing";
 import VueOriantation from "./component/VueOriantation";
+import Travaux from "./component/Travaux";
 
 const Step = () => {
   const primaryColor = useSelector(
@@ -18,7 +19,7 @@ const Step = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const component = "VueOriantation";
+  const component = "Travaux";
   const handleComponent = () => {
     switch (component) {
       case "AppartementMaison":
@@ -47,6 +48,9 @@ const Step = () => {
 
       case "VueOriantation":
         return <VueOriantation />;
+
+      case "Travaux":
+        return <Travaux />;
 
       default:
         return <AppartementMaison />;
