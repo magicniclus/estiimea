@@ -8,6 +8,8 @@ import NbrChambres from "./component/NbrChambres";
 import Annee from "./component/Annee";
 import NiveauxEtage from "./component/NiveauxEtage";
 import EspacesExterieurs from "./component/EspacesExterieurs";
+import Standing from "./component/Standing";
+import VueOriantation from "./component/VueOriantation";
 
 const Step = () => {
   const primaryColor = useSelector(
@@ -16,7 +18,7 @@ const Step = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const component = "EspacesExterieurs";
+  const component = "VueOriantation";
   const handleComponent = () => {
     switch (component) {
       case "AppartementMaison":
@@ -40,6 +42,12 @@ const Step = () => {
       case "EspacesExterieurs":
         return <EspacesExterieurs />;
 
+      case "Standing":
+        return <Standing />;
+
+      case "VueOriantation":
+        return <VueOriantation />;
+
       default:
         return <AppartementMaison />;
     }
@@ -47,7 +55,7 @@ const Step = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full min-h-[300px] h-full flex flex-col justify-between bg-gray-50 bg-opacity-50 shadow-sm rounded-md px-5 py-5"
+      className="w-full min-h-[300px] h-full flex flex-col justify-between bg-opacity-50 rounded-md"
     >
       {handleComponent()}
       <button
