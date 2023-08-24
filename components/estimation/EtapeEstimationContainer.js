@@ -66,11 +66,11 @@ const EtapeEstimationContainer = () => {
       },
       {
         name: "Atouts",
-        done: clientInformation?.atouts ? true : false,
+        done: stepInProgress >= 12 ? true : false,
       },
       {
         name: "Classement energetique",
-        done: clientInformation?.classeEnergie ? true : false,
+        done: clientInformation?.dpe && clientInformation?.ges ? true : false,
       },
       {
         name: "Objectif",
