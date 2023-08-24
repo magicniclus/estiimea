@@ -16,7 +16,9 @@ const SelectWithIcon = (props) => {
 
   return (
     <div
-      className={`flex relative w-full ${isOpen ? "shadow-lg" : null}`}
+      className={`flex relative w-full max-w-[350px] ${
+        isOpen ? "shadow-lg" : null
+      }`}
       onClick={() => setIsOpen(!isOpen)}
     >
       <div className="ax-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-gray-900 text-sm cursor-pointer">
