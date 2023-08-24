@@ -5,7 +5,7 @@ const initState = {
   userIsLoading: true,
   clientInfomation: {},
   simulateurStep: 12,
-  stepInProgress: 0,
+  stepInProgress: 2,
 };
 
 const reducer = (state = initState, action) => {
@@ -88,6 +88,18 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         stepInProgress: action.payload,
+      };
+
+    case "UPDATE_SIMULATEUR_STEP":
+      return {
+        ...state,
+        stepInProgress: state.stepInProgress + 1,
+      };
+
+    case "DOWN_SIMULATEUR_STEP":
+      return {
+        ...state,
+        stepInProgress: state.stepInProgress - 1,
       };
 
     default:
