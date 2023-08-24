@@ -15,12 +15,12 @@ const EspacesExterieurs = () => {
     if (selectedGarden !== null) {
       dispatch({
         type: "SET_CLIENT_INFORMATION",
-        payload: { garden: true },
+        payload: { jardin: true },
       });
     } else {
       dispatch({
         type: "SET_CLIENT_INFORMATION",
-        payload: { garden: false },
+        payload: { jardin: false },
       });
     }
     if (selectedTerrasse !== null) {
