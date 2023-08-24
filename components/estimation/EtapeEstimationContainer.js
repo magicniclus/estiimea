@@ -14,7 +14,7 @@ const EtapeEstimationContainer = () => {
       },
       {
         name: "Appartement/Maison",
-        done: clientInformation?.typeBien ? true : false,
+        done: clientInformation?.type ? true : false,
       },
       {
         name: "Surface",
@@ -32,10 +32,18 @@ const EtapeEstimationContainer = () => {
         name: "Année",
         done: clientInformation?.annee ? true : false,
       },
-      {
-        name: "Niveaux / Étages",
-        done: clientInformation?.etages ? true : false,
-      },
+      clientInformation?.type === "Appartement"
+        ? {
+            name: "Niveaux / Étages",
+            done:
+              clientInformation?.etages && clientInformation?.niveaux
+                ? true
+                : false,
+          }
+        : {
+            name: "Niveaux",
+            done: clientInformation?.etages ? true : false,
+          },
       {
         name: "Espaces exterieurs",
         done: clientInformation?.exterieur ? true : false,
