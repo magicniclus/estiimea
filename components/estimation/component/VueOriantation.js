@@ -43,9 +43,9 @@ const VueOriantation = () => {
       <div className="mt-5">
         <div className="flex flex-col">
           <h3 className="font-light text-sm text-gray-700">
-            Vue de votre bien:
+            Vue de votre bien :
           </h3>
-          <div className="w-full max-w-[370px] flex flex-wrap justify-between">
+          <div className="w-full max-w-[370px] flex flex-wrap xs:justify-between  ">
             <CardWithoutSize
               title="Vis-à-vis"
               selectedCard={selectedView}
@@ -65,9 +65,9 @@ const VueOriantation = () => {
         </div>
         <div className="flex flex-col mt-5">
           <h3 className="font-light text-sm text-gray-700">
-            oriantation de votre bien:
+            Oriantation de votre bien :
           </h3>
-          <div className="w-full flex flex-wrap justify-between max-w-[500px]">
+          <div className="w-full flex flex-wrap xs:justify-between max-w-[500px]">
             <CardWithoutSize
               title="Nord"
               selectedCard={selectedOrientation.includes("Nord") ? true : false}
