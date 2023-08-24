@@ -17,7 +17,7 @@ const CardWithSize = (props) => {
   return (
     <div
       onClick={handleClick}
-      className={`md:mr-5 relative w-24 py-5 bg-white border-blue-700 border rounded-md flex justify-center items-center cursor-pointer transition-all duration-100 hover:shadow-lg ${
+      className={`mr-5 mt-2  relative w-24 py-5 bg-white border-blue-700 border rounded-md flex justify-center items-center cursor-pointer transition-all duration-100 hover:shadow-lg ${
         selected ? "shadow-md" : null
       }`}
     >
