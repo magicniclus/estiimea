@@ -18,7 +18,7 @@ const NbrPieces = () => {
   return (
     <>
       <h2
-        className="text-2xl font-light lg:my-0 my-5"
+        className="text-2xl font-light lg:my-0 my-5 w-full max-w-[350px]"
         style={{ color: primaryColor }}
       >
         Nombre de pièce de votre bien :
