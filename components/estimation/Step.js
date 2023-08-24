@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import AppartementMaison from "./component/AppartementMaison";
 import Surface from "./component/Surface";
@@ -19,55 +19,61 @@ const Step = () => {
   const primaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+  const step = useSelector((state) => state?.stepInProgress);
+  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const component = "Objectifs";
   const handleComponent = () => {
-    switch (component) {
-      case "AppartementMaison":
+    switch (step) {
+      case 2:
         return <AppartementMaison />;
 
-      case "surface":
+      case 3:
         return <Surface />;
 
-      case "NbrPieces":
+      case 4:
         return <NbrPieces />;
 
-      case "NbrChambres":
+      case 5:
         return <NbrChambres />;
 
-      case "annee":
+      case 6:
         return <Annee />;
 
-      case "niveauEtage":
+      case 7:
         return <NiveauxEtage />;
 
-      case "EspacesExterieurs":
+      case 8:
         return <EspacesExterieurs />;
 
-      case "Standing":
+      case 9:
         return <Standing />;
 
-      case "VueOriantation":
+      case 10:
         return <VueOriantation />;
 
-      case "Travaux":
+      case 11:
         return <Travaux />;
 
-      case "Atouts":
+      case 12:
         return <Atouts />;
 
-      case "ClassementEnergetique":
+      case 13:
         return <ClassementEnergetique />;
 
-      case "Objectifs":
+      case 14:
         return <Objectifs />;
 
       default:
         return <AppartementMaison />;
     }
   };
+  const handleStep = () => {
+    dispatch({ type: "UPDATE_SIMULATEUR_STEP" });
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -75,9 +81,10 @@ const Step = () => {
     >
       {handleComponent()}
       <button
-        type="submit"
+        type="button"
         className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-min lg:mb-0 my-10`}
         style={{ backgroundColor: primaryColor }}
+        onClick={handleStep}
       >
         Continuer
       </button>
