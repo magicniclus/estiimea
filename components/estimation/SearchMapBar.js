@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter, usePathname } from "next/navigation";
 
-import { useRouter, pat, usePathname } from "next/navigation";
 const SearchMapBar = ({ map }) => {
   const initialAddress = useSelector(
     (state) => state.clientInfomation?.adresse
@@ -105,15 +105,15 @@ const SearchMapBar = ({ map }) => {
             placeholder="Saisir une adresse"
             className="max-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-gray-900 text-sm"
           />
-          <div className="bg-blue-700 w-[20%] sm:w-[10%] flex items-center justify-center rounded-r-md">
+          <div className="bg-blue-700 w-[20%] sm:w-[10%]  max-w-[50px] flex items-center justify-center rounded-r-md">
             <MapPinIcon className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
-          <ul className="absolute top-full bg-white w-full rounded-md shadow-md overflow-y-auto max-h-[150px]">
+          <ul className="absolute top-full bg-white w-full rounded-b-md shadow-md overflow-y-auto max-h-[150px]z-10 transition-all duration-800 ease-in-out px-2">
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
                 onClick={() => handleSuggestionClick(suggestion)}
-                className="cursor-pointer hover:bg-gray-100 transition ease-in-out duration-100 px-4 py-2 font-light text-gray-700"
+                className="cursor-pointer bg-white hover:rounded-md hover:bg-gray-100 transition ease-in-out duration-100 px-4 py-2 font-light text-gray-700"
               >
                 {suggestion.place_name}
               </li>
