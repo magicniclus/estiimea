@@ -7,6 +7,7 @@ import NbrPieces from "./component/NbrPieces";
 import NbrChambres from "./component/NbrChambres";
 import Annee from "./component/Annee";
 import NiveauxEtage from "./component/NiveauxEtage";
+import EspacesExterieurs from "./component/EspacesExterieurs";
 
 const Step = () => {
   const primaryColor = useSelector(
@@ -15,7 +16,7 @@ const Step = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const component = "niveauEtage";
+  const component = "EspacesExterieurs";
   const handleComponent = () => {
     switch (component) {
       case "AppartementMaison":
@@ -36,6 +37,9 @@ const Step = () => {
       case "niveauEtage":
         return <NiveauxEtage />;
 
+      case "EspacesExterieurs":
+        return <EspacesExterieurs />;
+
       default:
         return <AppartementMaison />;
     }
@@ -43,7 +47,7 @@ const Step = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full min-h-[280px] h-full flex flex-col justify-between"
+      className="w-full min-h-[300px] h-full flex flex-col justify-between bg-gray-50 bg-opacity-50 shadow-sm rounded-md px-5 py-5"
     >
       {handleComponent()}
       <button
