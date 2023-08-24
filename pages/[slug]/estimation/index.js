@@ -21,23 +21,23 @@ const index = () => {
   const stateClientAdresse = useSelector(
     (state) => state?.clientInformation?.adresse
   );
+  const stateClient = useSelector((state) => state?.clientInfomation);
+  const step = useSelector((state) => state.simulateurStep);
 
   const dispatch = useDispatch();
 
-  const stateClient = useSelector((state) => state?.clientInfomation);
-  const step = useSelector((state) => state.simulateurStep);
-  useEffect(() => {
-    //parcour l'objet stateClient et suivant le nombre d'élément dedant on change l'étape
-    let count = 0;
-    for (const key in stateClient) {
-      if (Object.hasOwnProperty.call(stateClient, key)) {
-        const element = stateClient[key];
-        if (element) {
-          dispatch({ type: "SET_SIMULATEUR_STEP", payload: count + 1 });
-        }
-      }
-    }
-  }, [stateClient]);
+  // useEffect(() => {
+  //   //parcour l'objet stateClient et suivant le nombre d'élément dedant on change l'étape
+  //   let count = 0;
+  //   for (const key in stateClient) {
+  //     if (Object.hasOwnProperty.call(stateClient, key)) {
+  //       const element = stateClient[key];
+  //       if (element) {
+  //         dispatch({ type: "SET_SIMULATEUR_STEP", payload: count + 1 });
+  //       }
+  //     }
+  //   }
+  // }, [stateClient]);
 
   const stateSlug = useSelector((state) => state?.user?.settings?.slug);
   const router = useRouter();
