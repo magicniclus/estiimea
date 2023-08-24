@@ -62,7 +62,7 @@ const EtapeEstimationContainer = () => {
       },
       {
         name: "Travaux",
-        done: clientInformation?.travaux ? true : false,
+        done: clientInformation?.travaux !== null ? true : false,
       },
       {
         name: "Atouts",
