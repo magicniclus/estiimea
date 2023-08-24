@@ -45,7 +45,7 @@ const NiveauxEtage = () => {
         className="text-2xl font-light lg:my-0 my-5"
         style={{ color: primaryColor }}
       >
-        Surfaces de votre bien :
+        Étages de votre bien :
       </h2>
       {type === "Appartement" ? (
         <div className="mt-5">
