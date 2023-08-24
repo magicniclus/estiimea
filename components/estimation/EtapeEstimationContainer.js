@@ -55,7 +55,10 @@ const EtapeEstimationContainer = () => {
       },
       {
         name: "Vue / oriantation",
-        done: clientInformation?.vue ? true : false,
+        done:
+          clientInformation?.vue && clientInformation?.oriantation
+            ? true
+            : false,
       },
       {
         name: "Travaux",
