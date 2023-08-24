@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import SelectWithIcon from "./SelectWithIcon";
 import CardWithSize from "./CardWithSize";
 
 const EspacesExterieurs = () => {
