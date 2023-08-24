@@ -32,7 +32,7 @@ const Annee = () => {
         className="text-2xl font-light lg:my-0 my-5"
         style={{ color: primaryColor }}
       >
-        Surfaces de votre bien :
+        L'année de construction de votre bien :
       </h2>
       <div className="flex">
         <SelectWithIcon options={options} onChange={setValue} />
