@@ -74,7 +74,8 @@ const EtapeEstimationContainer = () => {
       },
       {
         name: "Objectif",
-        done: clientInformation?.objectif ? true : false,
+        done:
+          clientInformation?.contrat && clientInformation?.vente ? true : false,
       },
     ]);
   }, [clientInformation]);
