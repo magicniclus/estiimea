@@ -167,11 +167,11 @@ const Step = () => {
   return (
     <form className="w-full min-h-[300px] h-full flex flex-col justify-between bg-opacity-50 rounded-md">
       {handleComponent()}
-      <div className="flex flex-col items-start">
+      <div className="flex items-center lg:mb-0 lg:my-10 mt-10 mb-5">
         <button
           disabled={isButtonDisabled()}
           type="button"
-          className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-max lg:mb-0 my-10`}
+          className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-max`}
           style={{
             backgroundColor: primaryColor,
             opacity: isButtonDisabled() ? 0.6 : 1,
@@ -181,7 +181,7 @@ const Step = () => {
           {step === 14 ? "Voir l'estimation" : "Suivant"}
         </button>
         {error ? (
-          <p className="text-red-300 text-xs font-light text-center mt-2 lg:w-3/5 text-start">
+          <p className="text-red-300 text-xs font-light lg:w-3/5 text-start ml-2">
             {error}
           </p>
         ) : null}
