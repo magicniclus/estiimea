@@ -24,7 +24,12 @@ const NbrPieces = () => {
         Nombre de pièce de votre bien :
       </h2>
       <div className="flex">
-        <InputNumber value={value} onChange={setValue} type="Pcs" />
+        <InputNumber
+          value={value}
+          onChange={setValue}
+          type="Pcs"
+          placeholder="Entrez le nombre de pièce"
+        />
       </div>
     </>
   );
