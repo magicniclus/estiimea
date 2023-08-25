@@ -117,7 +117,7 @@ const EtapeEstimationContainer = () => {
                 item.done
                   ? " text-blue-700"
                   : stepInProgress === index + 1
-                  ? "text-gray-400 font-bold"
+                  ? "text-blue-700 "
                   : "text-gray-400 font-normal"
               } rounded-lg mb-2`}
             >
