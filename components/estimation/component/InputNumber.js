@@ -24,7 +24,7 @@ const InputNumber = (props) => {
         step="1"
         onChange={handleInputChange}
         className="ax-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-gray-900 text-sm"
-        placeholder="Entrez la surface..."
+        placeholder={placeholder || "Entrez la surface..."}
       />
       <div className="bg-blue-700 w-[20%] sm:w-[10%] flex items-center justify-center rounded-r-md py-2 px-5">
         <p className="text-white">
