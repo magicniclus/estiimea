@@ -7,7 +7,7 @@ const Surface = () => {
   const primaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(null);
 
   useEffect(() => {
     dispatch({
@@ -24,7 +24,7 @@ const Surface = () => {
         Surfaces de votre bien :
       </h2>
       <div className="flex">
-        <InputNumber value={value} onChange={setValue} />
+        <InputNumber value={value} onChange={setValue} placehoder="0" />
       </div>
     </>
   );
