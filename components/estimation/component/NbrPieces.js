@@ -7,7 +7,7 @@ const NbrPieces = () => {
   const primaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(null);
 
   useEffect(() => {
     dispatch({
