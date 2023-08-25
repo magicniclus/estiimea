@@ -15,9 +15,7 @@ const index = () => {
   const stateFontColor2 = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
-  const stateUserIsLoading = useSelector(
-    (state) => state?.UserInformation?.photoProfil
-  );
+  const stateUserIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateClientAdresse = useSelector(
     (state) => state?.clientInformation?.adresse
   );
