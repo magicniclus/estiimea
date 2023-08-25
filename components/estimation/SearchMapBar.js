@@ -108,7 +108,7 @@ const SearchMapBar = ({ map }) => {
           <div className="bg-blue-700 w-[20%] sm:w-[10%]  max-w-[50px] flex items-center justify-center rounded-r-md">
             <MapPinIcon className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
-          <ul className="absolute top-full bg-white w-full rounded-b-md shadow-md overflow-y-auto max-h-[150px]z-10 transition-all duration-800 ease-in-out px-2">
+          <ul className="absolute top-full bg-white w-full rounded-b-md shadow-md overflow-y-auto max-h-[150px] z-10 transition-all duration-800 ease-in-out px-2">
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
