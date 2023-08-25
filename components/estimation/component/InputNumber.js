@@ -7,8 +7,11 @@ const InputNumber = (props) => {
   const placeholder = props.placeholder;
 
   const handleInputChange = (event) => {
-    const inputValue = parseInt(event.target.value, 10);
-    if (Number.isInteger(Number(inputValue))) {
+    const inputValue = event.target.value;
+
+    if (inputValue === "") {
+      setValue(null);
+    } else if (Number.isInteger(Number(inputValue))) {
       setValue(parseInt(inputValue, 10));
     }
   };
