@@ -94,11 +94,15 @@ const EtapeEstimationContainer = () => {
       {
         name: "Objectif",
         done:
-          clientInformation?.contrat && clientInformation?.vente ? true : false,
+          clientInformation?.contrat && clientInformation?.vente
+            ? true
+            : false && stepInProgress === 14
+            ? true
+            : false,
         select: stepInProgress === 14 ? true : false,
       },
     ]);
-  }, [clientInformation]);
+  }, [clientInformation, stepInProgress]);
   return (
     <div className="lg:block hidden">
       <h1 className="text-xl font-light mb-5">
