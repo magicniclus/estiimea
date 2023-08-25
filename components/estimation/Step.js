@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useRouter } from "next/router";
@@ -18,6 +18,8 @@ import ClassementEnergetique from "./component/ ClassementEnergetique";
 import Objectifs from "./component/Objectifs";
 
 const Step = () => {
+  const [error, setError] = useState(null);
+
   const primaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
@@ -105,6 +107,14 @@ const Step = () => {
     dispatch({ type: "UPDATE_SIMULATEUR_STEP" });
   };
 
+  useEffect(() => {
+    if (step === 5 && nbrChambres > nbrPieces) {
+      setError(
+        "Le nombre de chambres ne peut pas être supérieur au nombre de pièces"
+      );
+    } else setError(null);
+  }, [nbrChambres]);
+
   const isButtonDisabled = () => {
     switch (step) {
       case 2:
@@ -117,7 +127,7 @@ const Step = () => {
         return !nbrPieces;
 
       case 5:
-        return !nbrChambres;
+        return !nbrChambres || nbrChambres > nbrPieces;
 
       case 6:
         return !annee;
@@ -157,18 +167,25 @@ const Step = () => {
   return (
     <form className="w-full min-h-[300px] h-full flex flex-col justify-between bg-opacity-50 rounded-md">
       {handleComponent()}
-      <button
-        disabled={isButtonDisabled()}
-        type="button"
-        className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-max lg:mb-0 my-10`}
-        style={{
-          backgroundColor: primaryColor,
-          opacity: isButtonDisabled() ? 0.6 : 1,
-        }}
-        onClick={(e) => (step === 14 ? handleRoute(e) : handleStep())}
-      >
-        {step === 14 ? "Voir l'estimation" : "Suivant"}
-      </button>
+      <div className="flex flex-col items-start">
+        <button
+          disabled={isButtonDisabled()}
+          type="button"
+          className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-max lg:mb-0 my-10`}
+          style={{
+            backgroundColor: primaryColor,
+            opacity: isButtonDisabled() ? 0.6 : 1,
+          }}
+          onClick={(e) => (step === 14 ? handleRoute(e) : handleStep())}
+        >
+          {step === 14 ? "Voir l'estimation" : "Suivant"}
+        </button>
+        {error ? (
+          <p className="text-red-300 text-xs font-light text-center mt-2 lg:w-3/5 text-start">
+            {error}
+          </p>
+        ) : null}
+      </div>
     </form>
   );
 };
