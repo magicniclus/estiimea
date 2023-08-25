@@ -55,7 +55,7 @@ const EspacesExterieurs = () => {
       >
         Espaces exterieurs de votre bien:
       </h2>
-      <div className="flex w-full justify-between flex-wrap max-w-[400px]">
+      <div className="flex w-full lg:justify-between flex-wrap max-w-[400px]">
         <CardWithSize
           title="Jardin"
           selected={selectedGarden}
