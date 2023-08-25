@@ -126,7 +126,10 @@ const CardWithLogo = (props) => {
       <div className={`${type === "maison" ? "lg:w-16 w-16" : "lg:w-12 w-10"}`}>
         {type === "maison" ? houseSvg : immeubleSvg}
       </div>
-      <p className="mt-3" style={{ color: primaryColor }}>
+      <p
+        className="mt-3 lg:text-normal text-sm"
+        style={{ color: primaryColor }}
+      >
         {type === "maison" ? "Maison" : "Appartement"}
       </p>
       <div className="w-4 h-4 bg-gray-200 rounded-full absolute top-1 right-1">
