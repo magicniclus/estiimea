@@ -24,7 +24,12 @@ const NbrChambres = () => {
         Nombre de chambre de votre bien :
       </h2>
       <div className="flex">
-        <InputNumber value={value} onChange={setValue} type="Ch" />
+        <InputNumber
+          value={value}
+          onChange={setValue}
+          placeholder="Entrez le nombre de chambre"
+          type="Ch"
+        />
       </div>
     </>
   );
