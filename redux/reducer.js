@@ -4,7 +4,7 @@ const initState = {
   mapIsLoading: true,
   userIsLoading: true,
   clientInfomation: {},
-  simulateurStep: 12,
+  simulateurStep: 14,
   stepInProgress: 2,
 };
 
