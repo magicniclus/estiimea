@@ -24,7 +24,7 @@ const Standing = () => {
       >
         Quel est le standing de votre bien:
       </h2>
-      <div className="flex w-full justify-between flex-wrap max-w-[400px]">
+      <div className="flex w-full lg:justify-between flex-wrap max-w-[400px]">
         <CardWithoutSize
           title="Moyen"
           selectedCard={selectedCard}
