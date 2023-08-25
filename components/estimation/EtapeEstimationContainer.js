@@ -7,6 +7,7 @@ const EtapeEstimationContainer = () => {
   const stepInProgress = useSelector((state) => state?.stepInProgress);
   //Faire les étapes de l'estimation en fonction de l'avancement de l'utilisateur
   const [etape, setEtape] = useState();
+  console.log(clientInformation.travaux);
   useEffect(() => {
     setEtape([
       {
@@ -47,7 +48,7 @@ const EtapeEstimationContainer = () => {
           },
       {
         name: "Espaces exterieurs",
-        done: stepInProgress >= 6 ? true : false,
+        done: stepInProgress >= 9 ? true : false,
       },
       {
         name: "Standing",
@@ -56,13 +57,17 @@ const EtapeEstimationContainer = () => {
       {
         name: "Vue / oriantation",
         done:
-          clientInformation?.vue && clientInformation?.oriantation !== [""]
+          clientInformation?.vue && clientInformation?.oriantation.length !== 0
             ? true
             : false,
       },
       {
         name: "Travaux",
-        done: clientInformation?.travaux !== null ? true : false,
+        done:
+          clientInformation?.travaux !== null &&
+          clientInformation?.travaux !== undefined
+            ? true
+            : false,
       },
       {
         name: "Atouts",
