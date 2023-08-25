@@ -40,7 +40,7 @@ const NiveauxEtage = () => {
     }
   }, [valueNiveaux, valueEtages]);
   return (
-    <div>
+    <>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
         style={{ color: primaryColor }}
@@ -73,7 +73,7 @@ const NiveauxEtage = () => {
           <SelectWithIcon options={optionsNiveaux} onChange={setValueNiveaux} />
         </div>
       )}
-    </div>
+    </>
   );
 };
 
