@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import { useRouter } from "next/router";
 
 import AppartementMaison from "./component/AppartementMaison";
 import Surface from "./component/Surface";
@@ -20,11 +22,18 @@ const Step = () => {
     (state) => state?.user?.settings?.fontColor2
   );
   const step = useSelector((state) => state?.stepInProgress);
+
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const router = useRouter();
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
+
+  const handleRoute = (e) => {
     e.preventDefault();
+    router.push(`/${currentSlug}/estimation/loader`);
   };
+
   const handleComponent = () => {
     switch (step) {
       case 2:
@@ -75,18 +84,15 @@ const Step = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full min-h-[300px] h-full flex flex-col justify-between bg-opacity-50 rounded-md"
-    >
+    <form className="w-full min-h-[300px] h-full flex flex-col justify-between bg-opacity-50 rounded-md">
       {handleComponent()}
       <button
         type="button"
-        className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-min lg:mb-0 my-10`}
+        className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-max lg:mb-0 my-10`}
         style={{ backgroundColor: primaryColor }}
-        onClick={handleStep}
+        onClick={(e) => (step === 14 ? handleRoute(e) : handleStep())}
       >
-        Continuer
+        {step === 14 ? "Voir l'estimation" : "Suivant"}
       </button>
     </form>
   );
