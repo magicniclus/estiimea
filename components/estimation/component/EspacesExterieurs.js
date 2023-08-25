@@ -67,7 +67,7 @@ const EspacesExterieurs = () => {
           setSelected={setSelectedTerrasse}
         />
         <CardWithSize
-          title="Terrasse"
+          title="Balcon"
           selected={selectedBalcon}
           setSelected={setSelectedBalcon}
         />
