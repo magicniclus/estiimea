@@ -14,6 +14,15 @@ const ProgressBar = () => {
   const currentSlug = pathSegments[1];
 
   const handleClick = () => {
+    if (step === 14) {
+      dispatch({
+        type: "SET_CLIENT_INFORMATION",
+        payload: {
+          vente: null,
+          contrat: null,
+        },
+      });
+    }
     if (step > 2) {
       dispatch({ type: "DOWN_SIMULATEUR_STEP" });
     } else {
