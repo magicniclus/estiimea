@@ -13,11 +13,11 @@ const NiveauxEtage = () => {
   ];
   const optionsNiveaux = [
     "Plein pied",
-    "1 niveau",
-    "2 niveaux",
-    "3 niveaux",
-    "4 niveaux",
-    "5 niveaux ou +",
+    "1 étage",
+    "2 étages",
+    "3 étages",
+    "4 étages",
+    "5 étages ou +",
   ];
   const dispatch = useDispatch();
   const primaryColor = useSelector(
