@@ -9,7 +9,8 @@ const VueOriantation = () => {
   const [selectedView, setSelectedView] = useState(null);
   const [selectedOrientation, setSelectedOrientation] = useState([]);
 
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
 
@@ -36,13 +37,13 @@ const VueOriantation = () => {
     <div>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         Quelle est la vue et l'orientation de votre bien ?
       </h2>
       <div className="mt-5">
         <div className="flex flex-col">
-          <h3 className="font-light text-sm text-gray-700">
+          <h3 className="font-light text-sm " style={{ color: primaryColor }}>
             Vue de votre bien :
           </h3>
           <div className="w-full max-w-[370px] flex flex-wrap xs:justify-between  ">
@@ -64,7 +65,7 @@ const VueOriantation = () => {
           </div>
         </div>
         <div className="flex flex-col mt-5">
-          <h3 className="font-light text-sm text-gray-700">
+          <h3 className="font-light text-sm" style={{ primaryColor }}>
             Oriantation de votre bien :
           </h3>
           <div className="w-full flex flex-wrap xs:justify-between max-w-[500px]">
