@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 const CardWithLogo = (props) => {
   const dispatch = useDispatch();
 
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const houseSvg = (
@@ -21,9 +22,9 @@ const CardWithLogo = (props) => {
         y="24"
         width="42"
         height="24"
-        fill={`${primaryColor}`}
+        fill={`${secondaryColor}`}
       />
-      <path d="M28.1458 0L56.2917 27H0L28.1458 0Z" fill={`${primaryColor}`} />
+      <path d="M28.1458 0L56.2917 27H0L28.1458 0Z" fill={`${secondaryColor}`} />
       <rect x="35.6465" y="36" width="10" height="7" fill="white" />
       <rect x="13.6465" y="36" width="10" height="12" fill="white" />
     </svg>
@@ -37,7 +38,7 @@ const CardWithLogo = (props) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="36.6545" height="48" fill={`${primaryColor}`} />
+      <rect width="36.6545" height="48" fill={`${secondaryColor}`} />
       <rect
         x="6.10938"
         y="6.10907"
@@ -121,14 +122,14 @@ const CardWithLogo = (props) => {
       className={`relative px-4 py-2 w-24 lg:w-[115px] border rounded-xl cursor-pointer transition-all duration-100 flex justify-around flex-col items-center hover:shadow-lg ${
         selected ? "shadow-md" : null
       }`}
-      style={{ borderColor: primaryColor, marginRight: props.margin }}
+      style={{ borderColor: secondaryColor, marginRight: props.margin }}
     >
       <div className={`${type === "maison" ? "lg:w-16 w-16" : "lg:w-12 w-10"}`}>
         {type === "maison" ? houseSvg : immeubleSvg}
       </div>
       <p
         className="mt-3 lg:text-normal text-sm"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         {type === "maison" ? "Maison" : "Appartement"}
       </p>
