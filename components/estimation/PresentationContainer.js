@@ -52,10 +52,9 @@ const PresentationContainer = () => {
   const stateBackgroundColor = useSelector(
     (state) => state?.user?.settings?.backgroundColor
   );
-  const stateFontColor = useSelector(
-    (state) => state?.user?.settings?.fontColor
-  );
-  const stateFontColor2 = useSelector(
+
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const stateEntreprise = useSelector(
@@ -84,7 +83,7 @@ const PresentationContainer = () => {
   return (
     <div
       className=" h-full w-full lg:w-4/12 flex flex-col justify-between lg:min-h-[600px] lg:mb-0 mb-7"
-      style={{ color: stateFontColor }}
+      style={{ color: primaryColor }}
     >
       <div className="flex">
         {stateProfil ? (
@@ -95,12 +94,13 @@ const PresentationContainer = () => {
           />
         ) : (
           <UserIcon
-            className="h-8 w-8 rounded-full text-gray-700"
+            className="h-8 w-8 rounded-full"
+            style={{ color: primaryColor }}
             aria-hidden="true"
           />
         )}
         <div className="ml-3">
-          <h2 className="font-bold text-lg" style={{ color: stateFontColor2 }}>
+          <h2 className="font-bold text-lg" style={{ color: secondaryColor }}>
             {stateName}
           </h2>
           <h3 className="font-light text-xs">Conseiller {stateEntreprise}</h3>
@@ -109,7 +109,7 @@ const PresentationContainer = () => {
       <div>
         <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-0">
           Estimez votre bien en ligne{" "}
-          <span className="font-bold" style={{ color: stateFontColor2 }}>
+          <span className="font-bold" style={{ color: secondaryColor }}>
             gratuitement
           </span>
           .
@@ -140,7 +140,7 @@ const PresentationContainer = () => {
       <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
         <a
           className="font-light text-xs"
-          style={{ color: stateFontColor2 }}
+          style={{ color: secondaryColor }}
           href="#"
         >
           Paramètre et cookies
@@ -148,7 +148,7 @@ const PresentationContainer = () => {
         <div className="ml-3">|</div>
         <a
           className="font-light text-xs ml-3"
-          style={{ color: stateFontColor2 }}
+          style={{ color: secondaryColor }}
           href="#"
         >
           Signaler un abus
