@@ -18,10 +18,8 @@ const UserInformation = () => {
   const stateEmail = useSelector(
     (state) => state?.user?.userInformation?.email
   );
-  const stateFontColor = useSelector(
-    (state) => state?.user?.settings?.fontColor
-  );
-  const stateFontColor2 = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   return (
@@ -35,23 +33,29 @@ const UserInformation = () => {
           />
         ) : (
           <UserIcon
-            className="h-8 w-8 rounded-full text-gray-700"
+            className="h-8 w-8 rounded-full"
             aria-hidden="true"
+            style={{ color: primaryColor }}
           />
         )}
         <div className="ml-3">
-          <h2 className="font-bold text-lg" style={{ color: stateFontColor2 }}>
+          <h2 className="font-bold text-lg" style={{ color: secondaryColor }}>
             {stateName}
           </h2>
           <h3 className="font-light text-xs">Conseiller {stateEntreprise}</h3>
           <div className="flex items-center mt-1">
             <a
-              className="flex flex-row text-gray-700 "
+              className="flex flex-row"
+              style={{ color: primaryColor }}
               href={`tel:${statePhone}`}
             >
               <PhoneIcon className="mr-5 w-5" />
             </a>
-            <a className="flex text-gray-700 " href={`mailto:${stateEmail}`}>
+            <a
+              className="flex"
+              style={{ color: primaryColor }}
+              href={`mailto:${stateEmail}`}
+            >
               <EnvelopeIcon className="w-5" />
             </a>
           </div>
