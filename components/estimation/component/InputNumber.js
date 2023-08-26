@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
 const InputNumber = (props) => {
   const value = props.value;
