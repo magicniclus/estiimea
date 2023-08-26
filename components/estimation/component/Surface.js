@@ -4,7 +4,8 @@ import InputNumber from "./InputNumber"; // Assurez-vous que le chemin d'accès 
 
 const Surface = () => {
   const dispatch = useDispatch();
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const [value, setValue] = useState(null);
@@ -19,7 +20,7 @@ const Surface = () => {
     <>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         Surfaces de votre bien :
       </h2>
