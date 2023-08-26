@@ -16,6 +16,10 @@ const SearchMapBar = ({ map }) => {
   const [input, setInput] = useState(initialAddress || "");
   const [suggestions, setSuggestions] = useState([]);
   const [coordinates, setCoordinates] = useState(initialCoordinates || null);
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
+    (state) => state?.user?.settings?.fontColor2
+  );
 
   const [disabled, setDisabled] = useState(true);
 
@@ -93,7 +97,7 @@ const SearchMapBar = ({ map }) => {
 
   return (
     <div className="mb-5">
-      <h2 className="text-lg font-normal text-gray-700 mb-3">
+      <h2 className="text-lg font-normal mb-3" style={{ color: primaryColor }}>
         Adresse du bien à estimer
       </h2>
       <form onSubmit={handleSubmit} className="w-full">
@@ -103,9 +107,13 @@ const SearchMapBar = ({ map }) => {
             value={input}
             onChange={handleInputChange}
             placeholder="Saisir une adresse"
-            className="max-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-gray-900 text-sm"
+            className="max-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-sm"
+            style={{ color: primaryColor, borderColor: secondaryColor }}
           />
-          <div className="bg-blue-700 w-[20%] sm:w-[10%]  max-w-[50px] flex items-center justify-center rounded-r-md">
+          <div
+            className="w-[20%] sm:w-[10%]  max-w-[50px] flex items-center justify-center rounded-r-md"
+            style={{ backgroundColor: secondaryColor }}
+          >
             <MapPinIcon className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
           <ul className="absolute top-full bg-white w-full rounded-b-md shadow-md overflow-y-auto max-h-[150px] z-10 transition-all duration-800 ease-in-out px-2">
@@ -113,7 +121,8 @@ const SearchMapBar = ({ map }) => {
               <li
                 key={suggestion.id}
                 onClick={() => handleSuggestionClick(suggestion)}
-                className="cursor-pointer bg-white hover:rounded-md hover:bg-gray-100 transition ease-in-out duration-100 px-4 py-2 font-light text-gray-700"
+                className="cursor-pointer bg-white hover:rounded-md hover:bg-gray-100 transition ease-in-out duration-100 px-4 py-2 font-light"
+                style={{ color: primaryColor }}
               >
                 {suggestion.place_name}
               </li>
@@ -125,10 +134,13 @@ const SearchMapBar = ({ map }) => {
           type="submit"
           disabled={disabled}
           className={`text-white py-2 px-8 rounded-lg transition ease-in-out duration-100 ${
-            disabled
-              ? "bg-blue-500"
-              : "bg-blue-700 hover:bg-blue-600 hover:shadow-md"
+            disabled ? "" : "hover:shadow-md"
           }`}
+          style={
+            disabled
+              ? { backgroundColor: secondaryColor, opacity: "0.6" }
+              : { backgroundColor: secondaryColor }
+          }
         >
           Estimer
         </button>
