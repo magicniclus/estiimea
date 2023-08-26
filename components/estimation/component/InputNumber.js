@@ -6,6 +6,11 @@ const InputNumber = (props) => {
   const type = props.type;
   const placeholder = props.placeholder;
 
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
+    (state) => state?.user?.settings?.fontColor2
+  );
+
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
 
@@ -23,10 +28,14 @@ const InputNumber = (props) => {
         value={value}
         step="1"
         onChange={handleInputChange}
-        className="ax-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-gray-900 text-sm"
+        className="ax-w-[500px] w-[80%] sm:w-[90%] border px-4 py-3 rounded-l-md font-light text-sm"
         placeholder={placeholder || "Entrez la surface..."}
+        style={{ borderColor: secondaryColor, color: primaryColor }}
       />
-      <div className="bg-blue-700 w-[20%] sm:w-[10%] flex items-center justify-center rounded-r-md py-2 px-5">
+      <div
+        className="w-[20%] sm:w-[10%] flex items-center justify-center rounded-r-md py-2 px-5"
+        style={{ backgroundColor: secondaryColor }}
+      >
         <p className="text-white">
           {
             <div>
