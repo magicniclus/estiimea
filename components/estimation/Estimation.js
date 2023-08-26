@@ -7,10 +7,8 @@ import Loader from "../loader/Loader";
 import ContainerEstimation from "../layout/ContainerEstimation";
 
 const Estimation = () => {
-  const stateFontColor = useSelector(
-    (state) => state?.user?.settings?.fontColor
-  );
-  const stateFontColor2 = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
@@ -32,7 +30,7 @@ const Estimation = () => {
       <div className="flex items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:hidden">
         <a
           className="font-light text-xs"
-          style={{ color: stateFontColor2 }}
+          style={{ color: secondaryColor }}
           href="#"
         >
           Paramètre et cookies
@@ -40,7 +38,7 @@ const Estimation = () => {
         <div className="ml-3">|</div>
         <a
           className="font-light text-xs ml-3"
-          style={{ color: stateFontColor2 }}
+          style={{ color: secondaryColor }}
           href="#"
         >
           Signaler un abus
