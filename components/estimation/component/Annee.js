@@ -4,7 +4,8 @@ import SelectWithIcon from "./SelectWithIcon";
 
 const Annee = () => {
   const dispatch = useDispatch();
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const [value, setValue] = useState(0);
@@ -30,7 +31,7 @@ const Annee = () => {
     <>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         L'année de construction de votre bien :
       </h2>
