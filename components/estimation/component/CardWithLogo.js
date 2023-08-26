@@ -137,7 +137,7 @@ const CardWithLogo = (props) => {
         <div
           className="w-3 h-3 rounded-full absolute top-0.5 right-0.5"
           style={{
-            backgroundColor: primaryColor,
+            backgroundColor: secondaryColor,
             display: selected ? "" : "none",
           }}
         ></div>
