@@ -5,6 +5,10 @@ import { useSelector } from "react-redux";
 const EtapeEstimationContainer = () => {
   const clientInformation = useSelector((state) => state?.clientInfomation);
   const stepInProgress = useSelector((state) => state?.stepInProgress);
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
+    (state) => state?.user?.settings?.fontColor2
+  );
   //Faire les étapes de l'estimation en fonction de l'avancement de l'utilisateur
   const [etape, setEtape] = useState();
   console.log(clientInformation.travaux);
@@ -115,14 +119,24 @@ const EtapeEstimationContainer = () => {
               key={index}
               className={`text-sm ${
                 item.done
-                  ? " text-blue-700"
+                  ? " "
                   : stepInProgress === index + 1
-                  ? "text-blue-700 "
+                  ? ""
                   : "text-gray-400 font-normal"
               } rounded-lg mb-2`}
+              style={
+                item.done
+                  ? { color: secondaryColor }
+                  : stepInProgress === index + 1
+                  ? { color: secondaryColor }
+                  : null
+              }
             >
               {item.done ? (
-                <CheckIcon className="inline-block w-4 h-4 mr-2 text-blue-700" />
+                <CheckIcon
+                  className="inline-block w-4 h-4 mr-2 "
+                  style={{ color: primaryColor }}
+                />
               ) : null}
               {item.name}
             </li>
