@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import { useSelector } from "react-redux";
 
 const SelectWithIcon = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ const SelectWithIcon = (props) => {
     >
       <div
         className="ax-w-[500px] w-[80%] sm:w-[90%] border px-4 py-3 rounded-l-md font-light text-sm cursor-pointer"
-        style={{ color: secondaryColor, borderColor: primaryColor }}
+        style={{ color: primaryColor, borderColor: secondaryColor }}
       >
         {selectedValue}
       </div>
