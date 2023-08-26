@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 const AppartementMaison = () => {
   const dispatch = useDispatch();
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const [selectedType, setSelectedType] = useState(null);
@@ -20,7 +21,7 @@ const AppartementMaison = () => {
     <>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         Type de bien :
       </h2>
