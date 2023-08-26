@@ -13,6 +13,12 @@ const Map = (props) => {
   const stateCoordinate = useSelector(
     (state) => state.clientInfomation?.coordinates
   );
+
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
+    (state) => state?.user?.settings?.fontColor2
+  );
+
   const defaultCoordinates = [2.3964, 47.0815];
 
   const [lng, lat] = stateCoordinate || defaultCoordinates;
@@ -113,7 +119,10 @@ const Map = (props) => {
         }
       `}</style>
       {stateCoordinate && showIcon ? (
-        <MapPinIcon className="h-10 w-10 text-blue-700 absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-opacity ease-out duration-1000" />
+        <MapPinIcon
+          className="h-10 w-10 absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-opacity ease-out duration-1000"
+          style={{ color: secondaryColor }}
+        />
       ) : null}
     </div>
   );
