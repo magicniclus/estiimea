@@ -135,7 +135,7 @@ const EtapeEstimationContainer = () => {
               {item.done ? (
                 <CheckIcon
                   className="inline-block w-4 h-4 mr-2 "
-                  style={{ color: primaryColor }}
+                  style={{ color: secondaryColor }}
                 />
               ) : null}
               {item.name}
