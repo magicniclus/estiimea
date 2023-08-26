@@ -20,7 +20,8 @@ import Objectifs from "./component/Objectifs";
 const Step = () => {
   const [error, setError] = useState(null);
 
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const step = useSelector((state) => state?.stepInProgress);
@@ -173,7 +174,7 @@ const Step = () => {
           type="button"
           className={`text-white py-1.5 px-5 rounded-full transition ease-in-out duration-100 w-max`}
           style={{
-            backgroundColor: primaryColor,
+            backgroundColor: secondaryColor,
             opacity: isButtonDisabled() ? 0.6 : 1,
           }}
           onClick={(e) => (step === 14 ? handleRoute(e) : handleStep())}
