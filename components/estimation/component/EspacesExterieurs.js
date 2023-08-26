@@ -4,7 +4,8 @@ import CardWithSize from "./CardWithSize";
 
 const EspacesExterieurs = () => {
   const dispatch = useDispatch();
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const [selectedGarden, setSelectedGarden] = useState(null);
@@ -51,7 +52,7 @@ const EspacesExterieurs = () => {
     <>
       <h2
         className="text-2xl font-light lg:my-0 my-5 w-full max-w-[350px]"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         Espaces exterieurs de votre bien:
       </h2>
