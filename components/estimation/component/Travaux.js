@@ -4,10 +4,10 @@ import CardWithoutSize from "./CardWithoutSize";
 
 const Travaux = () => {
   const dispatch = useDispatch();
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
-
   const [selectedTravaux, setSelectedTravaux] = useState("");
   useEffect(() => {
     dispatch({
@@ -26,7 +26,7 @@ const Travaux = () => {
     <div>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         Des travaux sont à prévoir dans votre bien ?
       </h2>
