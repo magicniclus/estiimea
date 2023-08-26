@@ -13,7 +13,8 @@ const Objectifs = () => {
   const optionsContract = ["Propriétaire", "Locataire"];
 
   const dispatch = useDispatch();
-  const primaryColor = useSelector(
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
   const type = useSelector((state) => state?.clientInfomation?.type);
@@ -30,19 +31,27 @@ const Objectifs = () => {
     <div>
       <h2
         className="text-2xl font-light lg:my-0 my-5"
-        style={{ color: primaryColor }}
+        style={{ color: secondaryColor }}
       >
         Quels sont vos objectifs ?
       </h2>
       <div className="mt-5">
         <div className="flex flex-col">
-          <h3 className="font-light text-sm text-gray-700 mb-3">
+          <h3
+            className="font-light text-sm mb-3"
+            style={{ color: primaryColor }}
+          >
             Quand souhaitez vous vendre votre bien ?
           </h3>
           <SelectWithIcon options={optionsVente} onChange={setValueVente} />
         </div>
         <div className="flex flex-col mt-5">
-          <h3 className="font-light text-sm text-gray-700 mb-3">Vous êtes ?</h3>
+          <h3
+            className="font-light text-sm mb-3"
+            style={{ color: primaryColor }}
+          >
+            Vous êtes ?
+          </h3>
           <SelectWithIcon
             options={optionsContract}
             onChange={setValueContract}
