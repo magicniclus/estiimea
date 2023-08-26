@@ -6,6 +6,11 @@ const SelectWithIcon = (props) => {
   const [selectedValue, setSelectedValue] = useState("Sélectionné une valeur");
   const options = props.options || [];
 
+  const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
+  const secondaryColor = useSelector(
+    (state) => state?.user?.settings?.fontColor2
+  );
+
   const handleSelectChange = (value) => {
     setSelectedValue(value);
     setIsOpen(false);
@@ -21,10 +26,16 @@ const SelectWithIcon = (props) => {
       }`}
       onClick={() => setIsOpen(!isOpen)}
     >
-      <div className="ax-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-gray-900 text-sm cursor-pointer">
+      <div
+        className="ax-w-[500px] w-[80%] sm:w-[90%] border px-4 py-3 rounded-l-md font-light text-sm cursor-pointer"
+        style={{ color: secondaryColor, borderColor: primaryColor }}
+      >
         {selectedValue}
       </div>
-      <div className="bg-blue-700 w-[20%] sm:w-[10%] max-w-[50px] flex items-center justify-center rounded-r-md ">
+      <div
+        className="w-[20%] sm:w-[10%] max-w-[50px] flex items-center justify-center rounded-r-md "
+        style={{ backgroundColor: secondaryColor }}
+      >
         {isOpen ? (
           <ChevronUpIcon className="h-6 w-6 text-white" />
         ) : (
@@ -40,7 +51,8 @@ const SelectWithIcon = (props) => {
           {options.map((option, index) => (
             <div
               key={index}
-              className={`text-gray-700 font-light cursor-pointer px-4 py-2 bg-white hover:rounded-md hover:bg-gray-100 transition ease-in-out duration-100`}
+              className={`font-light cursor-pointer px-4 py-2 bg-white hover:rounded-md hover:bg-gray-100 transition ease-in-out duration-100`}
+              style={{ color: primaryColor }}
               onClick={() => handleSelectChange(option)}
             >
               {option}
