@@ -45,7 +45,7 @@ const SelectWithIcon = (props) => {
       </div>
       {isOpen && (
         <div
-          className={`absolute top-full left-0 w-full rounded-md bg-white z-10 transition-all duration-800 ease-in-out  px-2 py-2 ${
+          className={`absolute top-full left-0 w-full rounded-md bg-white z-10 transition-all duration-800 ease-in-out  px-1.5 py-2 ${
             isOpen ? "max-h-36 shadow-sm" : "max-h-0"
           } overflow-y-auto`}
         >
