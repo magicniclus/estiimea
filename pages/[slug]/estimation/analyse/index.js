@@ -1,7 +1,11 @@
 import React from "react";
+
+import { useRouter } from "next/router";
+
+import { useSelector } from "react-redux";
+
 import ContainerEstimation from "../../../../components/layout/ContainerEstimation";
 import EstimationLayout from "../../../../components/layout/EstimationLayout";
-import { useSelector } from "react-redux";
 import UserInformation from "../../../../components/estimation/UserInformation";
 import AnalysePresentation from "../../../../components/estimation/component/AnalysePresentation";
 import AnalyseLoader from "../../../../components/estimation/component/AnalyseLoader";
@@ -11,6 +15,13 @@ const index = () => {
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+  const router = useRouter();
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
+
+  const handleRoute = () => {
+    router.push(`/${currentSlug}/estimation/analyse`);
+  };
   return (
     <EstimationLayout>
       <ContainerEstimation>
