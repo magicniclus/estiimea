@@ -59,7 +59,7 @@ const index = () => {
             Dernière étape !
           </h2>
           <h1
-            className="text-center text-xs lg:mt-5 mt-10"
+            className="text-center text-xs lg:my-5 my-10"
             style={{ color: primaryColor }}
           >
             Saisissez vos coordonnées afin de visualiser votre estimation
