@@ -29,7 +29,6 @@ const index = () => {
   }, [primaryColor]);
 
   useEffect(() => {
-    console.log(currentSlug);
     setTimeout(() => {
       if (!clientInfomation && currentSlug) {
         router.push({
