@@ -1,48 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+
+import { useRouter } from "next/router";
+
+import { useSelector, useDispatch } from "react-redux";
 
 const FormulaireFinal = () => {
   const namePattern = /^[a-zA-Z]{2,}$/;
 
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
+  const [firstName, setFirstName] = useState(""); // <- state pour le prénom
+  const [lastName, setLastName] = useState(""); // <- state pour le nom
+  const [email, setEmail] = useState(""); // <- state pour l'email
+  const [phone, setPhone] = useState(""); // <- state pour le téléphone
+
   const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+  const clientInfomation = useSelector(
+    (state) => state?.clientInformation?.settings
+  );
+
+  const dispatch = useDispatch();
 
   const validateFields = () => {
     let isValid = true;
     let tempErrors = {};
 
-    // Validate First Name (assuming at least 2 characters)
-    // Validate First Name
-    const firstNameValue = document.getElementById("first-name").value.trim();
-    if (!firstNameValue || !namePattern.test(firstNameValue)) {
+    // Utilisation des valeurs des states pour la validation
+    if (!firstName || !namePattern.test(firstName)) {
       isValid = false;
-      tempErrors.firstName = !firstNameValue
+      tempErrors.firstName = !firstName
         ? "Le prénom est requis."
         : "Le prénom est invalide.";
     }
 
-    // Validate Last Name
-    const lastNameValue = document.getElementById("last-name").value.trim();
-    if (!lastNameValue || !namePattern.test(lastNameValue)) {
+    if (!lastName || !namePattern.test(lastName)) {
       isValid = false;
-      tempErrors.lastName = !lastNameValue
+      tempErrors.lastName = !lastName
         ? "Le nom est requis."
         : "Le nom est invalide.";
     }
-    // Validate Email
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(document.getElementById("email").value)) {
+    if (!emailPattern.test(email)) {
       isValid = false;
       tempErrors.email = "L'adresse e-mail est invalide.";
     }
 
-    // Validate Phone (a basic example for FR)
     const phonePattern = /^(0[1-9])(?:[ _.-]?(\d{2})){4}$/;
-    if (!phonePattern.test(document.getElementById("phone-number").value)) {
+    if (!phonePattern.test(phone)) {
       isValid = false;
       tempErrors.phone = "Le numéro de téléphone est invalide.";
     }
@@ -56,11 +64,23 @@ const FormulaireFinal = () => {
     return isValid;
   };
 
+  const router = useRouter();
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateFields()) {
-      console.log("Form is valid, you can submit");
-      // Handle your form submission logic here
+      dispatch({
+        type: "SET_CLIENT_INFORMATION",
+        payload: {
+          firstName,
+          lastName,
+          email,
+          phone,
+        },
+      });
+      router.push(`/${currentSlug}/estimation/resultat`);
     }
   };
 
@@ -81,6 +101,8 @@ const FormulaireFinal = () => {
                 name="first-name"
                 id="first-name"
                 autoComplete="given-name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className={`w-full px-4 py-3 rounded-md font-light text-sm border ${
                   errors.firstName ? "border-red-400" : "border-gray-200"
                 }`}
@@ -100,6 +122,8 @@ const FormulaireFinal = () => {
                 name="last-name"
                 id="last-name"
                 autoComplete="family-name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className={`w-full px-4 py-3 rounded-md font-light text-sm border ${
                   errors.lastName ? "border-red-400" : "border-gray-200"
                 }`}
@@ -118,6 +142,8 @@ const FormulaireFinal = () => {
                 type="email"
                 name="email"
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
                 className={`w-full px-4 py-3 rounded-md font-light text-sm border ${
                   errors.email ? "border-red-400" : "border-gray-200"
@@ -137,6 +163,8 @@ const FormulaireFinal = () => {
                 type="tel"
                 name="phone-number"
                 id="phone-number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 autoComplete="tel"
                 className={`w-full px-4 py-3 rounded-md font-light text-sm border ${
                   errors.phone ? "border-red-400" : "border-gray-200"
