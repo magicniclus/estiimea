@@ -1,35 +1,48 @@
 import React, { useEffect, useState } from "react";
 
-import { getEstimation } from "../../../../homaData/getData";
-
 import { useSelector } from "react-redux";
+
+import { useRouter } from "next/router";
+
+import { getEstimation } from "../../../../homaData/getData";
 import { addEstimationForUser } from "../../../../firebase/dataManager";
 
+import Loader from "../../../../components/loader/Loader";
+import ContainerEstimation from "../../../../components/layout/ContainerEstimation";
+import EstimationLayout from "../../../../components/layout/EstimationLayout";
+
 import { v4 as uuidv4 } from "uuid";
+import { current } from "@reduxjs/toolkit";
 
 const index = () => {
   const uniqueId = uuidv4();
 
+  const router = useRouter();
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
+
   const clientInformation = useSelector((state) => state.clientInfomation);
+  const adresse = useSelector((state) => state.clientInfomation.adresse);
   const userId = useSelector((state) => state.user?.uid);
-  const adresse = useSelector((state) => state.clientInfomation?.adresse);
-  const prenom = useSelector((state) => state.clientInfomation?.firstName);
-  const nom = useSelector((state) => state.clientInfomation?.lastName);
-  const telehone = useSelector((state) => state.clientInfomation?.phone);
-  const email = useSelector((state) => state.clientInfomation?.email);
-  const state = useSelector((state) => state);
+  const stateFontColor = useSelector(
+    (state) => state?.user?.settings?.fontColor
+  );
+  const stateFontColor2 = useSelector(
+    (state) => state?.user?.settings?.fontColor2
+  );
 
   const date = new Date();
 
   const optionsDate = { year: "numeric", month: "long", day: "numeric" };
   const optionsTime = { hour: "2-digit", minute: "2-digit" };
 
+  const [estimation, setEstimation] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const formattedDate =
     date.toLocaleDateString("fr-FR", optionsDate) +
     " à " +
     date.toLocaleTimeString("fr-FR", optionsTime);
-
-  const [estimation, setEstimation] = useState(null);
 
   function transformClientInfoToEstimationParams(clientInfo) {
     // Map de conversion pour les années
@@ -108,26 +121,64 @@ const index = () => {
   }
 
   useEffect(() => {
-    console.log(state);
-    getEstimation(
-      transformClientInfoToEstimationParams(clientInformation)
-    ).then((data) => {
-      addEstimationForUser(userId, {
-        ...data,
-        id: uniqueId,
-        agent: userId,
-        clientInformations: {
-          date: formattedDate,
-          clientInformation,
-        },
-      });
-      setEstimation(data);
-    });
-  }, []);
+    if (adresse) {
+      getEstimation(transformClientInfoToEstimationParams(clientInformation))
+        .then((data) => {
+          addEstimationForUser(userId, {
+            ...data,
+            id: uniqueId,
+            agent: userId,
+            clientInformations: {
+              date: formattedDate,
+              clientInformation,
+            },
+          });
+          setEstimation(data);
+        })
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setTimeout(() => {
+        router.push(`/${currentSlug}`);
+      }, 1000);
+    }
+  }, [adresse, currentSlug]);
   return (
-    <div>
-      <h1>Hello Word</h1>
-    </div>
+    <EstimationLayout>
+      <ContainerEstimation>
+        {isLoading && (
+          <div className="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-10">
+            <Loader />
+          </div>
+        )}
+        <div className="lg:min-h-[600px] flex flex-col justify-between  w-full lg:w-4/12">
+          <h1>Hello Word</h1>
+          <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
+            <a
+              className="font-light text-xs"
+              style={{ color: stateFontColor2 }}
+              href="#"
+            >
+              Paramètre et cookies
+            </a>
+            <div className="ml-3">|</div>
+            <a
+              className="font-light text-xs ml-3"
+              style={{ color: stateFontColor2 }}
+              href="#"
+            >
+              Signaler un abus
+            </a>
+          </div>
+        </div>
+        <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
+        <div className="w-full h-0.5 bg-gray-100 lg:hidden flex mt-7 lg:mt-0" />
+      </ContainerEstimation>
+    </EstimationLayout>
   );
 };
 
