@@ -1,7 +1,7 @@
 // user.js
 import { slugify } from "../lib/utils";
 import { app } from "./firebase.config";
-import { getDatabase, ref, set, get, update } from "firebase/database";
+import { getDatabase, ref, set, get, update, push } from "firebase/database";
 
 // Obtenez une référence à la base de données de Firebase
 const db = getDatabase(app);
@@ -95,3 +95,18 @@ export async function findUserIdBySlug(slug) {
   }
   return null; // Si aucun utilisateur ne correspond au slug
 }
+
+// Fonction pour ajouter une nouvelle estimation pour un utilisateur.
+// Cette fonction prend comme paramètres un ID utilisateur (uid) et les données d'estimation.
+// Fonction pour ajouter une nouvelle estimation pour un utilisateur.
+export const addEstimationForUser = async (uid, estimationData) => {
+  const estimationsRef = ref(db, `users/${uid}/estimations`);
+
+  try {
+    const newEstimationRef = push(estimationsRef); // Ceci crée une nouvelle référence avec un ID unique
+    await set(newEstimationRef, estimationData); // Sauvegardez les données d'estimation avec cet ID unique
+    console.log(`Added new estimation for user ${uid} successfully.`);
+  } catch (error) {
+    console.error("Failed to add new estimation: ", error);
+  }
+};
