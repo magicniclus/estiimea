@@ -38,7 +38,7 @@ const ProgressBar = () => {
     <div className="lg:mt-3 mt-10">
       <div className="relative w-full h-2 bg-gray-200 rounded-md z-0">
         <div
-          className={` absolute rounded-md h-[80%] top-1/2 transform -translate-y-1/2 transition-all duration-500 ease-out`}
+          className={`absolute rounded-md h-[80%] top-1/2 transform -translate-y-1/2 transition-all duration-500 ease-out`}
           style={{
             width: `${(step * 100) / initialStep}%`,
             backgroundColor: secondaryColor,
