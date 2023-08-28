@@ -165,6 +165,10 @@ const Step = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <form className="w-full min-h-[300px] h-full flex flex-col justify-between bg-opacity-50 rounded-md">
       {handleComponent()}
