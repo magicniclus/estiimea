@@ -29,7 +29,7 @@ const ClassementEnergetique = () => {
       <div className="mt-5">
         <div className="flex flex-col">
           <h3
-            className="font-light text-smmb-3"
+            className="font-light text-sm mb-3"
             style={{ color: primaryColor }}
           >
             DPE{" "}
