@@ -6,6 +6,7 @@ import UserInformation from "../../../../components/estimation/UserInformation";
 import Avantages from "../../../../components/estimation/Avantages";
 import FormulaireFinal from "../../../../components/estimation/component/FormulaireFinal";
 import Loader from "../../../../components/loader/Loader";
+import { useRouter } from "next/router";
 
 const index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,12 +14,31 @@ const index = () => {
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+  const clientInfomation = useSelector(
+    (state) => state?.clientInfomation?.adresse
+  );
+
+  const router = useRouter();
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
 
   useEffect(() => {
     if (primaryColor) {
       setIsLoading(true);
     }
   }, [primaryColor]);
+
+  useEffect(() => {
+    console.log(currentSlug);
+    setTimeout(() => {
+      if (!clientInfomation && currentSlug) {
+        router.push({
+          pathname: "/[slug]",
+          query: { slug: currentSlug },
+        });
+      }
+    }, 1000);
+  }, [clientInfomation, currentSlug]);
 
   return (
     <EstimationLayout>
@@ -52,10 +72,7 @@ const index = () => {
         <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
         <div className="w-full h-0.5 bg-gray-100 lg:hidden flex lg:mt-0" />
         <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-center items-center lg:mt-0 mt-10">
-          <h2
-            className="text-xl font-semibold"
-            style={{ color: secondaryColor }}
-          >
+          <h2 className="text-xl" style={{ color: secondaryColor }}>
             Dernière étape !
           </h2>
           <h1
