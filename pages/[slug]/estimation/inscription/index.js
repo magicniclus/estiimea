@@ -4,6 +4,7 @@ import EstimationLayout from "../../../../components/layout/EstimationLayout";
 import { useSelector } from "react-redux";
 import UserInformation from "../../../../components/estimation/UserInformation";
 import Avantages from "../../../../components/estimation/Avantages";
+import FormulaireFinal from "../../../../components/estimation/component/FormulaireFinal";
 
 const index = () => {
   const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
@@ -35,8 +36,23 @@ const index = () => {
           </div>
         </div>
         <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
-        <div className="w-full h-0.5 bg-gray-100 lg:hidden flex mt-7 lg:mt-0" />
-        <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-center items-center bg-gray-50"></div>
+        <div className="w-full h-0.5 bg-gray-100 lg:hidden flex lg:mt-0" />
+        <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-center items-center lg:mt-0 mt-10">
+          <h2
+            className="text-xl font-semibold"
+            style={{ color: secondaryColor }}
+          >
+            Dernière étape !
+          </h2>
+          <h1
+            className="text-center text-xs lg:mt-5 mt-10"
+            style={{ color: primaryColor }}
+          >
+            Saisissez vos coordonnées afin de visualiser votre estimation
+            gratuite.
+          </h1>
+          <FormulaireFinal />
+        </div>
       </ContainerEstimation>
     </EstimationLayout>
   );
