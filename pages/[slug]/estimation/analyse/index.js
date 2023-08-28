@@ -17,6 +17,10 @@ const index = () => {
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+  const clientInfomation = useSelector(
+    (state) => state?.clientInfomation?.adresse
+  );
+
   const router = useRouter();
   const pathSegments = router.asPath.split("/");
   const currentSlug = pathSegments[1];
@@ -30,6 +34,18 @@ const index = () => {
   const handleRoute = () => {
     router.push(`/${currentSlug}/estimation/analyse`);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!clientInfomation && currentSlug) {
+        router.push({
+          pathname: "/[slug]",
+          query: { slug: currentSlug },
+        });
+      }
+    }, 1000);
+  }, [clientInfomation, currentSlug]);
+
   return (
     <EstimationLayout>
       <ContainerEstimation>
