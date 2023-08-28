@@ -56,7 +56,7 @@ const Step = () => {
 
   const handleRoute = (e) => {
     e.preventDefault();
-    router.push(`/${currentSlug}/estimation/loader`);
+    router.push(`/${currentSlug}/estimation/analyse`);
   };
 
   const handleComponent = () => {
