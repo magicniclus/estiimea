@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ContainerEstimation from "../../../../components/layout/ContainerEstimation";
 import EstimationLayout from "../../../../components/layout/EstimationLayout";
 import { useSelector } from "react-redux";
 import UserInformation from "../../../../components/estimation/UserInformation";
 import Avantages from "../../../../components/estimation/Avantages";
 import FormulaireFinal from "../../../../components/estimation/component/FormulaireFinal";
+import Loader from "../../../../components/loader/Loader";
 
 const index = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+
+  useEffect(() => {
+    if (primaryColor) {
+      setIsLoading(true);
+    }
+  }, [primaryColor]);
+
   return (
     <EstimationLayout>
       <ContainerEstimation>
+        {!isLoading && (
+          <div className="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-10">
+            <Loader />
+          </div>
+        )}
         <div className="lg:min-h-[600px] flex flex-col justify-between  w-full lg:w-4/12">
           <UserInformation />
           <Avantages />
