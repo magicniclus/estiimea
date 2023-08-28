@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import LittleLoader from "../../loader/LittleLoader";
 import { CheckIcon } from "@heroicons/react/20/solid";
 
+import { useRouter } from "next/router";
+
 const AnalyseLoader = () => {
   const [showCheckIcon, setShowCheckIcon] = useState(false);
   const [showCheckIconTwo, setShowCheckIconTwo] = useState(false);
@@ -15,7 +17,7 @@ const AnalyseLoader = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowCheckIcon(true);
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timer); // Clear the timer if the component is unmounted
   }, []);
@@ -24,7 +26,7 @@ const AnalyseLoader = () => {
     if (showCheckIcon) {
       const timer = setTimeout(() => {
         setShowCheckIconTwo(true);
-      }, 3000);
+      }, 1500);
       return () => clearTimeout(timer); // Clear the timer if the component is unmounted
     }
   }, [showCheckIcon]);
@@ -33,10 +35,24 @@ const AnalyseLoader = () => {
     if (showCheckIconTwo) {
       const timer = setTimeout(() => {
         setShowCheckIconThree(true);
-      }, 3000);
+      }, 1200);
       return () => clearTimeout(timer); // Clear the timer if the component is unmounted
     }
   }, [showCheckIconTwo]);
+
+  const router = useRouter();
+  const pathSegments = router.asPath.split("/");
+  const currentSlug = pathSegments[1];
+
+  const handleRoute = () => {
+    router.push(`/${currentSlug}/estimation/inscription`);
+  };
+
+  useEffect(() => {
+    if (showCheckIconThree) {
+      handleRoute();
+    }
+  }, [showCheckIconThree]);
 
   return (
     <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-center items-center">
