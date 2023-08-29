@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { useRouter } from "next/router";
 
@@ -10,11 +10,14 @@ import { addEstimationForUser } from "../../../../firebase/dataManager";
 import Loader from "../../../../components/loader/Loader";
 import ContainerEstimation from "../../../../components/layout/ContainerEstimation";
 import EstimationLayout from "../../../../components/layout/EstimationLayout";
+import UserInformation from "../../../../components/estimation/UserInformation";
+import Resultat from "../../../../components/estimation/Resultat";
 
 import { v4 as uuidv4 } from "uuid";
-import { current } from "@reduxjs/toolkit";
 
 const index = () => {
+  const dispatch = useDispatch();
+
   const uniqueId = uuidv4();
 
   const router = useRouter();
@@ -124,14 +127,20 @@ const index = () => {
     if (adresse) {
       getEstimation(transformClientInfoToEstimationParams(clientInformation))
         .then((data) => {
+          const clientInfoWithDate = {
+            ...clientInformation,
+            date: formattedDate,
+          };
+
           addEstimationForUser(userId, {
             ...data,
             id: uniqueId,
             agent: userId,
-            clientInformations: {
-              date: formattedDate,
-              clientInformation,
-            },
+            ...clientInfoWithDate,
+          });
+          dispatch({
+            type: "SET_CLIENT_INFORMATION",
+            payload: data,
           });
           setEstimation(data);
         })
@@ -143,7 +152,10 @@ const index = () => {
         });
     } else {
       setTimeout(() => {
-        router.push(`/${currentSlug}`);
+        // router.push({
+        //   pathname: "/[slug]",
+        //   query: { slug: currentSlug },
+        // });
       }, 1000);
     }
   }, [adresse, currentSlug]);
@@ -155,8 +167,16 @@ const index = () => {
             <Loader />
           </div>
         )}
-        <div className="lg:min-h-[600px] flex flex-col justify-between  w-full lg:w-4/12">
-          <h1>Hello Word</h1>
+        <div className="lg:min-h-[600px] flex flex-col justify-between  w-full lg:w-full">
+          <UserInformation />
+          <div className="flex justify-between">
+            <Resultat />
+            <img
+              src="/images/image/tks.svg"
+              alt="vendeur"
+              className="w-5/12 h-auto "
+            />
+          </div>
           <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
             <a
               className="font-light text-xs"
@@ -175,8 +195,6 @@ const index = () => {
             </a>
           </div>
         </div>
-        <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
-        <div className="w-full h-0.5 bg-gray-100 lg:hidden flex mt-7 lg:mt-0" />
       </ContainerEstimation>
     </EstimationLayout>
   );
