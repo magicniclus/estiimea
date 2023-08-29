@@ -172,7 +172,7 @@ const index = () => {
           <div className="flex justify-between">
             <Resultat />
             <img
-              src="/images/image/tks.svg"
+              src="/images/image/tksTwo.png"
               alt="vendeur"
               className="w-5/12 h-auto lg:block hidden"
             />
