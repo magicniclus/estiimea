@@ -55,9 +55,9 @@ const AnalyseLoader = () => {
   }, [showCheckIconThree]);
 
   return (
-    <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-center items-center">
+    <div className="w-full lg:w-6/12 min-h-[400px] lg:min-h-[600px] flex flex-col justify-center lg:items-center">
       <h2
-        className="text-2xl lg:my-0 my-5 text-center"
+        className="text-2xl lg:my-0 my-5 lg:text-center"
         style={{ color: secondaryColor }}
       >
         Analyse en cours...
