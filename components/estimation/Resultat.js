@@ -48,7 +48,7 @@ const Resultat = () => {
   return (
     <div className=" lg:w-7/12">
       <h1
-        className="text-3xl mt-10 lg:mt-0 mb-3"
+        className="text-3xl mt-10 lg:mt-0 mb-10"
         style={{ color: primaryColor }}
       >
         Voici le résultat de votre{" "}
@@ -56,11 +56,11 @@ const Resultat = () => {
           estimation
         </span>
       </h1>
-      <div className="flex items-center mb-3" style={{ color: secondaryColor }}>
-        <MapPinIcon className="h-6 w-6 rounded-full mr-2" />
+      <div className="flex items-center" style={{ color: secondaryColor }}>
+        <MapPinIcon className="h-6 w-6 rounded-full mr-2 " />
         <p>{clientAdresse}</p>
       </div>
-      <ul className="flex flex-wrap ">
+      <ul className="flex flex-wrap  mb-10">
         {tags &&
           tags.map((item, idx) => {
             return (
@@ -74,7 +74,7 @@ const Resultat = () => {
             );
           })}
       </ul>
-      <div>
+      <div className="mt-10">
         <div className="mt-5">
           <p className="text-md font-light" style={{ color: secondaryColor }}>
             Prix net vendeur
@@ -87,7 +87,7 @@ const Resultat = () => {
           Soit {formatNumberWithSpaces(Math.floor(m2))}€/m2
         </p>
       </div>
-      <div className="mt-5">
+      <div className="mt-10">
         <div className="flex mt-3 items-end">
           <p style={{ color: primaryColor }}>Prix bas:</p>
           <h2 className="ml-2 text-2xl" style={{ color: secondaryColor }}>
