@@ -55,9 +55,12 @@ const Avantages = () => {
               {avantage.icon}
               {avantage.title}
             </div>
-            <div className="text-sm font-light" style={{ color: primaryColor }}>
+            <p
+              className="text-sm font-light lg:w-full w-11/12"
+              style={{ color: primaryColor }}
+            >
               {avantage.text}
-            </div>
+            </p>
           </div>
         ))}
       </div>
