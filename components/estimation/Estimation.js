@@ -11,11 +11,14 @@ const Estimation = () => {
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
   );
+  const userName = useSelector(
+    (state) => state?.user?.userInformation?.lastName
+  );
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateUserIsLoading = useSelector((state) => state?.userIsLoading);
   return (
     <ContainerEstimation>
-      {stateMapIsLoading && stateUserIsLoading && (
+      {stateMapIsLoading && stateUserIsLoading && userName && (
         <div className="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-10">
           <Loader />
         </div>
