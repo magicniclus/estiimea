@@ -152,10 +152,10 @@ const index = () => {
         });
     } else {
       setTimeout(() => {
-        // router.push({
-        //   pathname: "/[slug]",
-        //   query: { slug: currentSlug },
-        // });
+        router.push({
+          pathname: "/[slug]",
+          query: { slug: currentSlug },
+        });
       }, 1000);
     }
   }, [adresse, currentSlug]);
@@ -174,7 +174,7 @@ const index = () => {
             <img
               src="/images/image/tks.svg"
               alt="vendeur"
-              className="w-5/12 h-auto "
+              className="w-5/12 h-auto lg:block hidden"
             />
           </div>
           <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
