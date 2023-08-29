@@ -107,14 +107,14 @@ const PresentationContainer = () => {
         </div>
       </div>
       <div>
-        <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-0">
+        <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-3">
           Estimez votre bien en ligne{" "}
           <span className="font-bold" style={{ color: secondaryColor }}>
             gratuitement
           </span>
           .
         </h1>
-        <ul className="mt-10">
+        <ul className="mt-3">
           {avantages.map((avantage, index) => (
             <li className="flex items-center mb-1.5" key={index}>
               {avantage.icon}
@@ -123,7 +123,7 @@ const PresentationContainer = () => {
           ))}
         </ul>
       </div>
-      <p className="text-normal w-11/12 mt-10 lg:mt-0">{stateDescription}</p>
+      <p className="text-normal w-11/12 mt-10 lg:mt-3">{stateDescription}</p>
       <p className="font-bold w-11/12 mb-10  mt-10 lg:mt-0">
         {stateDescription2}
       </p>
