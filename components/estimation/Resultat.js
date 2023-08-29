@@ -57,7 +57,7 @@ const Resultat = () => {
         </span>
       </h1>
       <div className="flex items-center mb-3" style={{ color: secondaryColor }}>
-        <MapPinIcon className="h-6 w-6 rounded-full" />
+        <MapPinIcon className="h-6 w-6 rounded-full mr-2" />
         <p>{clientAdresse}</p>
       </div>
       <ul className="flex flex-wrap ">
