@@ -84,7 +84,7 @@ const Resultat = () => {
           </h2>
         </div>
         <p className="" style={{ color: secondaryColor }}>
-          Soit {formatNumberWithSpaces(Math.floor(m2))}€/m2
+          Soit {formatNumberWithSpaces(Math.floor(m2))}€/m<sup>2</sup>
         </p>
       </div>
       <div className="mt-10">
