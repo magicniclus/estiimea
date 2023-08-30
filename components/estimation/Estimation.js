@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import PresentationContainer from "./PresentationContainer";
 import Map from "./Map";
 import SearchMapBar from "./SearchMapBar";
@@ -7,6 +8,8 @@ import Loader from "../loader/Loader";
 import ContainerEstimation from "../layout/ContainerEstimation";
 
 const Estimation = () => {
+  const router = useRouter();
+
   const primaryColor = useSelector((state) => state?.user?.settings?.fontColor);
   const secondaryColor = useSelector(
     (state) => state?.user?.settings?.fontColor2
@@ -17,6 +20,10 @@ const Estimation = () => {
 
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateUserIsLoading = useSelector((state) => state?.userIsLoading);
+
+  // Vérifiez si l'URL contient 'dashboard'
+  const isDashboard = router.asPath.includes("dashboard");
+
   return (
     <ContainerEstimation>
       {stateMapIsLoading && stateUserIsLoading && (
@@ -35,7 +42,8 @@ const Estimation = () => {
         <a
           className="font-light text-xs"
           style={{ color: secondaryColor }}
-          href="#"
+          href={isDashboard ? "#" : "YOUR_LINK_HERE"}
+          onClick={(e) => isDashboard && e.preventDefault()}
         >
           Paramètre et cookies
         </a>
@@ -43,7 +51,8 @@ const Estimation = () => {
         <a
           className="font-light text-xs ml-3"
           style={{ color: secondaryColor }}
-          href="#"
+          href={isDashboard ? "#" : "YOUR_LINK_HERE"}
+          onClick={(e) => isDashboard && e.preventDefault()}
         >
           Signaler un abus
         </a>
