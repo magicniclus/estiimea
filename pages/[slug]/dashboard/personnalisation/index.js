@@ -4,6 +4,7 @@ import SideBar from "../../../../components/SideBar";
 import { useSelector } from "react-redux";
 import Estimation from "../../../../components/estimation/Estimation";
 import PeronalisationLayout from "../../../../components/layout/PeronalisationLayout";
+import PersonnalisationHeader from "../../../../components/PersonnalisationHeader";
 
 const index = () => {
   const stateFontColor = useSelector(
@@ -19,7 +20,8 @@ const index = () => {
   const [openSideBar, setOpenSideBar] = useState(true);
   return (
     <PeronalisationLayout>
-      <div className="flex justify-center mt-5">
+      <div className="flex flex-col justify-center items-center mt-5">
+        <PersonnalisationHeader />
         <PersonnalisationEstimationLayout>
           <Estimation />
         </PersonnalisationEstimationLayout>
