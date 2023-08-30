@@ -70,9 +70,12 @@ export const getLoggedInUserData = async (uid) => {
 //updateUserData(uid, { userInformation: { firstName: "newFirstName", lastName: "newLastName" } });
 export const updateUserData = async (uid, updates) => {
   const userRef = ref(db, `users/${uid}`);
-
+  console.log("UID:", uid);
+  console.log("Updates:", updates);
   try {
+    console.log("Before updating...");
     await update(userRef, updates);
+    console.log("After updating...");
     console.log(`Updated user ${uid} data successfully.`);
   } catch (error) {
     console.error("Failed to update user data: ", error);
