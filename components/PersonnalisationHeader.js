@@ -28,6 +28,10 @@ const PersonnalisationHeader = (props) => {
   const [selectedSecondaryColor, setSelectedSecondaryColor] =
     useState(secondaryColor);
 
+  const [initialPrimaryColor, setInitialPrimaryColor] = useState(primaryColor);
+  const [initialSecondaryColor, setInitialSecondaryColor] =
+    useState(secondaryColor);
+
   useEffect(() => {
     console.log(selectedPrimaryColor);
   }, [selectedPrimaryColor]);
@@ -53,6 +57,56 @@ const PersonnalisationHeader = (props) => {
     });
   };
 
+  const handlePrimaryColorChange = (color) => {
+    setSelectedPrimaryColor(color.hex);
+  };
+
+  const savePrimaryColor = () => {
+    const updates = { fontColor: selectedPrimaryColor };
+    updateUserData(uid, {
+      settings: { ...settings, fontColor: updates.fontColor },
+    })
+      .then(() => {
+        dispatch({ type: "UPDATE_FONT_COLOR", payload: updates });
+        setShowColorPickerPrimary(false);
+      })
+      .catch((error) => {
+        alert(
+          "Une erreur est survenue lors de la mise à jour de la couleur primaire."
+        );
+      });
+  };
+
+  const cancelPrimaryColor = () => {
+    setSelectedPrimaryColor(initialPrimaryColor);
+    setShowColorPickerPrimary(false);
+  };
+
+  const handleSecondaryColorChange = (color) => {
+    setSelectedSecondaryColor(color.hex);
+  };
+
+  const saveSecondaryColor = () => {
+    const updates = { fontColor2: selectedSecondaryColor };
+    updateUserData(uid, {
+      settings: { ...settings, fontColor2: updates.fontColor2 },
+    })
+      .then(() => {
+        dispatch({ type: "UPDATE_FONT_COLOR2", payload: updates });
+        setShowColorPickerSecondary(false);
+      })
+      .catch((error) => {
+        alert(
+          "Une erreur est survenue lors de la mise à jour de la couleur secondaire."
+        );
+      });
+  };
+
+  const cancelSecondaryColor = () => {
+    setSelectedSecondaryColor(initialSecondaryColor);
+    setShowColorPickerSecondary(false);
+  };
+
   const handleRouter = () => {
     const url = "/" + currentSlug;
     window.open(url, "_blank");
@@ -71,47 +125,21 @@ const PersonnalisationHeader = (props) => {
           {showColorPickerPrimary && (
             <ChromePicker
               color={selectedPrimaryColor}
-              onChangeComplete={(color) => {
-                setSelectedPrimaryColor(color.hex);
-                const updates = { fontColor: color.hex };
-                updateUserData(uid, {
-                  settings: { ...settings, fontColor: updates.fontColor },
-                })
-                  .then(() => {
-                    dispatch({
-                      type: "UPDATE_FONT_COLOR",
-                      payload: updates,
-                    });
-                  })
-                  .catch((error) => {
-                    console.error(
-                      "Failed to update primary color:",
-                      error.message
-                    );
-                    alert(
-                      "Une erreur est survenue lors de la mise à jour de la couleur primaire."
-                    );
-                  });
-              }}
+              onChangeComplete={handlePrimaryColorChange}
             />
           )}
           {showColorPickerPrimary && (
             <div>
               <button
                 type="button"
-                onClick={() => {
-                  setShowColorPickerPrimary(!showColorPickerPrimary);
-                }}
+                onClick={cancelPrimaryColor}
                 className="bg-gray-50 rounded-full border border-gray-40 absolute -top-20 -right-8 shadow-lg"
               >
                 <XMarkIcon className="w-5 h-5 text-gray-500 " />
               </button>
-
               <button
                 type="button"
-                onClick={() => {
-                  setShowColorPickerPrimary(!showColorPickerPrimary);
-                }}
+                onClick={savePrimaryColor}
                 className="bg-gray-50 rounded-full border border-gray-40 absolute -top-12 -right-8 shadow-lg"
               >
                 <CheckIcon className="w-5 h-5 text-gray-500 " />
@@ -131,45 +159,24 @@ const PersonnalisationHeader = (props) => {
           {showColorPickerSecondary && (
             <ChromePicker
               color={selectedSecondaryColor}
-              onChangeComplete={(color) => {
-                setSelectedSecondaryColor(color.hex);
-                const updates = { fontColor2: color.hex };
-                updateUserData(uid, {
-                  settings: { ...settings, fontColor2: updates.fontColor2 },
-                })
-                  .then(() => {
-                    dispatch({
-                      type: "UPDATE_FONT_COLOR2",
-                      payload: updates,
-                    });
-                  })
-                  .catch((error) => {
-                    alert(
-                      "Une erreur est survenue lors de la mise à jour de la couleur secondaire."
-                    );
-                  });
-              }}
+              onChangeComplete={handleSecondaryColorChange}
             />
           )}
           {showColorPickerSecondary && (
             <div className="flex flex-col">
               <button
                 type="button"
-                onClick={() => {
-                  setShowColorPickerSecondary(!showColorPickerSecondary);
-                }}
+                onClick={cancelSecondaryColor}
                 className="bg-gray-50 rounded-full border border-gray-40 absolute -top-20 -right-8 shadow-lg"
               >
-                <XMarkIcon className="w-5 h-5 text-gray-500" />
+                <XMarkIcon className="w-5 h-5 text-gray-500 " />
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  setShowColorPickerSecondary(!showColorPickerSecondary);
-                }}
+                onClick={saveSecondaryColor}
                 className="bg-gray-50 rounded-full border border-gray-40 absolute -top-12 -right-8 shadow-lg"
               >
-                <CheckIcon className="w-5 h-5 text-gray-500" />
+                <CheckIcon className="w-5 h-5 text-gray-500 " />
               </button>
             </div>
           )}
@@ -199,6 +206,3 @@ const PersonnalisationHeader = (props) => {
 };
 
 export default PersonnalisationHeader;
-
-//primary : #374151
-//secondary:  #3B82F6
