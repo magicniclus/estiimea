@@ -129,7 +129,7 @@ const PersonnalisationHeader = (props) => {
     <div className="w-full h-20 bg-slate-50 mb-5 rounded-md flex z-50 px-3 justify-between flex-wrap">
       <div className="flex relative items-center">
         <h2 className="text-base font-semibold leading-7 text-gray-700 mr-5">
-          Couleurs:
+          Mes Couleurs:
         </h2>
         <div className="flex flex-col items-center justify-center mr-5">
           <button
@@ -204,7 +204,7 @@ const PersonnalisationHeader = (props) => {
         <div className="flex flex-col items-center justify-center ml-5">
           <button
             type="button"
-            className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className="rounded-md text-xs font-semibold text-gray-700 hover:scale-105 flex transition duration-200 items-center "
             onClick={() => resetColor()}
           >
             Default
@@ -217,7 +217,7 @@ const PersonnalisationHeader = (props) => {
           onClick={handleRouter}
           className="rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 flex transition duration-200"
         >
-          Mon lien
+          Ma page
           <LinkIcon className="w-5 h-5 ml-2" />
         </button>
         <button
