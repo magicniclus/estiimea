@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { ChromePicker } from "react-color";
-import {
-  CheckIcon,
-  LinkIcon,
-  LockClosedIcon,
-  XMarkIcon,
-} from "@heroicons/react/20/solid";
+import { CheckIcon, LinkIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { updateUserData } from "../firebase/dataManager";
 
 const PersonnalisationHeader = (props) => {
@@ -31,6 +26,8 @@ const PersonnalisationHeader = (props) => {
   const [initialPrimaryColor, setInitialPrimaryColor] = useState(primaryColor);
   const [initialSecondaryColor, setInitialSecondaryColor] =
     useState(secondaryColor);
+
+  const [showCheckIcon, setShowCheckIcon] = useState(false);
 
   useEffect(() => {
     console.log(selectedPrimaryColor);
@@ -112,8 +109,24 @@ const PersonnalisationHeader = (props) => {
     window.open(url, "_blank");
   };
 
+  const copyToClipboard = async () => {
+    try {
+      const url = window.location.origin + "/" + currentSlug;
+      await navigator.clipboard.writeText(url);
+      console.log("Full URL copied to clipboard");
+
+      // Afficher l'icône de vérification
+      setShowCheckIcon(true);
+
+      // Masquer l'icône de vérification après 2 secondes
+      setTimeout(() => setShowCheckIcon(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy URL: ", err);
+    }
+  };
+
   return (
-    <div className="w-full h-20 bg-slate-50 mb-5 rounded-md flex z-50 px-3 justify-between">
+    <div className="w-full h-20 bg-slate-50 mb-5 rounded-md flex z-50 px-3 justify-between flex-wrap">
       <div className="flex">
         <div className="flex flex-col items-center justify-center mr-5 relative">
           <button
@@ -199,6 +212,16 @@ const PersonnalisationHeader = (props) => {
         >
           Mon lien
           <LinkIcon className="w-5 h-5 ml-2" />
+        </button>
+        <button
+          type="button"
+          onClick={copyToClipboard}
+          className="rounded-md px-3 py-2 text-xs font-semibold text-gray-700 hover:scale-105 flex transition duration-200 items-center ml-3"
+        >
+          Copier
+          {showCheckIcon && (
+            <CheckIcon className="h-4 w-4 text-gray-700 ml-1" />
+          )}
         </button>
       </div>
     </div>
