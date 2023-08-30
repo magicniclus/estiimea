@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 
 const SearchMapBar = ({ map }) => {
   const initialAddress = useSelector(
@@ -26,12 +26,10 @@ const SearchMapBar = ({ map }) => {
   mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const route = useRouter();
+  const isDashboard = router.asPath.includes("dashboard");
 
-  const pathName = usePathname();
-
-  // À chaque changement de l'input, cherchez des suggestions
   const handleInputChange = async (e) => {
     setInput(e.target.value);
 
@@ -41,7 +39,6 @@ const SearchMapBar = ({ map }) => {
       );
       const data = await response.json();
 
-      // Filtrer les suggestions pour ne garder que les adresses complètes
       const addressSuggestions = data.features.filter((feature) =>
         feature.place_type.includes("address")
       );
@@ -92,7 +89,7 @@ const SearchMapBar = ({ map }) => {
       type: "SET_CLIENT_INFORMATION",
       payload: { adresse: input, coordinates: coordinates },
     });
-    route.push(`${pathName}/estimation`);
+    router.push(`${router.asPath}/estimation`);
   };
 
   return (
@@ -107,8 +104,13 @@ const SearchMapBar = ({ map }) => {
             value={input}
             onChange={handleInputChange}
             placeholder="Saisir une adresse"
-            className="max-w-[500px] w-[80%] sm:w-[90%] border border-blue-700 px-4 py-3 rounded-l-md font-light text-sm"
-            style={{ color: primaryColor, borderColor: secondaryColor }}
+            className="max-w-[500px] w-[80%] sm:w-[90%] border px-4 py-3 rounded-l-md font-light text-sm outline-none"
+            style={{
+              color: primaryColor,
+              borderColor: secondaryColor,
+              pointerEvents: "auto",
+              opacity: 1,
+            }}
           />
           <div
             className="w-[20%] sm:w-[10%]  max-w-[50px] flex items-center justify-center rounded-r-md"
@@ -132,12 +134,12 @@ const SearchMapBar = ({ map }) => {
 
         <button
           type="submit"
-          disabled={disabled}
+          disabled={disabled || isDashboard}
           className={`text-white py-2 px-8 rounded-lg transition ease-in-out duration-100 ${
             disabled ? "" : "hover:shadow-md"
           }`}
           style={
-            disabled
+            disabled || isDashboard
               ? { backgroundColor: secondaryColor, opacity: "0.6" }
               : { backgroundColor: secondaryColor }
           }
