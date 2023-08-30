@@ -368,7 +368,7 @@ const PeronalisationLayout = (props) => {
             </div>
           </header>
           <main>
-            <div className="mx-auto max-w-[2400px] sm:px-6 lg:px-8 relative min-h-[calc(100vh-180px)]">
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 relative min-h-[calc(100vh-180px)]">
               {loadingState ? <LoaderWrapper loading={loadingState} /> : null}
               {props.children}
             </div>
