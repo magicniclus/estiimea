@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PresentationContainer from "./PresentationContainer";
 import Map from "./Map";
 import SearchMapBar from "./SearchMapBar";
@@ -14,6 +14,7 @@ const Estimation = () => {
   const userName = useSelector(
     (state) => state?.user?.userInformation?.lastName
   );
+
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateUserIsLoading = useSelector((state) => state?.userIsLoading);
   return (
