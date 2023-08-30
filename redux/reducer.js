@@ -51,6 +51,30 @@ const reducer = (state = initState, action) => {
         },
       };
 
+    case "UPDATE_FONT_COLOR":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          settings: {
+            ...state.user.settings,
+            fontColor: action.payload.fontColor,
+          },
+        },
+      };
+
+    case "UPDATE_FONT_COLOR2":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          settings: {
+            ...state.user.settings,
+            fontColor2: action.payload.fontColor2,
+          },
+        },
+      };
+
     case "USER_LOGOUT":
       return {
         ...state,
