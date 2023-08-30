@@ -127,67 +127,74 @@ const PersonnalisationHeader = (props) => {
 
   return (
     <div className="w-full h-20 bg-slate-50 mb-5 rounded-md flex z-50 px-3 justify-between flex-wrap">
-      <div className="flex">
-        <div className="flex flex-col items-center justify-center mr-5 relative">
+      <div className="flex relative items-center">
+        <h2 className="text-base font-semibold leading-7 text-gray-700 mr-5">
+          Couleurs:
+        </h2>
+        <div className="flex flex-col items-center justify-center mr-5">
           <button
             type="button"
-            className="w-10 h-10 bg-slate- rounded-full border-2 border-gray-300"
+            className="w-10 h-10 bg-slate- rounded-full border-2 border-gray-300 hover:scale-105"
             style={{ backgroundColor: selectedPrimaryColor }}
             onClick={() => setShowColorPickerPrimary(!showColorPickerPrimary)}
           ></button>
           {showColorPickerPrimary && (
-            <ChromePicker
-              color={selectedPrimaryColor}
-              onChangeComplete={handlePrimaryColorChange}
-            />
+            <div className="absolute">
+              <ChromePicker
+                color={selectedPrimaryColor}
+                onChangeComplete={handlePrimaryColorChange}
+              />
+            </div>
           )}
           {showColorPickerPrimary && (
-            <div>
+            <div className="absolute right-7 -top-20 flex flex-col">
               <button
                 type="button"
                 onClick={cancelPrimaryColor}
-                className="bg-gray-50 rounded-full border border-gray-40 absolute -top-20 -right-8 shadow-lg"
+                className="bg-gray-50 rounded-full border border-gray-40 shadow-lg"
               >
                 <XMarkIcon className="w-5 h-5 text-gray-500 " />
               </button>
               <button
                 type="button"
                 onClick={savePrimaryColor}
-                className="bg-gray-50 rounded-full border border-gray-40 absolute -top-12 -right-8 shadow-lg"
+                className="bg-gray-50 rounded-full border border-gray-40 shadow-lg mt-2"
               >
                 <CheckIcon className="w-5 h-5 text-gray-500 " />
               </button>
             </div>
           )}
         </div>
-        <div className="flex flex-col items-center justify-center relative">
+        <div className="flex flex-col items-center justify-center">
           <button
             type="button"
-            className="w-10 h-10 bg-slate- rounded-full border-2 border-gray-300"
+            className="w-10 h-10 bg-slate- rounded-full border-2 border-gray-300  hover:scale-105"
             style={{ backgroundColor: selectedSecondaryColor }}
             onClick={() =>
               setShowColorPickerSecondary(!showColorPickerSecondary)
             }
           ></button>
           {showColorPickerSecondary && (
-            <ChromePicker
-              color={selectedSecondaryColor}
-              onChangeComplete={handleSecondaryColorChange}
-            />
+            <div className="absolute">
+              <ChromePicker
+                color={selectedSecondaryColor}
+                onChangeComplete={handleSecondaryColorChange}
+              />
+            </div>
           )}
           {showColorPickerSecondary && (
-            <div className="flex flex-col">
+            <div className="absolute -right-8 -top-20 flex flex-col">
               <button
                 type="button"
                 onClick={cancelSecondaryColor}
-                className="bg-gray-50 rounded-full border border-gray-40 absolute -top-20 -right-8 shadow-lg"
+                className="bg-gray-50 rounded-full border border-gray-40 shadow-lg"
               >
                 <XMarkIcon className="w-5 h-5 text-gray-500 " />
               </button>
               <button
                 type="button"
                 onClick={saveSecondaryColor}
-                className="bg-gray-50 rounded-full border border-gray-40 absolute -top-12 -right-8 shadow-lg"
+                className="bg-gray-50 rounded-full border border-gray-40 shadow-lg mt-2"
               >
                 <CheckIcon className="w-5 h-5 text-gray-500 " />
               </button>
