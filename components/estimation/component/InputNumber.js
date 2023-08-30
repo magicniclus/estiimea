@@ -29,7 +29,7 @@ const InputNumber = (props) => {
         value={value}
         step="1"
         onChange={handleInputChange}
-        className="max-w-[500px] w-[80%] sm:w-[90%] border px-4 py-3 rounded-l-md font-light text-sm"
+        className="max-w-[500px] w-[80%] sm:w-[90%] border px-4 py-3 rounded-l-md font-light text-sm outline-none"
         placeholder={placeholder || "Entrez la surface..."}
         style={{ borderColor: secondaryColor, color: primaryColor }}
       />
