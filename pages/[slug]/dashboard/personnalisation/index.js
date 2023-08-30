@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Estimation from "../../../../components/estimation/Estimation";
 import PeronalisationLayout from "../../../../components/layout/PeronalisationLayout";
 import PersonnalisationHeader from "../../../../components/PersonnalisationHeader";
+import ParamsEstimation from "../../../../components/ui/ParamsEstimation";
 
 const index = () => {
   const stateFontColor = useSelector(
@@ -25,6 +26,7 @@ const index = () => {
         <PersonnalisationEstimationLayout>
           <Estimation />
         </PersonnalisationEstimationLayout>
+        <ParamsEstimation />
       </div>
     </PeronalisationLayout>
   );
