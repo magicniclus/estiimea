@@ -28,6 +28,40 @@ const reducer = (state = initState, action) => {
         user: null,
       };
 
+    case "UPDATE_USER_DATA":
+      const updatedUser = {
+        ...state.user,
+        ...payload, // cela écrasera ou ajoutera de nouvelles clés directement à l'objet `user`
+      };
+
+      if (payload.setting) {
+        updatedUser.setting = {
+          ...state.user.setting,
+          ...payload.setting,
+        };
+      }
+
+      if (payload.userInformation) {
+        updatedUser.userInformation = {
+          ...state.user.userInformation,
+          ...payload.userInformation,
+        };
+      }
+
+      if (payload.plan) {
+        updatedUser.plan = {
+          ...state.user.plan,
+          ...payload.plan,
+        };
+      }
+
+      // Si vous avez d'autres sous-dossiers à vérifier et à mettre à jour, ajoutez-les de manière similaire à ce qui précède.
+
+      return {
+        ...state,
+        user: updatedUser,
+      };
+
     case "SET_USER_INFORMATION":
       return {
         ...state,
