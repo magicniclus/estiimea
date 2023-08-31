@@ -8,7 +8,7 @@ import {
   PhoneIcon,
 } from "@heroicons/react/20/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const PresentationContainer = () => {
@@ -70,6 +70,11 @@ const PresentationContainer = () => {
   const stateEmail = useSelector(
     (state) => state?.user?.userInformation?.email
   );
+  const stateEmailVisible = useSelector(
+    (state) => state?.user?.userInformation?.emailVisible
+  );
+
+  const [email, setEmail] = useState(stateEmailVisible || stateEmail);
 
   const dispatch = useDispatch();
 
@@ -132,9 +137,9 @@ const PresentationContainer = () => {
           <PhoneIcon className="mr-3 w-5" />
           <p className="font-normal text-sm">{statePhone}</p>
         </a>
-        <a className="flex" href={`mailto:${stateEmail}`}>
+        <a className="flex" href={`mailto:${email}`}>
           <EnvelopeIcon className="mr-3 w-5" />
-          <p className="font-normal text-sm">{stateEmail}</p>
+          <p className="font-normal text-sm">{email}</p>
         </a>
       </div>
       <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
