@@ -9,8 +9,8 @@ const rotate = keyframes`
   `;
 
 const CustomLoader = styled.div`
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   --c: radial-gradient(
     farthest-side,
     ${(props) => props.secondaryColor || "#3b82f6"} 92%,
@@ -18,7 +18,7 @@ const CustomLoader = styled.div`
   );
   background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
     var(--c) 0 50%;
-  background-size: 7px 7px;
+  background-size: 6px 6px;
   background-repeat: no-repeat;
   animation: ${rotate} 1s infinite;
   // position: absolute;
