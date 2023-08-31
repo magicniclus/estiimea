@@ -3,6 +3,7 @@ import { CheckIcon, PhotoIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addSlug,
+  deletePrevSlug,
   slugExists,
   updateUserData,
 } from "../../firebase/dataManager";
@@ -32,9 +33,15 @@ const ParamsProfilInformations = () => {
   const [phone, setPhone] = useState(
     useSelector((state) => state.user.userInformation.phone)
   );
-  const [email, setEmail] = useState(
-    useSelector((state) => state.user.userInformation.email)
+  const stateEmail = useSelector(
+    (state) => state?.user?.userInformation?.email
   );
+  const stateEmailVisible = useSelector(
+    (state) => state?.user?.userInformation?.emailVisible
+  );
+
+  const [email, setEmail] = useState(stateEmailVisible || stateEmail);
+
   const photoProfile = useSelector(
     (state) => state.user?.userInformation?.photoProfil
   );
@@ -46,6 +53,7 @@ const ParamsProfilInformations = () => {
   const [dragging, setDragging] = useState(false);
   const [loaderSlug, setLoaderSlug] = useState(false);
   const [slugExistsState, setSlugExistsState] = useState(false);
+  const [showIcon, setShowIcon] = useState(false);
 
   const inputFileRef = useRef();
 
@@ -197,6 +205,7 @@ const ParamsProfilInformations = () => {
         error
       );
     }
+    deletePrevSlug(slug);
     addSlug(inputValue, uid);
     window.location.href = `/${inputValue}/dashboard/personnalisation`;
   };
@@ -208,6 +217,27 @@ const ParamsProfilInformations = () => {
     setEmail(userInformation.email);
     // Si vous avez d'autres champs, réinitialisez-les ici.
   };
+
+  useEffect(() => {
+    // Si loaderSlug est vrai, alors on montre l'icône et on déclenche le timer
+    if (loaderSlug) {
+      setShowIcon(true);
+      const timeout = setTimeout(() => {
+        setShowIcon(false); // masquer l'icône après 2 secondes
+      }, 2000);
+
+      // Cleanup effect si le composant est démonté avant que le délai ne se termine
+      return () => clearTimeout(timeout);
+    }
+  }, [loaderSlug]);
+
+  useEffect(() => {
+    if (showIcon === true) {
+      setTimeout(() => {
+        setShowIcon(false);
+      }, 2000);
+    }
+  }, [showIcon]);
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
@@ -256,7 +286,7 @@ const ParamsProfilInformations = () => {
                   {slugExistsState === true ? (
                     <XMarkIcon className="h-5 w-5 text-red-500 my-auto mr-3" />
                   ) : null}
-                  {slugExistsState === false ? (
+                  {showIcon ? (
                     <CheckIcon className="h-5 w-5 text-green-500 my-auto mr-3" />
                   ) : null}
                   {
@@ -344,7 +374,7 @@ const ParamsProfilInformations = () => {
                     <img
                       src={photoProfile}
                       alt="Photo de profil"
-                      className="mx-auto h-16 w-16 rounded-full"
+                      className="mx-auto h-16 w-16 rounded-full object-cover"
                     />
                   ) : (
                     <PhotoIcon
