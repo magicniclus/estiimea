@@ -74,7 +74,13 @@ const PresentationContainer = () => {
     (state) => state?.user?.userInformation?.emailVisible
   );
 
-  const [email, setEmail] = useState(stateEmailVisible || stateEmail);
+  const [email, setEmail] = useState(
+    stateEmailVisible ? stateEmailVisible : stateEmail
+  );
+
+  useEffect(() => {
+    setEmail(stateEmailVisible ? stateEmailVisible : stateEmail);
+  }, [stateEmailVisible, stateEmail]);
 
   const dispatch = useDispatch();
 
@@ -133,10 +139,14 @@ const PresentationContainer = () => {
         {stateDescription2}
       </p>
       <div className="">
-        <a className="flex mb-2" href={`tel:${statePhone}`}>
-          <PhoneIcon className="mr-3 w-5" />
-          <p className="font-normal text-sm">{statePhone}</p>
-        </a>
+        {statePhone !== "" ||
+        statePhone !== undefined ||
+        statePhone !== null ? (
+          <a className="flex mb-2" href={`tel:${statePhone}`}>
+            <PhoneIcon className="mr-3 w-5" />
+            <p className="font-normal text-sm">{statePhone}</p>
+          </a>
+        ) : null}
         <a className="flex" href={`mailto:${email}`}>
           <EnvelopeIcon className="mr-3 w-5" />
           <p className="font-normal text-sm">{email}</p>
