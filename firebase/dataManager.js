@@ -1,7 +1,15 @@
 // user.js
 import { slugify } from "../lib/utils";
 import { app } from "./firebase.config";
-import { getDatabase, ref, set, get, update, push } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  get,
+  update,
+  push,
+  remove,
+} from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 
 // Obtenez une référence à la base de données de Firebase
@@ -93,6 +101,17 @@ export const addSlug = async (slug, userId) => {
   }
 };
 
+export const deletePrevSlug = async (prevSlug) => {
+  const slugRef = ref(db, `slugs/${prevSlug}`);
+  console.log("Deleting slug:", prevSlug);
+  try {
+    await remove(slugRef);
+    console.log(`Deleted slug ${prevSlug} successfully.`);
+  } catch (error) {
+    console.error("Failed to delete slug: ", error);
+  }
+};
+
 // Fonction pour récupérer les informations d'un utilisateur connecté.
 // Elle prend un ID utilisateur (uid) comme paramètre et tente d'obtenir les informations de cet utilisateur
 // à partir de la base de données Firebase.
@@ -111,7 +130,6 @@ export const getLoggedInUserData = async (uid) => {
     return null;
   }
 };
-
 // Fonction pour mettre à jour les données d'un utilisateur dans la base de données Firebase.
 // Elle prend un ID utilisateur (uid) et un objet de mises à jour comme paramètres,
 // puis tente de mettre à jour les informations de cet utilisateur avec les mises à jour fournies.
