@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 const db = getDatabase(app);
 
 // Fonction pour vérifier si un slug existe déjà dans la base de données
-const slugExists = async (slug) => {
+export const slugExists = async (slug) => {
   const slugRef = ref(db, `slugs/${slug}`);
   const snap = await get(slugRef);
   return snap.exists();
