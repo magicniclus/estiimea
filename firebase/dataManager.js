@@ -2,16 +2,50 @@
 import { slugify } from "../lib/utils";
 import { app } from "./firebase.config";
 import { getDatabase, ref, set, get, update, push } from "firebase/database";
+import { v4 as uuidv4 } from "uuid";
 
 // Obtenez une référence à la base de données de Firebase
 const db = getDatabase(app);
+
+// Fonction pour vérifier si un slug existe déjà dans la base de données
+const slugExists = async (slug) => {
+  const slugRef = ref(db, `slugs/${slug}`);
+  const snap = await get(slugRef);
+  return snap.exists();
+};
+
+// Fonction pour générer un slug unique
+const generateUniqueSlug = async (baseSlug) => {
+  let newSlug = baseSlug;
+  let exists = await slugExists(newSlug);
+  while (exists) {
+    newSlug = `${baseSlug}-${uuidv4().slice(0, 8)}`; // Utilise les 8 premiers caractères de l'UUID
+    exists = await slugExists(newSlug);
+  }
+  return newSlug;
+};
 
 // Fonction pour créer un nouvel utilisateur dans la base de données Firebase.
 // Elle prend comme paramètres un ID utilisateur (uid), une adresse email, un prénom et un nom de famille.
 // Elle crée ensuite une nouvelle référence utilisateur dans la base de données avec ces informations,
 // plus quelques autres champs par défaut.
 export const createNewUser = async (uid, email, firstName, lastName) => {
-  console.log(slugify(firstName + " " + lastName));
+  let generatedSlug = slugify(firstName + " " + lastName);
+  let uniqueSlugFound = false;
+
+  while (!uniqueSlugFound) {
+    const exists = await slugExists(generatedSlug);
+
+    if (exists) {
+      console.log("Le slug existe déjà, création d'un slug unique...");
+      generatedSlug = await generateUniqueSlug(generatedSlug);
+    } else {
+      uniqueSlugFound = true;
+    }
+  }
+
+  console.log(`Le slug utilisé est: ${generatedSlug}`);
+
   const userRef = ref(db, `users/${uid}`);
   await set(userRef, {
     userInformation: {
@@ -25,7 +59,7 @@ export const createNewUser = async (uid, email, firstName, lastName) => {
       fontColor: "#374151",
       fontColor2: "#3B82F6",
       backgroundColor: "#ffffff",
-      slug: slugify(firstName + " " + lastName),
+      slug: generatedSlug,
       name: firstName + " " + lastName,
       entreprise: "SAFTI",
       title: "Estimez votre bien en ligne gratuitement.",
@@ -43,6 +77,9 @@ export const createNewUser = async (uid, email, firstName, lastName) => {
     },
     estimations: {},
   });
+
+  const slugRef = ref(db, `slugs/${generatedSlug}`);
+  await set(slugRef, { userId: uid });
 };
 
 // Fonction pour récupérer les informations d'un utilisateur connecté.
@@ -84,10 +121,9 @@ export const updateUserData = async (uid, updates) => {
 
 // Fonction pour creer l'url de l'utilisateur
 export async function findUserIdBySlug(slug) {
-  // Remplacez cette logique par une requête réelle à Firebase
-  const snapshot = await get(ref(db, `users/`)); // Ceci est un pseudocode
+  const snapshot = await get(ref(db, `users/`));
   const usersData = snapshot.val();
-  // Trouvez l'UID basé sur le slug et retournez-le
+
   for (let userId in usersData) {
     if (
       usersData[userId].settings &&
@@ -96,7 +132,7 @@ export async function findUserIdBySlug(slug) {
       return userId;
     }
   }
-  return null; // Si aucun utilisateur ne correspond au slug
+  return null;
 }
 
 // Fonction pour ajouter une nouvelle estimation pour un utilisateur.
