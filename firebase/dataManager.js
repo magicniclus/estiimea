@@ -82,6 +82,17 @@ export const createNewUser = async (uid, email, firstName, lastName) => {
   await set(slugRef, { userId: uid });
 };
 
+export const addSlug = async (slug, userId) => {
+  console.log("one");
+  try {
+    console.log("two");
+    const slugRef = ref(db, `slugs/${slug}`);
+    await set(slugRef, { userId: userId });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du slug: ", error);
+  }
+};
+
 // Fonction pour récupérer les informations d'un utilisateur connecté.
 // Elle prend un ID utilisateur (uid) comme paramètre et tente d'obtenir les informations de cet utilisateur
 // à partir de la base de données Firebase.
