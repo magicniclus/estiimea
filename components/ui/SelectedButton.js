@@ -7,17 +7,24 @@ const people = [
   { id: 2, name: "Agent immobilier" },
   { id: 3, name: "Responsable de secteur" },
   { id: 4, name: "Gérant" },
-  { id: 4, name: "Co-gérant" },
-  { id: 5, name: "Agent commercial" },
-  { id: 6, name: "Conseiller" },
+  { id: 5, name: "Co-gérant" },
+  { id: 6, name: "Agent commercial" },
+  { id: 7, name: "Conseiller" },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
-  const [selected, setSelected] = useState(people[0]);
+export default function Example(props) {
+  const value = props.value;
+  const setValue = props.setValue;
+
+  // Recherchez une correspondance entre `value` et un élément dans `people`
+  const matchingPerson = people.find((person) => person.name === value);
+
+  // Utilisez la correspondance trouvée pour initialiser `selected`, sinon utilisez le premier élément de `people`
+  const [selected, setSelected] = useState(matchingPerson || people[0]);
 
   return (
     <Listbox value={selected} onChange={setSelected} className="w-full">
