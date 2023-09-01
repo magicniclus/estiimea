@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 import { getEstimation } from "../../../../homaData/getData";
-import { addEstimationForUser } from "../../../../firebase/dataManager";
+import {
+  addEstimation,
+  addEstimationForUser,
+} from "../../../../firebase/dataManager";
 
 import Loader from "../../../../components/loader/Loader";
 import ContainerEstimation from "../../../../components/layout/ContainerEstimation";
@@ -132,12 +135,16 @@ const index = () => {
             date: formattedDate,
           };
 
-          addEstimationForUser(userId, {
+          const estimationDetails = {
             ...data,
             id: uniqueId,
             agent: userId,
             ...clientInfoWithDate,
-          });
+          };
+
+          // Ajouter l'estimation dans la collection globale 'estimations'
+          addEstimation(estimationDetails);
+
           dispatch({
             type: "SET_CLIENT_INFORMATION",
             payload: data,
@@ -159,6 +166,7 @@ const index = () => {
       }, 1000);
     }
   }, [adresse, currentSlug]);
+
   return (
     <EstimationLayout>
       <ContainerEstimation>
