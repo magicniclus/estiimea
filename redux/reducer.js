@@ -85,6 +85,20 @@ const reducer = (state = initState, action) => {
         },
       };
 
+    case "UPDATE_SETTINGS":
+      const updatedSettings = Object.assign(
+        {},
+        state.user.settings,
+        action.payload
+      );
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          settings: updatedSettings,
+        },
+      };
+
     case "UPDATE_FONT_COLOR":
       return {
         ...state,
