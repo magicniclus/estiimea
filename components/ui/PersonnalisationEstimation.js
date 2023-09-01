@@ -95,6 +95,13 @@ const PersonnalisationEstimation = () => {
     });
   };
 
+  const handleCancel = () => {
+    setDescriptionOne(originalDescriptionOne);
+    setDescriptionTwo(originalDescriptionTwo);
+    setEntreprise(originalEntreprise);
+    setSelected(originalSelected);
+  };
+
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
       <div className="px-4 sm:px-0">
@@ -161,6 +168,7 @@ const PersonnalisationEstimation = () => {
           <button
             type="button"
             className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={handleCancel} // Attachez la fonction ici
           >
             Annuler
           </button>
