@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import DOMPurify from "dompurify";
 
 let Quill;
 
@@ -9,48 +10,51 @@ if (typeof window !== "undefined") {
 
 const HTMLArea = (props) => {
   const title = props.title || "Modifier la première description";
-  const value = props.value || ""; // Use a default value if none is provided
+  const value = props.value || "";
   const max = props.max || 150;
+  const setDescription = props.setDescription || (() => {});
 
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 
-  const [hasReachedMax, setHasReachedMax] = useState(false); // New state for tracking if max characters reached
+  const [hasReachedMax, setHasReachedMax] = useState(false);
 
   useEffect(() => {
-    if (!Quill) return; // Ensure Quill is loaded
+    if (!Quill) return;
 
     quillRef.current = new Quill(editorRef.current, {
       theme: "snow",
       modules: {
-        toolbar: [
-          ["bold", "italic"], // Boutons pour "bold" et "italic"
-          ["clean"],
-        ],
+        toolbar: [["bold", "italic"], ["clean"]],
       },
     });
 
-    if (value) {
-      quillRef.current.clipboard.dangerouslyPasteHTML(value);
-    }
+    // Initialiser Quill avec le contenu après sa création
+    const sanitizedHTML = DOMPurify.sanitize(value);
+    quillRef.current.clipboard.dangerouslyPasteHTML(sanitizedHTML);
 
     const handleTextChange = () => {
       const contentText = quillRef.current.getText();
 
       if (contentText.length > max) {
         setHasReachedMax(true);
-        quillRef.current.off("text-change", handleTextChange);
         quillRef.current.setText(contentText.substring(0, max));
-        quillRef.current.on("text-change", handleTextChange);
       } else {
         setHasReachedMax(false);
       }
 
-      props.onChange(quillRef.current.root.innerHTML);
+      const sanitizedOutput = DOMPurify.sanitize(
+        quillRef.current.root.innerHTML
+      );
+      setDescription(sanitizedOutput);
     };
 
     quillRef.current.on("text-change", handleTextChange);
-  }, [value]);
+
+    return () => {
+      quillRef.current.off("text-change", handleTextChange);
+    };
+  }, []);
 
   return (
     <div className="mt-5">
