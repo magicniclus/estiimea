@@ -33,14 +33,36 @@ const HTMLArea = (props) => {
     const sanitizedHTML = DOMPurify.sanitize(value);
     quillRef.current.clipboard.dangerouslyPasteHTML(sanitizedHTML);
 
-    const handleTextChange = () => {
+    const handleTextChange = (delta, oldDelta, source) => {
       const contentText = quillRef.current.getText();
 
       if (contentText.length > max) {
         setHasReachedMax(true);
+
+        // Désactivez temporairement l'écouteur pour éviter une boucle infinie
+        quillRef.current.off("text-change", handleTextChange);
+
         quillRef.current.setText(contentText.substring(0, max));
+
+        // Réactivez l'écouteur après avoir mis à jour le texte
+        quillRef.current.on("text-change", handleTextChange);
       } else {
         setHasReachedMax(false);
+      }
+
+      // Supprimez les styles et définissez la couleur en noir si le changement provient de l'utilisateur
+      if (source === "user") {
+        delta.ops.forEach((op) => {
+          if (op.insert && typeof op.insert === "string") {
+            quillRef.current.removeFormat(op.retain || 0, op.insert.length);
+            quillRef.current.formatText(
+              op.retain || 0,
+              op.insert.length,
+              "color",
+              "black"
+            );
+          }
+        });
       }
 
       const sanitizedOutput = DOMPurify.sanitize(
@@ -62,7 +84,7 @@ const HTMLArea = (props) => {
         htmlFor="comment"
         className="block text-sm leading-6 text-gray-700"
       >
-        {title}
+        {title} ({max} caractères maximum) :
       </label>
       <div className="mt-2"></div>
       <div ref={editorRef} style={{ minHeight: "100px" }}></div>
