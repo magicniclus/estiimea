@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import SelectedButton from "./SelectedButton";
+import TextArea from "./TextArea";
+import HTMLArea from "../HTMLArea";
+import { useSelector } from "react-redux";
 
 const PersonnalisationEstimation = () => {
+  const [descriptionOne, setDescriptionOne] = useState(
+    useSelector((state) => state?.user?.settings?.description)
+  );
+
+  const [descriptionTwo, setDescriptionTwo] = useState(
+    useSelector((state) => state?.user?.settings?.description2)
+  );
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
       <div className="px-4 sm:px-0">
@@ -48,6 +58,22 @@ const PersonnalisationEstimation = () => {
               </div>
             </div>
           </div>
+          <HTMLArea
+            onChange={(content) => {
+              setDescriptionOne(content); // ou toute autre logique que vous souhaitez implémenter
+            }}
+            value={descriptionOne}
+            max={150}
+          />
+
+          <HTMLArea
+            onChange={(content) => {
+              setDescriptionTwo(content); // ou toute autre logique que vous souhaitez implémenter
+            }}
+            value={descriptionTwo}
+            title="Modifier la seconde descritption"
+            max={70}
+          />
         </div>
 
         <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8  mt-5">
