@@ -86,6 +86,10 @@ const PresentationContainer = () => {
     stateEmailVisible ? stateEmailVisible : stateEmail
   );
 
+  const [contract, setContract] = useState(
+    useSelector((state) => state?.user?.settings?.contract) || ""
+  ); //user/settings/contract
+
   useEffect(() => {
     setEmail(stateEmailVisible ? stateEmailVisible : stateEmail);
   }, [stateEmailVisible, stateEmail]);
@@ -122,7 +126,9 @@ const PresentationContainer = () => {
           <h2 className="font-bold text-lg" style={{ color: secondaryColor }}>
             {stateName}
           </h2>
-          <h3 className="font-light text-xs">Conseiller {stateEntreprise}</h3>
+          <h3 className="font-light text-xs">
+            {contract} {stateEntreprise}
+          </h3>
         </div>
       </div>
       <div>
@@ -147,7 +153,7 @@ const PresentationContainer = () => {
         dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
       />
       <div
-        className="font-bold w-11/12 mb-10 mt-10 lg:mt-0"
+        className="font-normal w-11/12 mb-10 mt-10 lg:mt-0"
         dangerouslySetInnerHTML={{ __html: sanitizedDescription2 }}
       />
       <div className="">
