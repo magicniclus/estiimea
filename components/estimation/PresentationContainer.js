@@ -10,6 +10,7 @@ import {
 import { UserIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DOMPurify from "dompurify";
 
 const PresentationContainer = () => {
   const avantages = [
@@ -49,6 +50,13 @@ const PresentationContainer = () => {
   const stateDescription2 = useSelector(
     (state) => state?.user?.settings?.description2
   );
+  const sanitizedDescription = stateDescription
+    ? DOMPurify.sanitize(stateDescription)
+    : "";
+  const sanitizedDescription2 = stateDescription2
+    ? DOMPurify.sanitize(stateDescription2)
+    : "";
+
   const stateBackgroundColor = useSelector(
     (state) => state?.user?.settings?.backgroundColor
   );
@@ -134,10 +142,14 @@ const PresentationContainer = () => {
           ))}
         </ul>
       </div>
-      <p className="text-normal w-11/12 mt-10 lg:mt-3">{stateDescription}</p>
-      <p className="font-bold w-11/12 mb-10  mt-10 lg:mt-0">
-        {stateDescription2}
-      </p>
+      <div
+        className="text-normal w-11/12 mt-10 lg:mt-3"
+        dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+      />
+      <div
+        className="font-bold w-11/12 mb-10 mt-10 lg:mt-0"
+        dangerouslySetInnerHTML={{ __html: sanitizedDescription2 }}
+      />
       <div className="">
         {statePhone !== "" ||
         statePhone !== undefined ||
