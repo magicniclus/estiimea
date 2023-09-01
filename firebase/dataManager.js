@@ -9,6 +9,9 @@ import {
   update,
   push,
   remove,
+  query,
+  orderByChild,
+  equalTo,
 } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 
@@ -130,6 +133,38 @@ export const getLoggedInUserData = async (uid) => {
     return null;
   }
 };
+
+// Voir les données utilisateur par le slug
+export const getUserDataBySlug = async (slug) => {
+  const usersRef = ref(db, "users");
+  const userQuery = query(
+    usersRef,
+    orderByChild("settings/slug"),
+    equalTo(slug)
+  );
+
+  try {
+    const snapshot = await get(userQuery);
+    if (snapshot.exists()) {
+      let userData = null;
+      let userKey = null;
+
+      snapshot.forEach((childSnapshot) => {
+        userData = childSnapshot.val();
+        userKey = childSnapshot.key;
+      });
+
+      return { ...userData, uid: userKey };
+    } else {
+      console.log("No data available for slug: ", slug);
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to retrieve user data by slug: ", error);
+    return null;
+  }
+};
+
 // Fonction pour mettre à jour les données d'un utilisateur dans la base de données Firebase.
 // Elle prend un ID utilisateur (uid) et un objet de mises à jour comme paramètres,
 // puis tente de mettre à jour les informations de cet utilisateur avec les mises à jour fournies.
@@ -167,13 +202,13 @@ export async function findUserIdBySlug(slug) {
 // Fonction pour ajouter une nouvelle estimation pour un utilisateur.
 // Cette fonction prend comme paramètres un ID utilisateur (uid) et les données d'estimation.
 // Fonction pour ajouter une nouvelle estimation pour un utilisateur.
-export const addEstimationForUser = async (uid, estimationData) => {
-  const estimationsRef = ref(db, `users/${uid}/estimations`);
+export const addEstimation = async (estimationData) => {
+  const estimationsRef = ref(db, `estimations`);
 
   try {
     const newEstimationRef = push(estimationsRef); // Ceci crée une nouvelle référence avec un ID unique
     await set(newEstimationRef, estimationData); // Sauvegardez les données d'estimation avec cet ID unique
-    console.log(`Added new estimation for user ${uid} successfully.`);
+    console.log(`Added new estimation successfully.`);
   } catch (error) {
     console.error("Failed to add new estimation: ", error);
   }
