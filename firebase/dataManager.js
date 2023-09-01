@@ -183,6 +183,16 @@ export const updateUserData = async (uid, updates) => {
   }
 };
 
+export const updateUserDataSettings = async (uid, updates) => {
+  const userRef = ref(db, `users/${uid}`);
+  try {
+    await update(userRef, updates);
+    console.log(`Updated user ${uid} data successfully.`);
+  } catch (error) {
+    console.error("Failed to update user data: ", error);
+  }
+};
+
 // Fonction pour creer l'url de l'utilisateur
 export async function findUserIdBySlug(slug) {
   const snapshot = await get(ref(db, `users/`));
