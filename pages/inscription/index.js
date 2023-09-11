@@ -123,9 +123,9 @@ const index = () => {
             <h2 className="text-sm text-blue-500 font-sans">
               ESSAYEZ ESTIMMEA GRATUITEMENT
             </h2>
-            <h1 className="text-6xl text-slate-700 font-semibold font-sans leading-tight">
+            <h1 className="inline bg-gradient-to-r from-gray-700 via-blue-500 to-gray-700 bg-clip-text font-display text-5xl font-normal tracking-tight text-transparent min-h-max">
               Créez votre compte{" "}
-              <span className="text-blue-500 font-bold">gratuitement</span>
+              <span className="font-semibold">GRATUITEMENT</span>
             </h1>
             <h3 className="text-lg text-slate-400 font-bold font-sans">
               Proposez des estimations en ligne à vos prospects en quelques
