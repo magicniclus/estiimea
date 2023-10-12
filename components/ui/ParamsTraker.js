@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 const ParamsTraker = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [googleTracker, setGoogleTracker] = useState("");
+  const [facebookTracker, setFacebookTracker] = useState("");
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
       <div className="px-4 sm:px-0">
@@ -25,7 +26,7 @@ const ParamsTraker = () => {
                 src="/images/logos/google.png"
                 className="w-5 h-auto object-contain mr-2"
               />
-              Code Google Ads:
+              Code Balise Google Ads:
             </label>
             <div className="mt-2">
               <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md outline-none">
@@ -47,15 +48,15 @@ const ParamsTraker = () => {
                 src="/images/logos/facebook.png"
                 className="w-5 h-auto object-contain mr-2"
               />
-              Code Meta:
+              Id Pixel Meta:
             </label>
             <div className="mt-2">
               <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md outline-none">
                 <input
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-700 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 outline-none pl-2"
-                  placeholder="xxxxxxxxxxxxxxxx"
-                  value={googleTracker}
-                  onChange={(e) => setGoogleTracker(e.target.value)}
+                  placeholder="XXXXXXXXXXXXXXXX"
+                  value={facebookTracker}
+                  onChange={(e) => setFacebookTracker(e.target.value)}
                 />
               </div>
             </div>
