@@ -93,6 +93,7 @@ const PersonnalisationEstimation = () => {
       type: "UPDATE_SETTINGS",
       payload: userInformation,
     });
+    location.reload();
   };
 
   const handleCancel = () => {
@@ -176,7 +177,7 @@ const PersonnalisationEstimation = () => {
             type="submit"
             disabled={!hasChanges}
             className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm ${
-              hasChanges ? "bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+              hasChanges ? "bg-blue-700" : "bg-blue-700/50 cursor-not-allowed"
             }`}
           >
             Enregistrer
