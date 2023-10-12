@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
@@ -26,13 +26,17 @@ export default function Example(props) {
   // Utilisez la correspondance trouvée pour initialiser `selected`, sinon utilisez le premier élément de `people`
   const [selected, setSelected] = useState(matchingPerson || people[0]);
 
+  useEffect(() => {
+    setValue(selected.name);
+  }, [selected, setValue]);
+
   return (
     <Listbox value={selected} onChange={setSelected} className="w-full">
       {({ open }) => (
         <>
           <div className="relative mt-2 sm:max-w-md  grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 outline-none sm:text-sm sm:leading-6 sm:col-span-4">
-              <span className="block truncate">{selected.name}</span>
+              <span className="block truncate">{value || selected.name}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon
                   className="h-5 w-5 text-gray-400"
