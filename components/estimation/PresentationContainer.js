@@ -103,6 +103,10 @@ const PresentationContainer = () => {
     }
   }, [stateUser]);
 
+  useEffect(() => {
+    console.log(contract);
+  }, [contract]);
+
   return (
     <div
       className=" h-full w-full lg:w-4/12 flex flex-col justify-between lg:min-h-[600px] lg:mb-0 mb-10"
