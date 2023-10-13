@@ -1,9 +1,42 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserDataSettings } from "../../firebase/dataManager";
 
 const ParamsTraker = () => {
-  const [hasChanges, setHasChanges] = useState(false);
-  const [googleTracker, setGoogleTracker] = useState("");
-  const [facebookTracker, setFacebookTracker] = useState("");
+  const uid = useSelector((state) => state?.user?.uid);
+  const trackingId = useSelector((state) => state?.user?.settings?.Gtm);
+  const facebookPixel = useSelector(
+    (state) => state?.user?.settings?.facebookPixel
+  );
+
+  const [hasChanges, setHasChanges] = useState(true);
+  const [googleTracker, setGoogleTracker] = useState(trackingId || "");
+  const [facebookTracker, setFacebookTracker] = useState(facebookPixel || "");
+
+  const dispatch = useDispatch();
+
+  const updates = {
+    "settings/facebookPixel": facebookTracker,
+    "settings/Gtm": googleTracker,
+  };
+
+  useEffect(() => {}, [googleTracker, facebookTracker]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await updateUserDataSettings(uid, updates);
+    const userInformation = {
+      Gtm: googleTracker,
+      facebookPixel: facebookTracker,
+    };
+
+    dispatch({
+      type: "UPDATE_SETTINGS",
+      payload: userInformation,
+    });
+    location.reload();
+  };
+
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
       <div className="px-4 sm:px-0">
@@ -15,7 +48,10 @@ const ParamsTraker = () => {
           insérer le code Google Ads et/ou Meta dans le champ ci-dessous.
         </p>
       </div>
-      <form className="bg-white shadow-sm ring-1 ring-gray-700/5 rounded-md md:col-span-2 ">
+      <form
+        className="bg-white shadow-sm ring-1 ring-gray-700/5 rounded-md md:col-span-2"
+        onSubmit={handleSubmit}
+      >
         <div className=" px-4 py-6 sm:p-8">
           <div className="sm:col-span-4 ">
             <label
