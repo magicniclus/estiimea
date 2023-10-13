@@ -27,6 +27,7 @@ const HTMLArea = (props) => {
       modules: {
         toolbar: [["bold", "italic"], ["clean"]],
       },
+      bounds: document.body, // Ajoutez cette ligne
     });
 
     // Initialiser Quill avec le contenu après sa création
