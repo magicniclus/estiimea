@@ -7,6 +7,7 @@ import { observeAuthState } from "../../firebase/auth";
 const PersonnalisationEstimationLayout = (props) => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
+  const containWidth = useSelector((state) => state?.widthEstimationContainer);
   //récuperation des information utilisateur si elles ne sont pas déja dans rédux
   useEffect(() => {
     dispatch({ type: "SET_USER_LOADING", payload: true });
@@ -31,7 +32,11 @@ const PersonnalisationEstimationLayout = (props) => {
     } else dispatch({ type: "SET_USER_LOADING", payload: false });
   }, [userState]);
   return (
-    <main className="w-full lg:w-11/12 flex justify-center items-center bg-grayPrimary">
+    <main
+      className={`w-full flex justify-center items-center bg-grayPrimary transition-all duration-300 ease-in-out ${
+        containWidth === "computer" ? "lg:w-full" : "lg:w-[350px]"
+      }`}
+    >
       {props.children}
     </main>
   );
