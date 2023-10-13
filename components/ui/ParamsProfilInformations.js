@@ -265,7 +265,7 @@ const ParamsProfilInformations = () => {
                 URL de votre page
               </label>
               <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md outline-none">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md outline-none overflow-hidden">
                   <span className="flex select-none items-center font-light pl-3 text-gray-500 sm:text-sm">
                     https://estimmea.com/
                   </span>
