@@ -6,6 +6,7 @@ import SearchMapBar from "./SearchMapBar";
 import { useSelector } from "react-redux";
 import Loader from "../loader/Loader";
 import ContainerEstimation from "../layout/ContainerEstimation";
+import TagManager from "react-gtm-module";
 
 const Estimation = () => {
   const router = useRouter();
@@ -20,9 +21,19 @@ const Estimation = () => {
 
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateUserIsLoading = useSelector((state) => state?.userIsLoading);
+  const trackingId = useSelector((state) => state?.user?.settings?.Gtm);
 
   // Vérifiez si l'URL contient 'dashboard'
   const isDashboard = router.asPath.includes("dashboard");
+
+  // Utilisation de useEffect pour ajouter le script Google Ads
+  useEffect(() => {
+    if (!trackingId) return;
+    const tagManagerArgs = {
+      gtmId: `${trackingId} `,
+    };
+    TagManager.initialize(tagManagerArgs);
+  }, [trackingId]);
 
   return (
     <ContainerEstimation>
