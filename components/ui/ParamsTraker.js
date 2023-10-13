@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserDataSettings } from "../../firebase/dataManager";
 
@@ -9,30 +9,32 @@ const ParamsTraker = () => {
     (state) => state?.user?.settings?.facebookPixel
   );
 
-  const [hasChanges, setHasChanges] = useState(true);
   const [googleTracker, setGoogleTracker] = useState(trackingId || "");
   const [facebookTracker, setFacebookTracker] = useState(facebookPixel || "");
 
   const dispatch = useDispatch();
 
-  const updates = {
-    "settings/facebookPixel": facebookTracker,
-    "settings/Gtm": googleTracker,
+  const handleCancel = () => {
+    setGoogleTracker(trackingId || "");
+    setFacebookTracker(facebookPixel || "");
   };
 
-  useEffect(() => {}, [googleTracker, facebookTracker]);
+  const hasChanges =
+    googleTracker !== trackingId || facebookTracker !== facebookPixel;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateUserDataSettings(uid, updates);
-    const userInformation = {
-      Gtm: googleTracker,
-      facebookPixel: facebookTracker,
-    };
+    await updateUserDataSettings(uid, {
+      "settings/Gtm": googleTracker,
+      "settings/facebookPixel": facebookTracker,
+    });
 
     dispatch({
       type: "UPDATE_SETTINGS",
-      payload: userInformation,
+      payload: {
+        Gtm: googleTracker,
+        facebookPixel: facebookTracker,
+      },
     });
     location.reload();
   };
@@ -102,7 +104,7 @@ const ParamsTraker = () => {
           <button
             type="button"
             className="text-sm font-semibold leading-6 text-gray-900"
-            // onClick={handleCancel} // Attachez la fonction ici
+            onClick={handleCancel}
           >
             Annuler
           </button>
