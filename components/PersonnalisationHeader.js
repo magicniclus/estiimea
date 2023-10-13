@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { ChromePicker } from "react-color";
-import { CheckIcon, LinkIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  CheckIcon,
+  ComputerDesktopIcon,
+  DevicePhoneMobileIcon,
+  LinkIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
 import { updateUserData } from "../firebase/dataManager";
 
 const PersonnalisationHeader = (props) => {
@@ -14,6 +20,7 @@ const PersonnalisationHeader = (props) => {
     useSelector((state) => state?.user?.settings?.fontColor2) || "#000000"; // Fallback color
   const uid = useSelector((state) => state?.user?.uid);
   const settings = useSelector((state) => state?.user?.settings);
+  const containWidth = useSelector((state) => state?.widthEstimationContainer);
 
   const [showColorPickerPrimary, setShowColorPickerPrimary] = useState(false);
   const [showColorPickerSecondary, setShowColorPickerSecondary] =
@@ -125,8 +132,22 @@ const PersonnalisationHeader = (props) => {
     }
   };
 
+  const updateSize = (value) => {
+    if (value === "computer") {
+      dispatch({
+        type: "UPDATE_WIDTH_ESTIMATION_CONTAINER",
+        payload: "computer",
+      });
+    } else {
+      dispatch({
+        type: "UPDATE_WIDTH_ESTIMATION_CONTAINER",
+        payload: "mobile",
+      });
+    }
+  };
+
   return (
-    <div className="w-full h-20 bg-slate-50 mb-5 rounded-md flex z-50 px-3 justify-between flex-wrap">
+    <div className="w-full min-h-20 bg-slate-50 mb-5 rounded-md flex z-50 px-3 py-5 justify-between flex-col lg:flex-row lg:items-center">
       <div className="flex relative items-center">
         <h2 className="text-base font-semibold leading-7 text-gray-700 mr-5">
           Mes Couleurs:
@@ -211,7 +232,37 @@ const PersonnalisationHeader = (props) => {
           </button>
         </div>
       </div>
-      <div className="flex items-center">
+      <div className="lg:flex hidden items-center lg:mt-0 mt-5">
+        <div
+          onClick={() => updateSize("computer")}
+          className={`w-10 h-10 flex justify-center items-center ${
+            containWidth === "computer"
+              ? "bg-blue-500 border-gray-300 border-2"
+              : "bg-gray-300"
+          } rounded-full cursor-pointer mr-5 hover:shadow-md transition-all duration-300 ease-in-out`}
+        >
+          <ComputerDesktopIcon
+            className={`w-5 h-5 ${
+              containWidth === "computer" ? "text-white" : "text-gray-700"
+            }`}
+          />
+        </div>
+        <div
+          onClick={() => updateSize("mobile")}
+          className={`w-10 h-10 flex justify-center items-center ${
+            containWidth !== "computer"
+              ? "bg-blue-500 border-gray-300 border-2"
+              : "bg-gray-300"
+          } rounded-full cursor-pointer mr-5 hover:shadow-md transition-all duration-300 ease-in-out`}
+        >
+          <DevicePhoneMobileIcon
+            className={`w-5 h-5 ${
+              containWidth !== "computer" ? "text-white" : "text-gray-700"
+            }`}
+          />
+        </div>
+      </div>
+      <div className="flex items-center lg:mt-0 mt-5">
         <button
           type="button"
           onClick={handleRouter}
