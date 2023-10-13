@@ -19,6 +19,8 @@ const Estimation = () => {
     (state) => state?.user?.userInformation?.lastName
   );
 
+  const containWidth = useSelector((state) => state?.widthEstimationContainer);
+
   const stateMapIsLoading = useSelector((state) => state?.mapIsLoading);
   const stateUserIsLoading = useSelector((state) => state?.userIsLoading);
   const trackingId = useSelector((state) => state?.user?.settings?.Gtm);
@@ -43,13 +45,31 @@ const Estimation = () => {
         </div>
       )}
       <PresentationContainer />
-      <div className="w-0.5 min-h-[600px] bg-gray-100 lg:flex hidden" />
-      <div className="w-9/12 h-0.5 bg-gray-100 lg:hidden flex mb-7 mt-0" />
-      <div className="w-full lg:w-6/12 min-h-[400px]  lg:min-h-[600px] h-full flex flex-col justify-around">
+      <div
+        className={`w-0.5 min-h-[600px] bg-gray-100 ${
+          containWidth !== "mobile" ? "lg:flex" : "flex"
+        } hidden`}
+      />
+      <div
+        className={`w-9/12 h-0.5 bg-gray-100 ${
+          containWidth === "mobile" ? "flex mt-7" : "lg:hidden"
+        } mb-7 mt-0`}
+      />
+      <div
+        className={`w-full ${
+          containWidth !== "mobile" && "lg:w-6/12"
+        } min-h-[400px] ${
+          containWidth !== "mobile" && "lg:min-h-[600px]"
+        } h-full flex flex-col justify-around`}
+      >
         <SearchMapBar />
         <Map />
       </div>
-      <div className="flex items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:hidden">
+      <div
+        className={`flex items-center mt-5 ${
+          containWidth !== "mobile" ? "lg:mt-0 lg:mb-0 mb-5" : "mb-5"
+        } ${containWidth === "mobile" ? "flex" : "hidden"}`}
+      >
         <a
           className="font-light text-xs"
           style={{ color: secondaryColor }}
