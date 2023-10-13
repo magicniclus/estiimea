@@ -15,7 +15,6 @@ const EstimationLayout = (props) => {
   //récuperation des information utilisateur si elles ne sont pas déja dans rédux
   useEffect(() => {
     dispatch({ type: "SET_USER_LOADING", payload: true });
-    console.log(slug);
     if (!userState) {
       getUserDataBySlug(slug) // Assurez-vous que 'slug' est accessible
         .then((userInfo) => {
