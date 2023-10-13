@@ -34,7 +34,7 @@ const PersonnalisationEstimationLayout = (props) => {
   return (
     <main
       className={`w-full flex justify-center items-center bg-grayPrimary transition-all duration-300 ease-in-out ${
-        containWidth === "computer" ? "lg:w-full" : "lg:w-[350px]"
+        containWidth === "computer" ? "lg:w-full" : "lg:w-[400px]"
       }`}
     >
       {props.children}
