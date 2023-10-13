@@ -19,8 +19,8 @@ const ContainerEstimation = (props) => {
     >
       <div
         className={`absolute -top-1 -right-1 z-20 w-32 h-32 overflow-hidden ${
-          containWidth !== "mobile" ? "hidden" : "hidden"
-        } lg:block`}
+          containWidth !== "mobile" ? "hidden  lg:block" : "hidden"
+        }`}
       >
         <a
           href="/"
