@@ -82,6 +82,8 @@ const PresentationContainer = () => {
     (state) => state?.user?.userInformation?.emailVisible
   );
 
+  const containWidth = useSelector((state) => state?.widthEstimationContainer);
+
   const [email, setEmail] = useState(
     stateEmailVisible ? stateEmailVisible : stateEmail
   );
@@ -109,7 +111,11 @@ const PresentationContainer = () => {
 
   return (
     <div
-      className=" h-full w-full lg:w-4/12 flex flex-col justify-between lg:min-h-[600px] lg:mb-0 mb-10"
+      className={`h-full w-full ${
+        containWidth !== "mobile" ? "lg:w-4/12" : "w-full"
+      } flex flex-col justify-between ${
+        containWidth !== "mobile" ? "lg:min-h-[600px]" : "min-h-[600px]"
+      } ${containWidth !== "mobile" ? "lg:mb-0" : "mb-0"} mb-10`}
       style={{ color: primaryColor }}
     >
       <div className="flex">
@@ -136,7 +142,11 @@ const PresentationContainer = () => {
         </div>
       </div>
       <div>
-        <h1 className="text-3xl lg:w-11/12 mt-10 lg:mt-3">
+        <h1
+          className={`text-3xl ${
+            containWidth !== "mobile" ? "lg:w-11/12" : "w-11/12"
+          } mt-10 ${containWidth !== "mobile" ? "lg:mt-3" : "mt-10"}`}
+        >
           Estimez votre bien en ligne{" "}
           <span className="font-bold" style={{ color: secondaryColor }}>
             gratuitement
@@ -153,11 +163,15 @@ const PresentationContainer = () => {
         </ul>
       </div>
       <div
-        className="text-normal w-11/12 mt-10 lg:mt-3"
+        className={`text-normal ${
+          containWidth !== "mobile" ? "lg:w-11/12" : "w-11/12"
+        } mt-10 ${containWidth !== "mobile" ? "lg:mt-3" : "mt-10"}`}
         dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
       />
       <div
-        className="font-normal w-11/12 mb-10 mt-10 lg:mt-0"
+        className={`font-normal ${
+          containWidth !== "mobile" ? "lg:w-11/12" : "w-11/12"
+        } mb-10 mt-10 ${containWidth !== "mobile" ? "lg:mt-0" : "mt-0"}`}
         dangerouslySetInnerHTML={{ __html: sanitizedDescription2 }}
       />
       <div className="">
@@ -174,7 +188,11 @@ const PresentationContainer = () => {
           <p className="font-normal text-sm">{email}</p>
         </a>
       </div>
-      <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
+      <div
+        className={`items-center mt-5 ${
+          containWidth !== "mobile" ? "lg:mt-0 lg:mb-0 mb-5" : "mt-0 mb-5"
+        } ${containWidth === "mobile" ? "hidden" : "lg:flex hidden"}`}
+      >
         <a
           className="font-light text-xs"
           style={{ color: secondaryColor }}
