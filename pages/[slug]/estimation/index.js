@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EstimationLayout from "../../../components/layout/EstimationLayout";
 import ContainerEstimation from "../../../components/layout/ContainerEstimation";
 import UserInformation from "../../../components/estimation/UserInformation";
@@ -19,11 +19,13 @@ const index = () => {
   const stateClientAdresse = useSelector(
     (state) => state?.clientInformation?.adresse
   );
-
   const stateSlug = useSelector((state) => state?.user?.settings?.slug);
+  const trackingId = useSelector((state) => state?.user?.settings?.Gtm); // Hypothétique
+
   const router = useRouter();
   const pathSegments = router.asPath.split("/");
   const currentSlug = pathSegments[1];
+
   useEffect(() => {
     setTimeout(() => {
       if (!stateClientAdresse && !stateSlug && currentSlug !== "[slug]") {
@@ -31,6 +33,17 @@ const index = () => {
       }
     }, 1000);
   }, [stateClientAdresse, stateSlug, currentSlug]);
+
+  // Utilisation de useEffect pour ajouter le script Google Ads
+  useEffect(() => {
+    console.log(trackingId);
+    console.log("Component rendered");
+    if (!trackingId) return;
+    const tagManagerArgs = {
+      gtmId: { trackingId },
+    };
+    TagManager.initialize(tagManagerArgs);
+  }, []);
 
   return (
     <EstimationLayout>
@@ -40,10 +53,10 @@ const index = () => {
             <Loader />
           </div>
         )}
-        <div className="lg:min-h-[600px] flex flex-col justify-between  w-full lg:w-4/12">
+        <div className="lg:min-h-[600px] flex flex-col justify-between w-full lg:w-4/12">
           <UserInformation />
           <EtapeEstimationContainer />
-          <div className="items-center  mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
+          <div className="items-center mt-5 lg:mt-0 lg:mb-0 mb-5 lg:flex hidden">
             <a
               className="font-light text-xs"
               style={{ color: stateFontColor2 }}
