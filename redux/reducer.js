@@ -6,6 +6,7 @@ const initState = {
   clientInfomation: {},
   simulateurStep: 14,
   stepInProgress: 2,
+  widthEstimationContainer: "computer",
 };
 
 const reducer = (state = initState, action) => {
@@ -172,6 +173,12 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         stepInProgress: state.stepInProgress - 1,
+      };
+
+    case "UPDATE_WIDTH_ESTIMATION_CONTAINER":
+      return {
+        ...state,
+        widthEstimationContainer: action.payload,
       };
 
     default:
