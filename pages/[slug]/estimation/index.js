@@ -19,8 +19,7 @@ const index = () => {
   const stateClientAdresse = useSelector(
     (state) => state?.clientInformation?.adresse
   );
-  const stateSlug = useSelector((state) => state?.user?.settings?.slug);
-  const trackingId = useSelector((state) => state?.user?.settings?.Gtm); // Hypothétique
+  const stateSlug = useSelector((state) => state?.user?.settings?.slug); // Hypothétique
 
   const router = useRouter();
   const pathSegments = router.asPath.split("/");
@@ -33,17 +32,6 @@ const index = () => {
       }
     }, 1000);
   }, [stateClientAdresse, stateSlug, currentSlug]);
-
-  // Utilisation de useEffect pour ajouter le script Google Ads
-  useEffect(() => {
-    console.log(trackingId);
-    console.log("Component rendered");
-    if (!trackingId) return;
-    const tagManagerArgs = {
-      gtmId: { trackingId },
-    };
-    TagManager.initialize(tagManagerArgs);
-  }, []);
 
   return (
     <EstimationLayout>
