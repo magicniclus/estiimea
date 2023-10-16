@@ -224,3 +224,21 @@ export const addEstimation = async (id, filesId, estimationData) => {
     console.error("Failed to add new estimation: ", error);
   }
 };
+
+export const getAllEstimationsForUser = async (uid) => {
+  // Créez une référence vers le chemin d'estimation de l'utilisateur
+  const estimationsRef = ref(db, `estimations/${uid}`);
+
+  try {
+    const snapshot = await get(estimationsRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("No estimations available for user id: ", uid);
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to retrieve estimations: ", error);
+    return null;
+  }
+};
