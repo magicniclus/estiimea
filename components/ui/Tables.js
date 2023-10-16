@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "../../lib/utils";
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member",
-  },
-];
 
 const Tables = (props) => {
   const [getEstimations, setEstimations] = useState([]);
