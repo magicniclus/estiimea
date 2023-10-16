@@ -127,6 +127,7 @@ const index = () => {
   }
 
   useEffect(() => {
+    //TODO
     if (adresse) {
       getEstimation(transformClientInfoToEstimationParams(clientInformation))
         .then((data) => {
@@ -142,8 +143,10 @@ const index = () => {
             ...clientInfoWithDate,
           };
 
+          console.log(estimationDetails);
+
           // Ajouter l'estimation dans la collection globale 'estimations'
-          addEstimation(estimationDetails);
+          addEstimation(userId, uniqueId, estimationDetails);
 
           dispatch({
             type: "SET_CLIENT_INFORMATION",
