@@ -181,6 +181,15 @@ const reducer = (state = initState, action) => {
         widthEstimationContainer: action.payload,
       };
 
+    case "SET_USER_ESTIMATIONS":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          estimations: action.payload,
+        },
+      };
+
     default:
       return state;
   }
