@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Loader from "../loader/Loader";
 import { Fragment } from "react";
@@ -6,7 +6,10 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/20/solid";
 import { logoutUser, observeAuthState } from "../../firebase/auth";
-import { getLoggedInUserData } from "../../firebase/dataManager";
+import {
+  getAllEstimationsForUser,
+  getLoggedInUserData,
+} from "../../firebase/dataManager";
 import { useSelector, useDispatch } from "react-redux";
 
 //Gestion des classes
@@ -98,6 +101,27 @@ const DashboardLayout = (props) => {
         }
       });
     } else dispatch({ type: "SET_USER_LOADING", payload: false });
+  }, [userState]);
+
+  useEffect(() => {
+    if (userState && !userState?.estimations) {
+      if (userState?.settings?.slug) {
+        getAllEstimationsForUser(userState?.uid)
+          .then((estimations) => {
+            // Convertir l'objet estimations en tableau
+            const estimationsArray = Array.isArray(estimations)
+              ? estimations
+              : Object.values(estimations);
+            dispatch({
+              type: "SET_USER_ESTIMATIONS",
+              payload: estimationsArray,
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }
   }, [userState]);
 
   //Si aucun utilisateur n'est connecté, on le redirige vers la page de connexion
