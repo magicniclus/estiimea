@@ -212,12 +212,13 @@ export async function findUserIdBySlug(slug) {
 // Fonction pour ajouter une nouvelle estimation pour un utilisateur.
 // Cette fonction prend comme paramètres un ID utilisateur (uid) et les données d'estimation.
 // Fonction pour ajouter une nouvelle estimation pour un utilisateur.
-export const addEstimation = async (estimationData) => {
-  const estimationsRef = ref(db, `estimations`);
+
+export const addEstimation = async (id, filesId, estimationData) => {
+  // Créez une référence directement à l'emplacement souhaité en utilisant l'ID fourni
+  const specificEstimationRef = ref(db, `estimations/${id}/${filesId}`);
 
   try {
-    const newEstimationRef = push(estimationsRef); // Ceci crée une nouvelle référence avec un ID unique
-    await set(newEstimationRef, estimationData); // Sauvegardez les données d'estimation avec cet ID unique
+    await set(specificEstimationRef, estimationData); // Sauvegardez les données d'estimation à cet emplacement précis
     console.log(`Added new estimation successfully.`);
   } catch (error) {
     console.error("Failed to add new estimation: ", error);
