@@ -21,7 +21,7 @@ const Tables = (props) => {
   }, [props.data]);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-4 sm:px-6 lg:px-8 mt-5">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -79,10 +79,10 @@ const Tables = (props) => {
                         {capitalizeFirstLetter(estimation.lastName)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {estimation.email}
+                        {estimation.adresse}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {estimation.type}
+                        {capitalizeFirstLetter(estimation.type)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {estimation.date}
@@ -90,7 +90,7 @@ const Tables = (props) => {
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <a
                           href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
+                          className="text-blue-500 hover:text-blue-500/60 transition-all duration-300 ease-in-out"
                         >
                           Edit
                         </a>
