@@ -24,19 +24,21 @@ const Tables = ({ data, onSort, sortedColumn }) => {
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
-                    {["firstName", "adresse", "type", "date"].map((column) => (
-                      <th
-                        key={column}
-                        scope="col"
-                        className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 cursor-pointer"
-                        onClick={() => onSort(column)}
-                      >
-                        <div className="flex items-center">
-                          {capitalizeFirstLetter(column)}
-                          {renderIcon(column)}
-                        </div>
-                      </th>
-                    ))}
+                    {["Nom, Prénom", "adresse", "type", "date"].map(
+                      (column) => (
+                        <th
+                          key={column}
+                          scope="col"
+                          className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 cursor-pointer"
+                          onClick={() => onSort(column)}
+                        >
+                          <div className="flex items-center">
+                            {capitalizeFirstLetter(column)}
+                            {renderIcon(column)}
+                          </div>
+                        </th>
+                      )
+                    )}
                     <th
                       scope="col"
                       className="relative py-3.5 pl-3 pr-4 sm:pr-6"
